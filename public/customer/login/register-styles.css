@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  background: url(coverImage.jpg) no-repeat left center fixed;
+  background-size: cover;
+  font-size: 16px;
+}
+
+.logo p {
+  color: #000;
+  padding: 1.94rem 0rem 0rem 2.62rem;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.login-container {
+  position: absolute;
+  right: 4.9rem;
+  border-radius: 2.5rem;
+  background: rgba(255, 255, 255, 0.75);
+  width: 33.6875rem;
+  margin-top: 1.19rem;
+  padding: 2.75rem 2.75rem 2.94rem 2.75rem;
+}
+
+.title-child:first-child {
+  color: #000;
+  font-size: 1.3125rem;
+  font-weight: 400;
+}
+
+.title-child:last-child {
+  color: #8d8d8d;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.title {
+  display: flex;
+  gap: 4rem;
+}
+
+.flag-green:first-child {
+  color: #779341;
+  font-size: 1.3125rem;
+  font-weight: 600;
+}
+
+a.flag-green {
+  color: #779341;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.title-signin {
+  position: relative;
+  max-width: fit-content;
+  top: -1.25rem;
+  color: #000;
+  font-size: 3.4375rem;
+  font-weight: 500;
+}
+
+.login-form {
+  padding-top: 3.12rem;
+}
+
+label {
+  color: #000;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.userInput {
+  width: 28.1875rem;
+  height: 3.5625rem;
+  border-radius: 0.5625rem;
+  border: 1px solid #4285f4;
+  background: #fff;
+  margin-top: 0.81rem;
+  padding-left: 1.56rem;
+  margin-bottom: 1.38rem;
+}
+
+.userInput#username,
+.userInput#contactNum {
+  width: 100%;
+}
+
+.userInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+input#userEmail::placeholder,
+input#userPassword::placeholder {
+  color: #808080;
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+
+.forgot-link {
+  display: flex;
+  justify-content: flex-end;
+  color: #4285f4;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.submitButton {
+  position: relative;
+  left: 13.75rem;
+  margin-top: 2.75rem;
+  border: none;
+  border-radius: 0.625rem;
+  background: #779341;
+  box-shadow: 0px 4px 19px 0px rgba(119, 147, 65, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 14.75rem;
+  height: 3.375rem;
+}
+
+@media (max-width: 1024px) {
+  .login-container {
+    position: static;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    width: 30rem;
+  }
+
+  .title {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .title-signin {
+    top: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .userInput {
+    width: 100%;
+    padding-left: 1rem;
+  }
+
+  .login-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .submitButton {
+    width: 11rem;
+  }
+}
+
+@media (min-width: 501px) {
+    .input-group{
+        display: flex;
+        gap: 2.3rem;
+    }
+}
+@media (max-width: 501px) {
+  .login-container {
+    width: 20rem;
+    padding: 1.75rem 1.75rem 1.64rem 1.75rem;
+  }
+
+  .submitButton {
+    left: 5.75rem;
+  }
+}
+
+@media (max-width: 330px) {
+  .login-container {
+    width: 18rem;
+  }
+  .submitButton {
+    left: 3.75rem;
+  }
+}

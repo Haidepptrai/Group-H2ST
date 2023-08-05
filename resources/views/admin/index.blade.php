@@ -1,282 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Admin Dashboard</title>
+    <title>Admin H2ST</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../admin/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../admin/assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
-    <link rel="stylesheet" href="../admin/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../admin/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../admin/assets/vendors/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="../admin/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../admin/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- plugin css for this page -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../admin/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="../admin/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="../admin/assets/css/shared/style.css">
+    <link rel="stylesheet" href="../admin/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="../admin/assets/css/demo_1/style.css">
-    <!-- End Layout styles -->
-    <link rel="shortcut icon" href="../admin/assets/images/favicon.ico" />
-  </head>
-  <body>
-    <div class="container-scroller">
-      <!-- partial:partials/_navbar.html -->
-      <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-          <a class="navbar-brand brand-logo" href="{{ url('admin/index') }}">
-            <img src="../admin/assets/images/logo.svg" alt="logo" /> </a>
-          <a class="navbar-brand brand-logo-mini" href="{{ url('admin/index') }}">
-            <img src="../admin/assets/images/logo-mini.svg" alt="logo" /> </a>
+    <link rel="shortcut icon" href="../admin/images/favicon.png" />
+    <!-- bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo mr-5" href="{{ url('admin/index') }}"><img
+                    src="../admin/images/Logo_name.png" class="mr-2" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="{{ url('admin/index') }}"><img
+                    src="../admin/images/Logo_text_darkblue.png" alt="logo" /></a>
         </div>
-        <div class="navbar-menu-wrapper d-flex align-items-center">
-          <ul class="navbar-nav">
-            <li class="nav-item font-weight-semibold d-none d-lg-block">Help : +050 2992 709</li>
-            <li class="nav-item dropdown language-dropdown">
-              <a class="nav-link dropdown-toggle px-2 d-flex align-items-center" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <div class="d-inline-flex mr-0 mr-md-3">
-                  <div class="flag-icon-holder">
-                    <i class="flag-icon flag-icon-us"></i>
-                  </div>
-                </div>
-                <span class="profile-text font-weight-medium d-none d-md-block">English</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
-                <a class="dropdown-item">
-                  <div class="flag-icon-holder">
-                    <i class="flag-icon flag-icon-us"></i>
-                  </div>English
-                </a>
-                <a class="dropdown-item">
-                  <div class="flag-icon-holder">
-                    <i class="flag-icon flag-icon-fr"></i>
-                  </div>French
-                </a>
-                <a class="dropdown-item">
-                  <div class="flag-icon-holder">
-                    <i class="flag-icon flag-icon-ae"></i>
-                  </div>Arabic
-                </a>
-                <a class="dropdown-item">
-                  <div class="flag-icon-holder">
-                    <i class="flag-icon flag-icon-ru"></i>
-                  </div>Russian
-                </a>
-              </div>
-            </li>
-          </ul>
-          <form class="ml-auto search-form d-none d-md-block" action="#">
-            <div class="form-group">
-              <input type="search" class="form-control" placeholder="Search Here">
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link count-indicator" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <i class="mdi mdi-bell-outline"></i>
-                <span class="count">7</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
-                <a class="dropdown-item py-3">
-                  <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
-                  <span class="badge badge-pill badge-primary float-right">View all</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <img src="../admin/assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
-                  </div>
-                  <div class="preview-item-content flex-grow py-2">
-                    <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
-                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <img src="../admin/assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
-                  </div>
-                  <div class="preview-item-content flex-grow py-2">
-                    <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
-                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <img src="../admin/assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
-                  </div>
-                  <div class="preview-item-content flex-grow py-2">
-                    <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
-                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                  </div>
-                </a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-toggle="dropdown">
-                <i class="mdi mdi-email-outline"></i>
-                <span class="count bg-success">3</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
-                <a class="dropdown-item py-3 border-bottom">
-                  <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
-                  <span class="badge badge-pill badge-primary float-right">View all</span>
-                </a>
-                <a class="dropdown-item preview-item py-3">
-                  <div class="preview-thumbnail">
-                    <i class="mdi mdi-alert m-auto text-primary"></i>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal text-dark mb-1">Application Error</h6>
-                    <p class="font-weight-light small-text mb-0"> Just now </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item py-3">
-                  <div class="preview-thumbnail">
-                    <i class="mdi mdi-settings m-auto text-primary"></i>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal text-dark mb-1">Settings</h6>
-                    <p class="font-weight-light small-text mb-0"> Private message </p>
-                  </div>
-                </a>
-                <a class="dropdown-item preview-item py-3">
-                  <div class="preview-thumbnail">
-                    <i class="mdi mdi-airballoon m-auto text-primary"></i>
-                  </div>
-                  <div class="preview-item-content">
-                    <h6 class="preview-subject font-weight-normal text-dark mb-1">New user registration</h6>
-                    <p class="font-weight-light small-text mb-0"> 2 days ago </p>
-                  </div>
-                </a>
-              </div>
-            </li>
-            <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
-              <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <img class="img-xs rounded-circle" src="../admin/assets/images/faces/face8.jpg" alt="Profile image"> </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                <div class="dropdown-header text-center">
-                  <img class="img-md rounded-circle" src="../admin/assets/images/faces/face8.jpg" alt="Profile image">
-                  <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                  <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
-                </div>
-                <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
-                <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                <a class="dropdown-item">Activity<i class="dropdown-item-icon ti-location-arrow"></i></a>
-                <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-help-alt"></i></a>
-                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
-              </div>
-            </li>
-          </ul>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
-          </button>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="icon-menu"></span>
+            </button>
+            <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item nav-search d-none d-lg-block">
+                    <div class="input-group">
+                        <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                            <span class="input-group-text" id="search">
+                                <i class="icon-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now"
+                            aria-label="search" aria-describedby="search">
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                        <img src="../admin_img/{{ Session::get('adminimage') }}" alt="profile" />
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="{{ url('admin/admins-profile') }}">
+                            <i class="bi bi-person-badge text-primary"></i>
+                            My profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('adminLogout') }}">
+                            <i class="ti-power-off text-primary"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item nav-settings d-none d-lg-flex">
+                    <h5 class="text-primary">{{ Session::get('adminfullname') }}</h5>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+            </button>
         </div>
-      </nav>
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav">
-            <li class="nav-item nav-profile">
-              <a href="#" class="nav-link">
-                <div class="profile-image">
-                  <img class="img-xs rounded-circle" src="../admin/assets/images/faces/face8.jpg" alt="profile image">
-                  <div class="dot-indicator bg-success"></div>
-                </div>
-                <div class="text-wrapper">
-                  <p class="profile-name">Allen Moreno</p>
-                  <p class="designation">Premium user</p>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item nav-category">Main Menu</li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('admin/index') }}">
-                <i class="menu-icon typcn typcn-document-text"></i>
-                <span class="menu-title">Dashboard</span>
-              </a>
-            </li>
-            {{-- Products --}}
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <i class="menu-icon typcn typcn-coffee"></i>
-                <span class="menu-title">Products</span>
-                <i class="menu-arrow"></i>
-              </a>
-              <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/products-list') }}">Product list</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/products-add') }}">Add products</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            {{-- Categories --}}
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                <i class="menu-icon typcn typcn-document-add"></i>
-                <span class="menu-title">Categories</span>
-                <i class="menu-arrow"></i>
-              </a>
-              <div class="collapse" id="auth">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/categories-list') }}">Categories list</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/categories-add') }}">Add categories</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            {{-- Users --}}
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                  <i class="menu-icon typcn typcn-document-text"></i>
-                  <span class="menu-title">Users</span>
-                </a>
-            </li>
-            {{-- Feedbacks --}}
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                  <i class="menu-icon typcn typcn-document-text"></i>
-                  <span class="menu-title">Feedbacks</span>
-                </a>
-            </li>
-            {{-- Orders --}}
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                  <i class="menu-icon typcn typcn-document-text"></i>
-                  <span class="menu-title">Orders</span>
-                </a>
-            </li>
-          </ul>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('admin/index') }}">
+                        <i class="icon-grid menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic">
+                        <i class="bi bi-justify-left menu-icon"></i>
+                        <span class="menu-title">Categories</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link"
+                                    href="{{ url('admin/categories-list') }}">Categories List</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{{ url('admin/categories-add') }}">Add
+                                    Category</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#form-elements">
+                        <i class="bi bi-lamp menu-icon"></i>
+                        <span class="menu-title">Products</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="form-elements">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="{{ url('admin/products-list') }}">Products
+                                    List</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('admin/products-add') }}">Add
+                                    Product</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('admin/users-list') }}" aria-expanded="false"
+                        aria-controls="charts">
+                        <i class="bi bi-person-circle menu-icon"></i>
+                        <span class="menu-title">Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('admin/feedbacks-list') }}" aria-expanded="false"
+                        aria-controls="tables">
+                        <i class="bi bi-chat-dots menu-icon"></i>
+                        <span class="menu-title">Feedback</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('admin/orders-list') }}" aria-expanded="false"
+                        aria-controls="auth">
+                        <i class="bi bi-basket menu-icon"></i>
+                        <span class="menu-title">Order</span>
+                    </a>
+                </li>
+                @if (Session::get('adminlevel') == 1)
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false"
+                            aria-controls="icons">
+                            <i class="bi bi-person-vcard menu-icon"></i>
+                            <span class="menu-title">Admin</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="icons">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link"
+                                        href="{{ url('admin/admins-list') }}">Admins
+                                        List</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url('admin/admins-add') }}">Add
+                                        Admins</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+            </ul>
         </nav>
         <!-- partial -->
-        <!-- main-panel ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
+        <div class="container">
+            <!-- Dashboard Overview -->
+            <div class="row">
+                <div class="col-md-9">
+                    <h2 class="my-4">Dashboard Overview</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white mb-5">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Users</h5>
+                                    <p class="card-text">{{ $totalUsers }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Sales</h5>
+                                    <p class="card-text">${{ number_format($totalSales, 2) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-warning text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Orders</h5>
+                                    <p class="card-text">{{ $totalOrders }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr><br><br>
+
+            <!-- Sales and Revenue Management -->
+            <div class="container">
+                <h2>Sales Report</h2>
+                <canvas id="salesChart" width="400" height="150"></canvas>
+            </div>
+            <script>
+                var labels = ["Jan", "Feb", "Mar", "Apr", "May"];
+                var sales = [100, 200, 150, 300, 250];
+                var ctx = document.getElementById('salesChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'sales',
+                            data: sales,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 1,
+                            type: 'line'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+
+            <hr><br><br>
+
+            <!-- Inventory Management -->
+            <div class="container">
+                <h2>Inventory Management</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Quantity Product</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $category)
+                            <tr class="category-row">
+                                <td>{{ $category->category_name }}</td>
+                                <td>{{ $category->product_count }}</td>
+                            </tr>
+                            <tr class="product-details" style="display:none;">
+                                <td colspan="2">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $productDetails = explode(', ', $category->product_details);
+                                            @endphp
+                                            @foreach ($productDetails as $productDetail)
+                                                @php
+                                                    $detail = explode(' - Quantity: ', $productDetail);
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $detail[0] }}</td>
+                                                    <td>{{ $detail[1] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <hr><br><br>
+
+            <!-- Analytics and Insights -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="my-4">Analytics and Insights</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="my-3">Popular Products</h3>
+                            <ul class="list-group">
+                                @foreach ($popularProducts as $product)
+                                    <li class="list-group-item">{{ $product->proname }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="my-3">User Demographics</h3>
+                            <ul class="list-group">
+                                @foreach ($userDemographics as $userDemographic)
+                                    <li class="list-group-item">
+                                        {{ $userDemographic->usergender == 1 ? 'Male' : 'Female' }}:
+                                        {{ $userDemographic->user_count }} users
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr><br><br>
+            <!-- Reporting and Analytics -->
+            <div class="container">
+                <h2>Reporting and Analytics</h2><br>
+                <!-- Reporting and Analytics - Sales Revenue (Pie Chart and Column Chart) -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="my-3">Sales Revenue by Category (Pie Chart)</h3>
+                        <canvas id="salesRevenuePieChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="my-3">Sales Revenue by Category (Column Chart)</h3>
+                        <canvas id="salesRevenueColumnChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <!-- JavaScript code for the charts -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    // Debugging: Check if the data for the pie chart is available
+                    console.log('Pie Chart Data:');
+                    console.log(@json($categorySalesData->pluck('catname')));
+                    console.log(@json($categorySalesData->pluck('total_sales')));
+                    // Generate Sales Revenue by Category Pie Chart
+                    var salesRevenuePieCtx = document.getElementById('salesRevenuePieChart').getContext('2d');
+                    var salesRevenuePieChart = new Chart(salesRevenuePieCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: @json($categorySalesData->pluck('catname')),
+                            datasets: [{
+                                data: @json($categorySalesData->pluck('total_sales')),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.8)',
+                                    'rgba(54, 162, 235, 0.8)',
+                                    'rgba(255, 206, 86, 0.8)',
+                                    // Add more colors for additional categories if needed
+                                ],
+                                borderColor: 'rgba(255, 255, 255, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 20,
+                                    fontColor: '#333'
+                                }
+                            }
+                        }
+                    });
+                    // Generate Sales Revenue by Category Column Chart
+                    var salesRevenueColumnCtx = document.getElementById('salesRevenueColumnChart').getContext('2d');
+                    var salesRevenueColumnChart = new Chart(salesRevenueColumnCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: @json($categorySalesData->pluck('catname')),
+                            datasets: [{
+                                label: 'Sales Revenue',
+                                data: @json($categorySalesData->pluck('total_sales')),
+                                backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+                <div class="container">
+                    <h2 class="my-4 text-center">Sales Revenue by Month and Year</h2>
+
+                    <!-- Dropdown for selecting time frame -->
+                    <div class="d-flex justify-content-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" id="btnByMonth">By Month</button>
+                            <button type="button" class="btn btn-primary" id="btnByYear">By Year</button>
+                        </div>
+                    </div>
+
+                    <!-- Chart container -->
+                    <div class="d-flex justify-content-center mt-4">
+                        <div class="w-75">
+                            <canvas id="salesChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart.js library -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <!-- Your existing JavaScript code -->
+                <script>
+                    var ctx = document.getElementById('salesChart').getContext('2d');
+                    var myChart;
+
+                    // Function to initialize the chart with data
+                    function initChart(labels, sales) {
+                        if (labels.length === 0 || sales.length === 0) {
+                            // No data available, show a message or handle the empty chart scenario
+                            console.log('No sales data available.');
+                            return;
+                        }
+
+                        myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Sales Revenue',
+                                    data: sales,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y', // Set the bar chart to be horizontal
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Months'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Sales Revenue'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    // Function to update the chart with new data
+                    function updateChart(labels, sales) {
+                        if (myChart) {
+                            // Update the chart data and redraw the chart
+                            myChart.data.labels = labels;
+                            myChart.data.datasets[0].data = sales;
+                            myChart.update();
+                        } else {
+                            initChart(labels, sales);
+                        }
+                    }
+                    // Initial data for the chart
+                    var initialLabels = <?php echo json_encode($monthlyYearlyLabels); ?>;
+                    var initialSales = <?php echo json_encode($monthlyYearlySales); ?>;
+
+                    // Initialize the chart with the initial data
+                    initChart(initialLabels, initialSales);
+
+                    // Add event listeners to the buttons for switching time frame
+                    document.getElementById('btnByMonth').addEventListener('click', function() {
+                        updateChart(<?php echo json_encode($monthlyYearlyLabels); ?>, <?php echo json_encode($monthlyYearlySales); ?>);
+                    });
+
+                    document.getElementById('btnByYear').addEventListener('click', function() {
+                        updateChart(<?php echo json_encode($labels); ?>, <?php echo json_encode($sales); ?>);
+                    });
+                </script>
+                <hr><br><br>
+
+                <!-- Order Processing -->
+                <div class="container">
+                    <h2>Order Processing</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>User</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                                <th>Total Cost</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->orderid }}</td>
+                                    <td>{{ $order->username }}</td>
+                                    <td>{{ $order->orderdate }}</td>
+                                    <td>
+                                        <!-- Display order status -->
+                                        @if ($order->status == 0)
+                                            <span class="badge bg-info">Processing</span>
+                                        @elseif($order->status == 1)
+                                            <span class="badge bg-warning">Shipped</span>
+                                        @elseif($order->status == 2)
+                                            <span class="badge bg-success">Delivered</span>
+                                        @else
+                                            <span class="badge bg-danger">Unknown</span>
+                                        @endif
+                                    </td>
+                                    <td>${{ number_format($order->totalcost, 2) }}</td>
+                                    <td>
+                                        <!-- Add order processing actions here -->
+                                        <a href="#" class="btn btn-primary">Update Status</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+
     <!-- plugins:js -->
-    <script src="../admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../admin/assets/vendors/js/vendor.bundle.addons.js"></script>
+    <script src="../admin/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
+    <!-- Plugin js for this page -->
+    <script src="../admin/vendors/chart.js/Chart.min.js"></script>
+    <script src="../admin/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="../admin/js/dataTables.select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="../admin/assets/js/shared/off-canvas.js"></script>
-    <script src="../admin/assets/js/shared/misc.js"></script>
+    <script src="../admin/js/off-canvas.js"></script>
+    <script src="../admin/js/hoverable-collapse.js"></script>
+    <script src="../admin/js/template.js"></script>
+    <script src="../admin/js/settings.js"></script>
+    <script src="../admin/js/todolist.js"></script>
     <!-- endinject -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.category-row').hover(
+                function() {
+                    $(this).next('.product-details').slideDown();
+                },
+                function() {
+                    $(this).next('.product-details').slideUp();
+                }
+            );
+        });
+    </script>
+
     <!-- Custom js for this page-->
-    <script src="../admin/assets/js/demo_1/dashboard.js"></script>
+    <script src="../admin/js/dashboard.js"></script>
+    <script src="../admin/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-    <script src="../admin/assets/js/shared/jquery.cookie.js" type="text/javascript"></script>
-  </body>
+    <footer>
+        <div class="footer mt-5">
+            <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
+            <p class="text-center">Help: 0123 456 789</p>
+        </div>
+    </footer>
+</body>
+
 </html>
