@@ -163,7 +163,6 @@ return [
         /*
          * Application Service Providers...
          */
-        Laravel\Socialite\SocialiteServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
