@@ -83,11 +83,10 @@ Route::get('/', function () {
     Route::get('customer/index',[CustomerController::class,'index'])->name('home');
     Route::get('customer/login-customer',[CustomerController::class,'login'])->name('customerLogin');
     Route::post('customer/loginProcess',[CustomerController::class,'loginProcess']) -> name('userLoginProcess');
-    Route::get('customer/logout',[CustomerController::class,'logout']) -> name('userLogout');
+    Route::get('customer/logout',[CustomerController::class,'logout']) -> name('customerLogout');
     Route::get('customer/register-customer',[CustomerController::class,'register']);
     Route::post('customer/registerProcess',[CustomerController::class,'registerProcess']) -> name('userRegisterProcess');
-    Route::get('customer/list-products',[CustomerController::class,'listProducts']);
-    Route::post('/google-login', 'CustomerController@googleLogin');
+    Route::get('customer/list-products',[CustomerController::class,'listProducts'])-> name('customerListProducts');
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');
     Route::get('customer/login-customer/facebook/callback', [CustomerController::class, 'handleFacebookCallback']);

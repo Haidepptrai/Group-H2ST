@@ -86,7 +86,7 @@ class CustomerController extends Controller
         Session::pull('userid');
         Session::pull('userimage');
         Session::pull('userfullname');
-        return redirect('customer/login');
+        return redirect('customer/login-customer');
     }
 
     public function register()
@@ -199,14 +199,26 @@ class CustomerController extends Controller
 
             $user->save();
         }
-
-
+        session(['user' => $data]);
         Auth::login($user);
+
     }
 
-    public function listProducts()
+    public function listProducts(Request $request)
     {
-        $cate = Category::get();
-        return view('customer.list-products', compact('cate'));
+        $categoryId = $request->input('category_id');
+
+        $query = Product::with('category')
+        ->when($categoryId, function ($query, $categoryId) {
+            return $query->where('category_id', $categoryId);
+        })
+        ->whereHas('category', function ($query) {
+            return $query->where('status', 1);
+        });
+
+        $products = $query->paginate(9);
+        $categories = Category::where('status', 1)->get();
+
+        return view('customer.list-products', compact('products', 'categories'));
     }
 }

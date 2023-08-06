@@ -298,7 +298,7 @@
                             <ul class="list-group">
                                 @foreach ($userDemographics as $userDemographic)
                                     <li class="list-group-item">
-                                        {{ $userDemographic->usergender == 1 ? 'Male' : 'Female' }}:
+                                        {{ $userDemographic->usergender == 1 ? 'Male' : ($userDemographic->usergender == 0 ? 'Female' : '') }}
                                         {{ $userDemographic->user_count }} users
                                     </li>
                                 @endforeach

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Productfeedback extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
 }

@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <link rel="stylesheet" href="../customer/home-page/home-page.css">
+    {{-- Bootstrap 5 icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <title>Home Page H2ST</title>
 </head>
 
@@ -37,8 +39,21 @@
                             <!-- maybe add a hot product page? -->
                         </li>
                     </ul>
+                    @if (session('user'))
+                        <div class="dropdown">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                            </ul>
+                        </div>
+                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
+                    @else
                     <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
-                                name='user'></box-icon></a></div>
+                        name='user'></box-icon></a></div>
+                    @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
@@ -134,7 +149,7 @@
                     @if ($displayProduct)
                         <div class="product-list">
                             <div class="product-title">
-                                <h1>{{ $fp->catname }}</h1>
+                                <h1>{{ $fp->category->catname }}</h1>
                                 <p>{{ $fp->prodescription }}</p>
                                 <a href="#" class="addition-link">View more<box-icon name='chevron-right'
                                         color="#373737"></box-icon></a>
