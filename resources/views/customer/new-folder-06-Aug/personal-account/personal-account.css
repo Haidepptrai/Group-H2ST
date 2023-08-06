@@ -1,0 +1,134 @@
+* {
+    font-family: "Poppins", Arial;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+.navbar {
+    --bs-navbar-padding-x: 1.5rem;
+    --bs-navbar-padding-y: 2rem;
+    --bs-navbar-brand-margin-end: 5.31rem;
+    width: 97%;
+}
+
+.logo-brand {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    padding: 1.5rem;
+}
+
+.d-flex.align-items-start {
+    margin-top: 0rem;
+    height: 100vh;
+}
+
+div#v-pills-tab {
+    margin-right: 0 !important;
+    background: #fefefe;
+    height: 100%;
+    gap: 1rem;
+}
+
+div#v-pills-tabContent {
+    width: 100%;
+    background: #f9f9f9;
+    height: 100%;
+}
+
+.tab-pane {
+    padding: 3rem 2rem;
+}
+
+.tab-title {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.user-basic-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    margin: 3rem;
+    gap: 1rem;
+}
+
+.user-ava>img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
+
+.date-create p {
+    margin-bottom: 0;
+}
+
+.change-ava-button {
+    position: absolute;
+    right: 3%;
+}
+
+button#change-avatar-btn {
+    color: #1172e9;
+    background: transparent;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #9ec5dc;
+    border-radius: 4rem;
+}
+
+button#change-avatar-btn:hover {
+    background-color: #0b96e6;
+}
+
+.personal-setting {
+    margin-top: 3rem;
+}
+
+.row {
+    justify-content: center;
+    gap: 3rem 10rem;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 42%;
+}
+
+.col input {
+    border: 1px solid silver;
+    border-radius: 3rem;
+    height: 2.5rem;
+    padding: 1rem;
+}
+
+.col input::placeholder {
+    color: rgb(175, 170, 170);
+}
+
+.confirm-change {
+    position: absolute;
+    right: 6%;
+}
+
+.table {
+    margin-top: 2rem;
+}
+
+td>img {
+    height: 14rem;
+    width: 80%;
+    object-fit: cover;
+}

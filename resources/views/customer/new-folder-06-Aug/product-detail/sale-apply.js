@@ -1,0 +1,14 @@
+const salePercent = 0.5; //Sau nay fetch tu database len nha
+if (salePercent != null) {
+  const originPriceTag = document.getElementById("origin-price");
+  const getOriginPrice = parseFloat(
+    originPriceTag.textContent.replace(/[^0-9.-]+/g, "")
+  );
+
+  const getSalePrice = getOriginPrice * salePercent;
+  const salePriceTag = document.getElementById("sale-price");
+  salePriceTag.textContent = getSalePrice;
+  originPriceTag.classList.add("line-through");
+} else {
+  document.getElementById("sale-price").remove();
+}

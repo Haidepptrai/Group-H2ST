@@ -96,15 +96,17 @@
                             $displayProduct = $product->status == 1 && $product->category->status == 1;
                         @endphp
                         @if ($displayProduct)
-                            <div class="list-item">
+                        <a href="" class="product">
+                            <div class="product-item">
                                 <div class="product-image">
-                                    <img src="{{ '../../public/pro_img/' . $product->proimage }}" alt="">
+                                    <img src="{{asset('pro_img/' . $product->proimage)}}" alt="">
                                 </div>
                                 <div class="product-info">
+                                    <p class="product-name">{{ $product->proname }}</p>
+                                    <p class="product-price">{{ $product->proprice }}</p>
                                 </div>
-                                <p class="product-name">{{ $product->proname }}</p>
-                                <p class="product-price">{{ $product->proprice }}</p>
                             </div>
+                        </a>
                         @endif
                     @endforeach
                 </div>
