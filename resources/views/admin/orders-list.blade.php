@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -180,38 +183,40 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th> Order ID </th>
-                                                <th> User ID </th>
-                                                <th> Order date</th>
-                                                <th> Status </th>
-                                                <th> Total cost</th>
-                                                <th> Action </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($order as $o)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $o->orderid }}</td>
-                                                    <td>{{ $o->userid }}</td>
-                                                    <td>{{ $o->orderdate }}</td>
-                                                    <td>{{ $o->status }}</td>
-                                                    <td>{{ $o->totalcost }}</td>
-                                                    <td>
-                                                        <a href="{{ url('admin/orders-edit/' . $o->orderid) }}"><i
-                                                                class="bi bi-pencil-square"></i></a>
-                                                        |
-                                                        <a href="{{ url('admin/orders-delete/' . $o->orderid) }}"
-                                                            class="delete-order"
-                                                            data-url="{{ url('admin/orders-delete/' . $o->orderid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
+                                                    <th> Order ID </th>
+                                                    <th> User ID </th>
+                                                    <th> Order date</th>
+                                                    <th> Status </th>
+                                                    <th> Total cost</th>
+                                                    <th> Action </th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($order as $o)
+                                                    <tr>
+                                                        <td>{{ $o->orderid }}</td>
+                                                        <td>{{ $o->id }}</td>
+                                                        <td>{{ $o->orderdate }}</td>
+                                                        <td>{{ $o->status }}</td>
+                                                        <td>{{ $o->totalcost }}</td>
+                                                        <td>
+                                                            <a href="{{ url('admin/orders-edit/' . $o->orderid) }}"><i
+                                                                    class="bi bi-pencil-square"></i></a>
+                                                            |
+                                                            <a href="{{ url('admin/orders-delete/' . $o->orderid) }}"
+                                                                class="delete-order"
+                                                                data-url="{{ url('admin/orders-delete/' . $o->orderid) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -71,7 +71,7 @@ class AdminController extends Controller
 
         // Order Processing
         $orders = DB::table('orderproducts')
-            ->join('users', 'orderproducts.userid', '=', 'users.userid')
+            ->join('users', 'orderproducts.userid', '=', 'users.id')
             ->select('orderproducts.*', 'users.username')
             ->orderBy('orderdate', 'desc')
             ->get();
@@ -360,7 +360,7 @@ class AdminController extends Controller
     }
     public function usersDelete($id)
     {
-        User::where('userid', '=', $id)->delete();
+        User::where('id', '=', $id)->delete();
         return redirect()->back()->with('success', 'Users deleted successfully!');
     }
 

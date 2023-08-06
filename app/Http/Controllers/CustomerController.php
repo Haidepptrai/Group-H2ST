@@ -68,9 +68,9 @@ class CustomerController extends Controller
         })->first();
         if ($user) {
             if ($user->userpassword == $request->userPassword) {
-                $request->session()->put('userid', $user->userid);
+                $request->session()->put('id', $user->id);
                 $request->session()->put('userfullname', $user->userfullname);
-                $request->session()->put('userid', $user->userid);
+                $request->session()->put('id', $user->id);
                 $request->session()->put('userimage', $user->userimage);
                 return redirect('customer/index');
             } else {
@@ -83,9 +83,11 @@ class CustomerController extends Controller
 
     public function logout()
     {
-        Session::pull('userid');
+        Session::pull('id');
         Session::pull('userimage');
         Session::pull('userfullname');
+        Auth::logout();
+        session()->flush();
         return redirect('customer/login-customer');
     }
 
@@ -201,24 +203,62 @@ class CustomerController extends Controller
         }
         session(['user' => $data]);
         Auth::login($user);
-
     }
 
     public function listProducts(Request $request)
     {
-        $categoryId = $request->input('category_id');
+        $categoryId = $request->input('catid');
 
         $query = Product::with('category')
-        ->when($categoryId, function ($query, $categoryId) {
-            return $query->where('category_id', $categoryId);
-        })
-        ->whereHas('category', function ($query) {
-            return $query->where('status', 1);
-        });
+            ->when($categoryId, function ($query, $categoryId) {
+                return $query->where('catid', $categoryId);
+            })
+            ->whereHas('category', function ($query) {
+                return $query->where('status', 1);
+            })
+            ->OrderBy('catid', 'desc');
+
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        if (!empty($minPrice) && is_numeric($minPrice)) {
+            $query->where('proprice', '>=', $minPrice);
+        }
+        if (!empty($maxPrice) && is_numeric($maxPrice)) {
+            $query->where('proprice', '<=', $maxPrice);
+        }
+
+        $sort = $request->input('sort');
+        $order = $request->input('order', 'asc');
+
+        switch ($sort) {
+            case 'name':
+                $query->orderBy('proname', $order, $sort);
+                break;
+            case 'price':
+                $query->orderBy('proprice', $order, $sort);
+                break;
+            case 'popularity':
+            default:
+                $query->orderBy('bestseller', $order, $sort);
+                break;
+        }
 
         $products = $query->paginate(9);
         $categories = Category::where('status', 1)->get();
 
         return view('customer.list-products', compact('products', 'categories'));
+    }
+    public function aboutUs(){
+        return view('customer.about');
+    }
+    public function detailProducts($id){
+        $products = DB::table('products')
+            ->join('categories', 'products.catid', '=', 'categories.catid')
+            ->where('proid', $id)
+            ->select('products.*', 'categories.catname')
+            ->first();
+
+        // Pass product to the view
+        return view('customer.detail-products', compact('products'));
     }
 }

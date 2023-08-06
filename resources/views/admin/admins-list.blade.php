@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -180,46 +183,48 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th> Admin ID </th>
-                                                <th> Full Name</th>
-                                                <th> User Name </th>
-                                                <th> Image </th>
-                                                <th> Email </th>
-                                                <th> Level </th>
-                                                <th> Action </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($admin as $a)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $a->adminid }}</td>
-                                                    <td>{{ $a->adminfullname }}</td>
-                                                    <td>{{ $a->adminusername }}</td>
-                                                    <td><img src="{{ '../../public/admin_img/' . $a->adminimage }}"
-                                                            width="100px" height="100px"></td>
-                                                    <td>{{ $a->adminemail }}</td>
-                                                    <td>
-                                                        @if ($a->level == 1)
-                                                            <span>Administration</span>
-                                                        @else
-                                                            <span>Manager</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ url('admin/admins-edit/' . $a->adminid) }}"><i
-                                                                class="bi bi-pencil-square"></i></a> | <a
-                                                            href="{{ url('admin/admins-delete/' . $a->adminid) }}"
-                                                            class="delete-admin"
-                                                            data-url="{{ url('admin/admins-delete/' . $a->adminid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
+                                                    <th> Admin ID </th>
+                                                    <th> Full Name</th>
+                                                    <th> User Name </th>
+                                                    <th> Image </th>
+                                                    <th> Email </th>
+                                                    <th> Level </th>
+                                                    <th> Action </th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($admin as $a)
+                                                    <tr>
+                                                        <td>{{ $a->adminid }}</td>
+                                                        <td>{{ $a->adminfullname }}</td>
+                                                        <td>{{ $a->adminusername }}</td>
+                                                        <td><img src="{{ '../../public/admin_img/' . $a->adminimage }}"
+                                                                width="100px" height="100px"></td>
+                                                        <td>{{ $a->adminemail }}</td>
+                                                        <td>
+                                                            @if ($a->level == 1)
+                                                                <span>Administration</span>
+                                                            @else
+                                                                <span>Manager</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ url('admin/admins-edit/' . $a->adminid) }}"><i
+                                                                    class="bi bi-pencil-square"></i></a> | <a
+                                                                href="{{ url('admin/admins-delete/' . $a->adminid) }}"
+                                                                class="delete-admin"
+                                                                data-url="{{ url('admin/admins-delete/' . $a->adminid) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

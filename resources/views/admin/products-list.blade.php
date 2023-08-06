@@ -27,7 +27,9 @@
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <style>
         table {
             border-collapse: collapse;
@@ -203,78 +205,83 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Image</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
-                                                <th>Discount</th>
-                                                <th>Hot Sales</th>
-                                                <th>Date Publish</th>
-                                                <th>Quantity</th>
-                                                <th>Action</th>
-                                                <th>View</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($pro as $p)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $p->proid }}</td>
-                                                    <td>{{ $p->proname }}</td>
-                                                    <td>
-                                                        @if ($p->category)
-                                                            {{ $p->category->catname }}
-                                                        @endif
-                                                    </td>
-                                                    <td><img src="{{ '../../public/pro_img/' . $p->proimage }}"
-                                                            width="100px" height="100px"></td>
-                                                    <td>${{ $p->proprice }}</td>
-                                                    <td>
-                                                        @if ($p->status == 1)
-                                                            <a href="{{ URL::to('/unactive_product/' . $p->proid) }}"><span
-                                                                    class="fa fa-eye"
-                                                                    style="color: blue; font-size: 30px"></span></a>
-                                                        @else
-                                                            <a href="{{ URL::to('/active_product/' . $p->proid) }}"><span
-                                                                    class="fa fa-eye-slash"
-                                                                    style="color: red; font-size: 30px"></span></a>
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $p->discount }}%</td>
-                                                    <td>
-                                                        @if ($p->bestseller == 1)
-                                                            <a href="{{ URL::to('/normal_product/' . $p->proid) }}"><span
-                                                                    class="bi bi-fire"
-                                                                    style="color: red; font-size: 30px"></span></a>
-                                                        @else
-                                                            <a href="{{ URL::to('/best_product/' . $p->proid) }}"><span
-                                                                    class="bi bi-fire"
-                                                                    style="color: black; font-size: 30px"></span></a>
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ date('Y-m-d', strtotime($p->date)) }}</td>
-                                                    <td>{{ $p->quantity }}</td>
-                                                    <td>
-                                                        <a href="{{ url('admin/products-edit/' . $p->proid) }}"><i
-                                                                class="bi bi-pencil-square"></i></a> | <a
-                                                            href="{{ url('admin/products-delete/' . $p->proid) }}"
-                                                            class="delete-product"
-                                                            data-url="{{ url('admin/products-delete/' . $p->proid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group"><a
-                                                                href="{{ url('admin/products-detail/' . $p->proid) }}"
-                                                                class="btn btn-sm btn-outline-secondary">Details</a>
-                                                    </td>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Category</th>
+                                                    <th>Image</th>
+                                                    <th>Price</th>
+                                                    <th>Status</th>
+                                                    <th>Discount</th>
+                                                    <th>Hot Sales</th>
+                                                    <th>Date Publish</th>
+                                                    <th>Quantity</th>
+                                                    <th>Action</th>
+                                                    <th>View</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($pro as $p)
+                                                    <tr>
+                                                        <td>{{ $p->proid }}</td>
+                                                        <td>{{ $p->proname }}</td>
+                                                        <td>
+                                                            @if ($p->category)
+                                                                {{ $p->category->catname }}
+                                                            @endif
+                                                        </td>
+                                                        <td><img src="{{ '../../public/pro_img/' . $p->proimage }}"
+                                                                width="100px" height="100px"></td>
+                                                        <td>${{ $p->proprice }}</td>
+                                                        <td>
+                                                            @if ($p->status == 1)
+                                                                <a
+                                                                    href="{{ URL::to('/unactive_product/' . $p->proid) }}"><span
+                                                                        class="fa fa-eye"
+                                                                        style="color: blue; font-size: 30px"></span></a>
+                                                            @else
+                                                                <a
+                                                                    href="{{ URL::to('/active_product/' . $p->proid) }}"><span
+                                                                        class="fa fa-eye-slash"
+                                                                        style="color: red; font-size: 30px"></span></a>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $p->discount }}%</td>
+                                                        <td>
+                                                            @if ($p->bestseller == 1)
+                                                                <a
+                                                                    href="{{ URL::to('/normal_product/' . $p->proid) }}"><span
+                                                                        class="bi bi-fire"
+                                                                        style="color: red; font-size: 30px"></span></a>
+                                                            @else
+                                                                <a href="{{ URL::to('/best_product/' . $p->proid) }}"><span
+                                                                        class="bi bi-fire"
+                                                                        style="color: black; font-size: 30px"></span></a>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ date('Y-m-d', strtotime($p->date)) }}</td>
+                                                        <td>{{ $p->quantity }}</td>
+                                                        <td>
+                                                            <a href="{{ url('admin/products-edit/' . $p->proid) }}"><i
+                                                                    class="bi bi-pencil-square"></i></a> | <a
+                                                                href="{{ url('admin/products-delete/' . $p->proid) }}"
+                                                                class="delete-product"
+                                                                data-url="{{ url('admin/products-delete/' . $p->proid) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group"><a
+                                                                    href="{{ url('admin/products-detail/' . $p->proid) }}"
+                                                                    class="btn btn-sm btn-outline-secondary">Details</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

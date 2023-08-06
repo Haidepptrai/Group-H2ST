@@ -28,17 +28,17 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ url('customer/index') }}">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('customer/list-products') }}">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
                     @if (session('user'))
@@ -50,6 +50,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
                                         profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                             </ul>
@@ -82,13 +84,30 @@
                         Sort by popularity
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Name</a></li>
-                        <li><a class="dropdown-item" href="#">Price</a></li>
-                        <li><a class="dropdown-item" href="#">Popularity</a></li>
+                        <li><a class="dropdown-item"
+                                href="{{ route('customerListProducts', ['sort' => 'name']) }}">Name</a></li>
+                        <li><a class="dropdown-item"
+                                href="{{ route('customerListProducts', ['sort' => 'price']) }}">Price</a></li>
+                        <li><a class="dropdown-item"
+                                href="{{ route('customerListProducts', ['sort' => 'bestseller']) }}">Popularity</a></li>
                     </ul>
                 </div>
             </div>
-
+            <div class="product-sort">
+                <div class="product-sort-controls">
+                    <button class="btn btn-outline-dark" onclick="changeSortOrder('asc')">Increase</button>
+                    <button class="btn btn-outline-dark" onclick="changeSortOrder('desc')">Decrease</button>
+                </div>
+                <div class="product-count">
+                    <form action="{{ route('customerListProducts') }}" method="get">
+                        <label for="min_price">Min Price:</label>
+                        <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
+                        <label for="max_price">Max Price:</label>
+                        <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                        <button type="submit">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
             <div class="product-display">
                 <div class="product-list">
                     @foreach ($products as $product)
@@ -96,58 +115,56 @@
                             $displayProduct = $product->status == 1 && $product->category->status == 1;
                         @endphp
                         @if ($displayProduct)
-                        <a href="" class="product">
-                            <div class="product-item">
+                            <div class="list-item">
                                 <div class="product-image">
-                                    <img src="{{asset('pro_img/' . $product->proimage)}}" alt="">
+                                    <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
                                 </div>
                                 <div class="product-info">
                                     <p class="product-name">{{ $product->proname }}</p>
-                                    <p class="product-price">{{ $product->proprice }}</p>
+                                    <p class="product-price">{{ $product->proprice }}$</p>
                                 </div>
+                                <div class="btn-group"><a
+                                    href="{{ url('customer/detail-products/' . $product->proid) }}" class="btn btn-sm btn-outline-secondary">Details</a>
                             </div>
-                        </a>
                         @endif
                     @endforeach
                 </div>
 
-                <div class="sort-slide">
-                    <div class="slide-one">
-                        <h5>Category</h5>
-                        <ul>
-                            @foreach ($categories as $category)
-                                <li>
-                                    <a href="{{ route('customerListProducts', ['category_id' => $category->id]) }}"
-                                        class="btn btn-outline-light text-dark">{{ $category->catname }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="slide-two">
-                        <div id="slider"></div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="pagination">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}"><a
-                                class="page-link" href="{{ $products->previousPageUrl() }}"><i
-                                    class="bi bi-arrow-bar-left"></i></a>
-                        </li>
-                        @for ($i = 1; $i <= $products->lastPage(); $i++)
-                            <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}"><a
-                                    class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
+                <div class="category-list">
+                    <h5>Categories</h5>
+                    <ul>
+                        @foreach ($categories as $category)
+                            <li>
+                                <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
+                                    class="btn btn-outline-light text-dark">{{ $category->catname }}</a>
                             </li>
-                        @endfor
-                        <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
-                                href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
-                        </li>
+                        @endforeach
                     </ul>
-                </nav>
+                </div>
+                <div class="slide-two">
+                    <div id="slider"></div>
+
+                </div>
             </div>
+
+    </div>
+    <div class="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}"><a class="page-link"
+                        href="{{ $products->previousPageUrl() }}"><i class="bi bi-arrow-bar-left"></i></a>
+                </li>
+                @for ($i = 1; $i <= $products->lastPage(); $i++)
+                    <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}"><a class="page-link"
+                            href="{{ $products->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+                <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
+                        href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     </div>
 
     </main>
@@ -176,5 +193,12 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/nouislider@X.X.X/dist/nouislider.min.js"></script>
+<script>
+    function changeSortOrder(order) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentSort = urlParams.get('sort');
+        window.location.href = `{{ route('customerListProducts') }}?sort=${currentSort}&order=${order}`;
+    }
+</script>
 
 </html>

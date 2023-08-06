@@ -189,7 +189,7 @@
                                                 <div class="form-group">
                                                     <label for="UserID">User ID</label>
                                                     <input type="text" class="form-control" id="UserID"
-                                                        name="UserID" readonly value="{{ $order->userid }}">
+                                                        name="UserID" readonly value="{{ $order->id }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="status">Status</label>

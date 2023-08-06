@@ -27,6 +27,9 @@
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -182,46 +185,49 @@
                                             {{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th> Category ID </th>
-                                                <th> Category Name </th>
-                                                <th> Reg-date </th>
-                                                <th> Status </th>
-                                                <th> Action </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($cate as $c)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $c->catid }}</td>
-                                                    <td>{{ $c->catname }}</td>
-                                                    <td>{{ $c->date }}</td>
-                                                    <td>
-                                                        @if ($c->status == 1)
-                                                            <a
-                                                                href="{{ URL::to('/unactive_category/' . $c->catid) }}"><span
-                                                                    class="fa fa-eye"
-                                                                    style="color: blue; font-size: 30px"></span></a>
-                                                        @else
-                                                            <a href="{{ URL::to('/active_category/' . $c->catid) }}"><span
-                                                                    class="fa fa-eye-slash"
-                                                                    style="color: red; font-size: 30px"></span></a>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ url('admin/categories-edit/' . $c->catid) }}"><i
-                                                                class="bi bi-pencil-square"></i></a> | <a
-                                                            href="{{ url('admin/categories-delete/' . $c->catid) }}"
-                                                            class="delete-category"
-                                                            data-url="{{ url('admin/categories-delete/' . $c->catid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
+                                                    <th> Category ID </th>
+                                                    <th> Category Name </th>
+                                                    <th> Reg-date </th>
+                                                    <th> Status </th>
+                                                    <th> Action </th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($cate as $c)
+                                                    <tr>
+                                                        <td>{{ $c->catid }}</td>
+                                                        <td>{{ $c->catname }}</td>
+                                                        <td>{{ $c->date }}</td>
+                                                        <td>
+                                                            @if ($c->status == 1)
+                                                                <a
+                                                                    href="{{ URL::to('/unactive_category/' . $c->catid) }}"><span
+                                                                        class="fa fa-eye"
+                                                                        style="color: blue; font-size: 30px"></span></a>
+                                                            @else
+                                                                <a
+                                                                    href="{{ URL::to('/active_category/' . $c->catid) }}"><span
+                                                                        class="fa fa-eye-slash"
+                                                                        style="color: red; font-size: 30px"></span></a>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ url('admin/categories-edit/' . $c->catid) }}"><i
+                                                                    class="bi bi-pencil-square"></i></a> | <a
+                                                                href="{{ url('admin/categories-delete/' . $c->catid) }}"
+                                                                class="delete-category"
+                                                                data-url="{{ url('admin/categories-delete/' . $c->catid) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

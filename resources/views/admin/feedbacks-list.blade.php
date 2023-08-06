@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -180,37 +183,39 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th> Feedback ID </th>
-                                                <th> Vote </th>
-                                                <th> Detail</th>
-                                                <th> Date </th>
-                                                <th> User ID</th>
-                                                <th> Product ID</th>
-                                                <th> Action </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($feedback as $f)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $f->feedbackid }}</td>
-                                                    <td>{{ $f->vote }}</td>
-                                                    <td>{{ $f->detail }}</td>
-                                                    <td>{{ $f->date }}</td>
-                                                    <td>{{ $f->userid }}</td>
-                                                    <td>{{ $f->proid }}</td>
-                                                    <td>
-                                                        <a href="{{ url('admin/feedbacks-delete/' . $f->feedbackid) }}"
-                                                            class="delete-feedback"
-                                                            data-url="{{ url('admin/feedbacks-delete/' . $f->feedbackid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
+                                                    <th> Feedback ID </th>
+                                                    <th> Vote </th>
+                                                    <th> Detail</th>
+                                                    <th> Date </th>
+                                                    <th> User ID</th>
+                                                    <th> Product ID</th>
+                                                    <th> Action </th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($feedback as $f)
+                                                    <tr>
+                                                        <td>{{ $f->feedbackid }}</td>
+                                                        <td>{{ $f->vote }}</td>
+                                                        <td>{{ $f->detail }}</td>
+                                                        <td>{{ $f->date }}</td>
+                                                        <td>{{ $f->id }}</td>
+                                                        <td>{{ $f->proid }}</td>
+                                                        <td>
+                                                            <a href="{{ url('admin/feedbacks-delete/' . $f->feedbackid) }}"
+                                                                class="delete-feedback"
+                                                                data-url="{{ url('admin/feedbacks-delete/' . $f->feedbackid) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

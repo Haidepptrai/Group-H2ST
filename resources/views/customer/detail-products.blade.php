@@ -14,7 +14,7 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="product-detail.css">
+    <link rel="stylesheet" href="../../customer/product-detail/product-detail.css">
 
     <title>Product Detail</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
 </head>
@@ -27,20 +27,35 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
-                    <div class="user-ava"><a href="#"><box-icon name='user'></box-icon></a></div>
+                    @if (session('user'))
+                        <div class="dropdown">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
+                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                            </ul>
+                        </div>
+                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
+                    @else
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                        name='user'></box-icon></a></div>
+                    @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
@@ -58,18 +73,18 @@
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="../product-list-page/product-list.html">Shop</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('customerListProducts') }}">Shop</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Sofa large</li>
                     </ol>
                 </nav>
             </div>
             <div class="product-display">
-                <div class="product-image">
-                    <img src="./product-image/sofa.jpg" alt="">
+<div class="product-image">
+                    <img src="{{asset('pro_img/'. $products -> proimage)}}" alt="{{ $products -> proname }}">
                 </div>
                 <div class="product-buy-info">
                     <div class="product-name">
-                        <h4>Sofa code 123</h4>
+                        <h4>{{ $products -> proname }}</h4>
                     </div>
                     <div class="star-rating">
                         <span class="fa fa-star "></span>
@@ -78,14 +93,13 @@
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
                     </div>
-                    <script src="star-fill.js"></script>
+                    <script src="../../customer/product-detail/star-fill.js"></script>
                     <div class="product-price-display">
                         <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
-                        <p id="origin-price" class="product-price">125</p> <!--Fetch tu database len-->
+                        <p id="origin-price" class="product-price">{{ $products -> proprice }}$</p> <!--Fetch tu database len-->
                     </div>
                     <div class="product-description">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim et volutpat lobortis enim donec
-                            adipiscing nibh. Consectetur in ac elementum aliquam imperdiet tellus.</p>
+                        <p>{{ $products -> prodetails }}</p>
                     </div>
                     <div class="add-to-cart">
                         <div class="cart">
@@ -97,7 +111,7 @@
                     </div>
                     <div class="addition-information">
                         <div class="category">
-                            <p>Category: Sofa</p>
+                            <p><strong>Category: {{ $products -> catname }}</strong></p>
                         </div>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -120,18 +134,8 @@
                             <div class="tab-pane fade show active" id="description" role="tabpanel"
                                 aria-labelledby="home-tab" tabindex="0">
                                 <p>
-                                    Introducing our luxurious and stylish "Elegance Sofa" - the epitome of comfort and
-                                    sophistication. Crafted with premium materials and exquisite craftsmanship, this
-                                    sofa
-                                    offers unparalleled relaxation and elegance to any living space. Its plush
-                                    cushioning
-                                    and ergonomic design ensure optimal support for your back and posture, making it the
-                                    perfect spot to unwind after a long day. The "Elegance Sofa" comes in a timeless and
-                                    versatile design, complementing various interior styles effortlessly. Elevate your
-                                    home
-                                    decor with this premium sofa that seamlessly blends comfort and style, creating an
-                                    inviting and cozy atmosphere for you and your loved ones. Experience the ultimate
-                                    comfort and sophistication with our "Elegance Sofa" today.</p>
+                                    {{ $products -> prodescription }}
+                                </p>
                             </div>
                             <div class="tab-pane fade" id="addition-info" role="tabpanel" aria-labelledby="profile-tab"
                                 tabindex="0">...</div>
@@ -140,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="user-feedback">
                 <h5>Give your feedback about this product</h5>
@@ -283,10 +288,10 @@
         </main>
     </div>
 </body>
-<script src="quantity-check.js"></script>
-<script src="sale-apply.js"></script>
+<script src="../../customer/product-detail/quantity-check.js"></script>
+<script src="../../customer/product-detail/sale-apply.js"></script>
 <script src="../convertToDollar.js"></script>
-<script src="rating-check.js"></script>
+<script src="../../customer/product-detail/rating-check.js"></script>
 <!--
     JavaScript mau cho rating star nha:D
     const ratingForm = document.getElementById('ratingForm');

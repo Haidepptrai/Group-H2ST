@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -180,46 +183,48 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th> User ID</th>
-                                                <th> User Name </th>
-                                                <th> Password </th>
-                                                <th> Photo </th>
-                                                <th> Email </th>
-                                                <th> Fullname </th>
-                                                <th> Birthday</th>
-                                                <th> Address </th>
-                                                <th> Gender </th>
-                                                <th> Phone </th>
-                                                <th> Action </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($user as $u)
+                                    <div class="overflow-auto" style="height: 600px;">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $u->userid }}</td>
-                                                    <td>{{ $u->username }}</td>
-                                                    <td>{{ $u->userpassword }}</td>
-                                                    <td><img src="{{ '../../public/user_img/' . $u->userimage }}"
-                                                            width="100px" height="100px"></td>
-                                                    <td>{{ $u->useremail }}</td>
-                                                    <td>{{ $u->userfullname }}</td>
-                                                    <td>{{ $u->userbirthday }}</td>
-                                                    <td>{{ $u->useraddress }}</td>
-                                                    <td>{{ $u->usergender }}</td>
-                                                    <td>{{ $u->userphone }}</td>
-                                                    <td>
-                                                        <a href="{{ url('admin/users-delete/' . $u->userid) }}"
-                                                            class="delete-user"
-                                                            data-url="{{ url('admin/users-delete/' . $u->userid) }}"><i
-                                                                class="bi bi-trash text-danger"></i></a>
-                                                    </td>
+                                                    <th> User ID</th>
+                                                    <th> User Name </th>
+                                                    <th> Password </th>
+                                                    <th> Photo </th>
+                                                    <th> Email </th>
+                                                    <th> Fullname </th>
+                                                    <th> Birthday</th>
+                                                    <th> Address </th>
+                                                    <th> Gender </th>
+                                                    <th> Phone </th>
+                                                    <th> Action </th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($user as $u)
+                                                    <tr>
+                                                        <td>{{ $u->id }}</td>
+                                                        <td>{{ $u->username }}</td>
+                                                        <td>{{ $u->userpassword }}</td>
+                                                        <td><img src="{{ '../../public/user_img/' . $u->userimage }}"
+                                                                width="100px" height="100px"></td>
+                                                        <td>{{ $u->useremail }}</td>
+                                                        <td>{{ $u->userfullname }}</td>
+                                                        <td>{{ $u->userbirthday }}</td>
+                                                        <td>{{ $u->useraddress }}</td>
+                                                        <td>{{ $u->usergender }}</td>
+                                                        <td>{{ $u->userphone }}</td>
+                                                        <td>
+                                                            <a href="{{ url('admin/users-delete/' . $u->id) }}"
+                                                                class="delete-user"
+                                                                data-url="{{ url('admin/users-delete/' . $u->id) }}"><i
+                                                                    class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

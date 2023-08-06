@@ -25,17 +25,17 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url('customer/index') }}">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('customer/list-products') }}">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                             <!-- maybe add a hot product page? -->
                         </li>
                     </ul>
@@ -46,6 +46,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
                                 <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
                             </ul>
                         </div>

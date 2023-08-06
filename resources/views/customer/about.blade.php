@@ -11,7 +11,7 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-    <link rel="stylesheet" href="about-us.css">
+    <link rel="stylesheet" href="../customer/about-us/about-us.css">
     <title>Home Page H2ST</title>
 </head>
 
@@ -23,20 +23,35 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
-                    <div class="user-ava"><a href="#"><box-icon name='user'></box-icon></a></div>
+                    @if (session('user'))
+                        <div class="dropdown">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
+                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                            </ul>
+                        </div>
+                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
+                    @else
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                        name='user'></box-icon></a></div>
+                    @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
@@ -50,7 +65,7 @@
         </nav>
 
         <div class="banner-with-title">
-            <img src="../home-page/carousel/carousel01.jpg" alt="">
+            <img src="../customer/home-page/carousel/carousel01.jpg" alt="">
             <div class="banner-title">About us</div>
         </div>
 
@@ -123,7 +138,7 @@
         </div>
 
         <div class="banner-with-introduction">
-            <img src="./banner02.jpg" alt="">
+            <img src="../customer/about-us/./banner02.jpg" alt="">
         </div>
 
         <div class="website-introduction">
@@ -165,7 +180,7 @@
         <div class="lastest-product-list">
             <div class="product-card-item">
                 <div class="product-image">
-                    <img src="../home-page/top-product/top-product01.jpg" alt="">
+                    <img src="../customer/home-page/top-product/top-product01.jpg" alt="">
                 </div>
                 <div class="product-info">
                     <a href="#" class="product-name">Pot</a>
@@ -174,7 +189,7 @@
             </div>
             <div class="product-card-item">
                 <div class="product-image">
-                    <img src="../home-page/top-product/top-product02.jpg" alt="">
+                    <img src="../customer/home-page/top-product/top-product02.jpg" alt="">
                 </div>
                 <div class="product-info">
                     <a href="#" class="product-name">Pot</a>
@@ -183,7 +198,7 @@
             </div>
             <div class="product-card-item">
                 <div class="product-image">
-                    <img src="../home-page/top-product/top-product03.jpg" alt="">
+                    <img src="../customer/home-page/top-product/top-product03.jpg" alt="">
                 </div>
                 <div class="product-info">
                     <a href="#" class="product-name">Pot</a>
