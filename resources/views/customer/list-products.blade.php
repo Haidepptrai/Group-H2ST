@@ -28,17 +28,17 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}" draggable="false">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}" draggable="false">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}" draggable="false">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}" draggable="false">About Us</a>
                         </li>
                     </ul>
                     @if (session('user'))
@@ -57,11 +57,11 @@
                         </ul>
                     </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon name='user'></box-icon></a>
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon name='user'></box-icon></a>
                     </div>
                     @endif
 
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
@@ -116,15 +116,20 @@
 
             <div class="product-sort">
                 <div class="product-sort-controls">
-                    <button class="btn btn-outline-dark" onclick="changeSortOrder('asc')">Increase</button>
-                    <button class="btn btn-outline-dark" onclick="changeSortOrder('desc')">Decrease</button>
+                    <h3>Select by order </h3>
+                    <button class="btn btn-outline-dark" onclick="changeSortOrder('asc')">Increasing</button>
+                    <button class="btn btn-outline-dark" onclick="changeSortOrder('desc')">Decreasing</button>
                 </div>
                 <div class="product-count">
-                    <form action="{{ route('customerListProducts') }}" method="get">
-                        <label for="min_price">Min Price:</label>
-                        <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
-                        <label for="max_price">Max Price:</label>
-                        <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                    <form id='filterPrice' action="{{ route('customerListProducts') }}" method="get">
+                        <div class="form-item">
+                            <label for="min_price">Min Price:</label>
+                            <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
+                        </div>
+                        <div class="form-item">
+                            <label for="max_price">Max Price:</label>
+                            <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                        </div>
                         <button type="submit">Apply Filters</button>
                     </form>
                 </div>
@@ -139,7 +144,7 @@
                     @if ($displayProduct)
 
                     <div class="product-item">
-                        <a href="#" class="product">
+                        <a href="#" class="product" draggable="false">
                             <div class="product-image">
                                 <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
                             </div>
@@ -149,7 +154,7 @@
                             </div>
                             <div class="btn-group">
                                 <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-sm btn-outline-secondary">Details
+                                    class="btn btn-sm btn-outline-secondary" draggable="false">Details
                                 </a>
                             </div>
                         </a>
@@ -165,7 +170,7 @@
                         @foreach ($categories as $category)
                         <li>
                             <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
-                                class="btn btn-outline-light text-dark">{{ $category->catname }}</a>
+                                class="btn btn-outline-light text-dark" draggable="false">{{ $category->catname }}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -195,7 +200,7 @@
     </main>
     </div>
 </body>
-<footer>
+<footer loading='lazy'>
     <div class="foot-container">
         <a class="navbar-brand" href="#">H2ST Furniture</a>
         <div class="nav-container">

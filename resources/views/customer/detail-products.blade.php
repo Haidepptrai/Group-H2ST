@@ -84,7 +84,7 @@
                 </div>
                 <div class="product-buy-info">
                     <div class="product-name">
-                        <h4>{{ $products -> proname }}</h4>
+                        <p>{{ $products -> proname }}</p>
                     </div>
                     <div class="star-rating">
                         <span class="fa fa-star "></span>
@@ -119,16 +119,6 @@
                                     data-bs-target="#description" type="button" role="tab" aria-controls="description"
                                     aria-selected="true">Description</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                    data-bs-target="#addition-info" type="button" role="tab"
-                                    aria-controls="addition-info" aria-selected="false">Addition Information</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                    data-bs-target="#contact-tab-pane" type="button" role="tab"
-                                    aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
-                            </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -137,17 +127,13 @@
                                     {{ $products -> prodescription }}
                                 </p>
                             </div>
-                            <div class="tab-pane fade" id="addition-info" role="tabpanel" aria-labelledby="profile-tab"
-                                tabindex="0">...</div>
-                            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel"
-                                aria-labelledby="contact-tab" tabindex="0">...</div>
                         </div>
                     </div>
                 </div>
 
             </div>
             <div class="user-feedback">
-                <h5>Give your feedback about this product</h5>
+                <h3>Give your feedback about this product</h3>
                 <form id="feedback-form">
                     <div class="mb-3">
                         <label for="displayName" class="form-label">Name you want to display</label>

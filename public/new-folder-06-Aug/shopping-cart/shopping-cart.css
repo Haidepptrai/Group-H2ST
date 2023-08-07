@@ -185,7 +185,8 @@ td.view-quantity {
 }
 
 footer {
-    margin-top: 10rem;
+    position: relative;
+    top: 29rem;
 }
 
 .foot-container {

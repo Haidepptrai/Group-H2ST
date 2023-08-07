@@ -25,18 +25,17 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}" draggable="false">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}" draggable="false">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}" draggable="false">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
-                            <!-- maybe add a hot product page? -->
+                            <a class="nav-link" href="{{ route('aboutUs') }}" draggable="false">About Us</a>
                         </li>
                     </ul>
                     @if (session('user') || Session()->has('id'))
@@ -58,10 +57,10 @@
                             </ul>
                         </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                         name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
@@ -109,8 +108,7 @@
                     Products of the week
                 </h1>
                 <p class="top-description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat dolor odio odio malesuada at
-                    condimentum adipiscing iaculis semper.
+                Discover our handpicked collection of the finest products of the week, curated with care to bring you the best in style, quality, and elegance. Explore these exclusive picks and elevate your living space with sophistication and charm.
                 </p>
             </div>
             <div class="top-product-card">
@@ -127,7 +125,7 @@
                                     <img src="{{ asset('pro_img/' . $product->proimage) }}" alt="{{ $product->proname }}">
                                 </div>
                                 <div class="product-info">
-                                    <a href="#" class="product-name">{{ $product->proname }}</a>
+                                    <a href="#" class="product-name" draggable="false">{{ $product->proname }}</a>
                                     <p class="product-price">${{ $product->proprice }}</p>
                                 </div>
                             </div>
@@ -141,7 +139,7 @@
                 <div class="banner-description">
                     <p class="banner-title">Discover Elegance and Style - Unravel the Finest Selection of Exquisite
                         Furniture at Our Esteemed Store.</p>
-                    <a href="{{ route('customerListProducts') }}" class="addition-link">View more<box-icon name='chevron-right'
+                    <a href="{{ route('customerListProducts') }}" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
                             color="#fff"></box-icon></a>
                 </div>
             </div>
@@ -158,7 +156,7 @@
                             <div class="product-title">
                                 <h1>{{ $fp->category->catname }}</h1>
                                 <p>{{ $fp->prodescription }}</p>
-                                <a href="#" class="addition-link">View more<box-icon name='chevron-right'
+                                <a href="#" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
                                         color="#373737"></box-icon></a>
                             </div>
                             <div class="product-image">
@@ -173,7 +171,7 @@
                 <p>order now for an <span class="flag-bold">
                         express delivery in 24h !
                     </span></p>
-                <a href="#" class="addition-link">View more<box-icon name='chevron-right'
+                <a href="#" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
                         color="#373737"></box-icon></a>
             </div>
             <div class="services">

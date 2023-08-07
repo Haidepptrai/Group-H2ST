@@ -89,12 +89,32 @@ main {
     width: 92%;
 }
 
+.product-name {
+    color: #564E4E;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 500;
+}
+
 .star-rating {
     font-size: 24px;
 }
 
 .checked {
     color: orange;
+}
+
+label {
+    color: #564E4E;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.product-price {
+    color: #564E4E;
+    font-size: 0.875rem;
+    font-weight: 400;
 }
 
 .line-through {
@@ -130,6 +150,26 @@ main {
 
 .tab-pane>p {
     text-align: justify;
+}
+
+.category {
+    color: #564E4E;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.product-description {
+    color: #564E4E;
+    font-size: 1.125rem;
+    font-weight: 400;
+}
+
+#description {
+    margin-top: 1.5rem;
+    color: #564E4E;
+    font-size: 1.125rem;
+    font-weight: 300;
 }
 
 .rating {
@@ -231,7 +271,7 @@ footer {
     padding: 5px;
 }
 
-.view-user-feedback{
+.view-user-feedback {
     display: flex;
     flex-direction: column;
     gap: 2rem;

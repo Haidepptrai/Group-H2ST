@@ -157,7 +157,7 @@ input.search-submit {
 }
 
 .top-product-card {
-  margin: 0 4.3%;
+  margin: 0 4.3% 2rem 4.3%;
   display: flex;
   flex-wrap: nowrap;
 }
@@ -175,6 +175,7 @@ input.search-submit {
   width: 100%;
   height: 40rem;
   object-fit: cover;
+  -webkit-user-drag: none;
 }
 
 .product-info {
@@ -280,7 +281,7 @@ p.state {
   border-color: #373737;
 }
 
-.product-list:nth-child(2) {
+.product-list:nth-child(2n) {
   flex-direction: row-reverse;
 }
 
@@ -474,7 +475,7 @@ footer {
     align-items: center;
   }
 
-  .product-list:nth-child(2) {
+  .product-list:nth-child(2n) {
     flex-direction: column-reverse;
   }
 }

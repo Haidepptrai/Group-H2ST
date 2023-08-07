@@ -108,7 +108,7 @@ input.search-submit {
 .product-sort {
     display: flex;
     justify-content: space-between;
-    margin: 3rem;
+    margin: 1rem 3rem;
 }
 
 .btn-secondary {
@@ -136,6 +136,7 @@ input.search-submit {
     width: 15rem;
     height: 16rem;
     object-fit: cover;
+    pointer-events: none;
 }
 
 .product-display {
@@ -175,7 +176,7 @@ input.search-submit {
 
 .product-name {
     color: #000;
-    font-size: 1.1875rem;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -183,14 +184,19 @@ input.search-submit {
 }
 
 .product-price {
-    color: #6B6B6B;
-    font-size: 1.1875rem;
+    color: #564E4E;
+    font-size: 1.25rem;
     font-weight: 400;
 }
 
+a.btn.btn-sm.btn-outline-secondary {
+    border-radius: 1rem;
+}
+
 .pagination {
+    position: absolute;
+    left: 40%;
     --bs-link-color: black !important;
-    padding-left: calc(90vw / 6);
 }
 
 .page-link {
@@ -203,7 +209,25 @@ input.search-submit {
     width: 10%;
 }
 
-/* Styles for the filter button */
+.category-list>ul>li a {
+    color: #564E4E;
+    font-weight: 400;
+}
+
+.btn-outline-light {
+    border: 0;
+}
+
+.btn-outline-light:hover {
+    background-color: #e6f7ff;
+}
+
+#filterPrice {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
 #filterButton {
     padding: 10px 20px;
     background-color: #007bff;
@@ -235,7 +259,6 @@ footer {
 
 .nav-container {
     display: flex;
-    flex-wrap: wrap;
     gap: 2rem;
 }
 
