@@ -248,9 +248,11 @@ class CustomerController extends Controller
 
         return view('customer.list-products', compact('products', 'categories'));
     }
+
     public function aboutUs(){
         return view('customer.about');
     }
+    
     public function detailProducts($id){
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
