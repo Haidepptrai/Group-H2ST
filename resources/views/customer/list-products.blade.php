@@ -11,7 +11,7 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../customer/products-list/product-list.css">
     {{-- Bootstrap 5 icon --}}
@@ -42,31 +42,31 @@
                         </li>
                     </ul>
                     @if (session('user'))
-                        <div class="dropdown">
-                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                    width="40" height="40">
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
-                                        profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
-                            </ul>
-                        </div>
-                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
+                    <div class="dropdown">
+                        <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                            <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                width="40" height="40">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                    profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>My order</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                        class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                        </ul>
+                    </div>
+                    {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
                     @else
-                        <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
-                                    name='user'></box-icon></a></div>
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon name='user'></box-icon></a>
+                    </div>
                     @endif
 
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
-                                value="" name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
+                                name="searchValue" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -111,39 +111,43 @@
             <div class="product-display">
                 <div class="product-list">
                     @foreach ($products as $product)
-                        @php
-                            $displayProduct = $product->status == 1 && $product->category->status == 1;
-                        @endphp
-                        @if ($displayProduct)
-                            <div class="list-item">
-                                <div class="product-image">
-                                    <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
-                                </div>
-                                <div class="product-info">
-                                    <p class="product-name">{{ $product->proname }}</p>
-                                    <p class="product-price">{{ $product->proprice }}$</p>
-                                </div>
-                                <div class="btn-group"><a
-                                    href="{{ url('customer/detail-products/' . $product->proid) }}" class="btn btn-sm btn-outline-secondary">Details</a>
+                    @php
+                    $displayProduct = $product->status == 1 && $product->category->status == 1;
+                    @endphp
+
+                    @if ($displayProduct)
+
+                    <div class="product-item">
+                        <a href="#" class="product">
+                            <div class="product-image">
+                                <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
                             </div>
-                        @endif
+                            <div class="product-info">
+                                <p class="product-name">{{ $product->proname }}</p>
+                                <p class="product-price">{{ $product->proprice }}$</p>
+                            </div>
+                            <div class="btn-group">
+                                <a href="{{ url('customer/detail-products/' . $product->proid) }}"
+                                    class="btn btn-sm btn-outline-secondary">Details
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                    @endif
                     @endforeach
                 </div>
+
 
                 <div class="category-list">
                     <h5>Categories</h5>
                     <ul>
                         @foreach ($categories as $category)
-                            <li>
-                                <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
-                                    class="btn btn-outline-light text-dark">{{ $category->catname }}</a>
-                            </li>
+                        <li>
+                            <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
+                                class="btn btn-outline-light text-dark">{{ $category->catname }}</a>
+                        </li>
                         @endforeach
                     </ul>
-                </div>
-                <div class="slide-two">
-                    <div id="slider"></div>
-
                 </div>
             </div>
 
@@ -158,10 +162,10 @@
                     <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}"><a class="page-link"
                             href="{{ $products->url($i) }}">{{ $i }}</a>
                     </li>
-                @endfor
-                <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
-                        href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
-                </li>
+                    @endfor
+                    <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
+                            href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
+                    </li>
             </ul>
         </nav>
     </div>

@@ -103,13 +103,13 @@ input.search-submit {
 
 .product-display {
     display: flex;
+    margin: 2rem;
 }
 
 .product-list {
-    width: 80%;
+    width: 90%;
     display: flex;
     row-gap: 2rem;
-    padding: 2rem;
     flex-wrap: wrap;
     justify-content: space-between;
 }
@@ -117,7 +117,6 @@ input.search-submit {
 
 .product {
     text-decoration: none;
-    flex-basis: 30%;
 }
 
 .product-item {
@@ -125,6 +124,7 @@ input.search-submit {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-basis: 30%;
 }
 
 .sort-slide {
@@ -151,15 +151,6 @@ input.search-submit {
     font-weight: 400;
 }
 
-.slide-one>ul {
-    list-style: none;
-    padding-left: 0 !important;
-}
-
-.slide-one>ul>li {
-    margin: 1rem 0rem 1rem 0rem;
-}
-
 .pagination {
     --bs-link-color: black !important;
     padding-left: calc(90vw / 6);
@@ -169,11 +160,10 @@ input.search-submit {
     border: none;
 }
 
-/* Styles for the range sliders */
-#slider-min,
-#slider-max {
-    margin: 20px 0;
-    width: 80%;
+.category-list>ul {
+    list-style: none;
+    padding-left: 0;
+    width: 10%;
 }
 
 /* Styles for the filter button */

@@ -82,7 +82,7 @@
                     <p class="head-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat dolor
                         odio odio malesuada at
                         condimentum adipiscing iaculis semper.</p>
-                    <a class="addition-link" href="#">View More<box-icon name='chevron-right'
+                    <a class="addition-link" href="{{ route('customerListProducts') }}">View More<box-icon name='chevron-right'
                             color="#fff"></box-icon></a>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                 <div class="banner-description">
                     <p class="banner-title">Discover Elegance and Style - Unravel the Finest Selection of Exquisite
                         Furniture at Our Esteemed Store.</p>
-                    <a href="#" class="addition-link">View more<box-icon name='chevron-right'
+                    <a href="{{ route('customerListProducts') }}" class="addition-link">View more<box-icon name='chevron-right'
                             color="#fff"></box-icon></a>
                 </div>
             </div>
