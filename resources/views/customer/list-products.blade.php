@@ -80,7 +80,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Sort by popularity
+                        Sort by
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
@@ -92,6 +92,28 @@
                     </ul>
                 </div>
             </div>
+            <script>
+                const dropdownToggle = document.querySelector('.dropdown-toggle');
+                const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+                // Check if the sort option is stored in localStorage
+                const selectedSort = localStorage.getItem('selectedSort');
+                if (selectedSort) {
+                    dropdownToggle.textContent = 'Sort by ' + selectedSort;
+                }
+
+                dropdownItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const selectedOption = item.textContent;
+                        dropdownToggle.textContent = 'Sort by ' + selectedOption;
+
+                        // Store the selected option in localStorage
+                        localStorage.setItem('selectedSort', selectedOption);
+                    });
+                });
+            </script>
+
+
             <div class="product-sort">
                 <div class="product-sort-controls">
                     <button class="btn btn-outline-dark" onclick="changeSortOrder('asc')">Increase</button>

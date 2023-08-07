@@ -46,6 +46,43 @@ html {
     cursor: pointer;
 }
 
+.product-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.product-count label {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-count input[type="number"] {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.product-count button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-count button:hover {
+    background-color: #0056b3;
+}
+
+.product-count button:focus {
+    outline: none;
+}
+
 .search-field::placeholder {
     color: #6c757d;
 }

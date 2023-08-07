@@ -248,10 +248,12 @@ class CustomerController extends Controller
 
         return view('customer.list-products', compact('products', 'categories'));
     }
+
     public function aboutUs(){
         $products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
         return view('customer.about', compact('products'));
     }
+    
     public function detailProducts($id){
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
