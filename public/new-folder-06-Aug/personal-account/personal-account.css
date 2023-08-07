@@ -127,7 +127,7 @@ button#change-avatar-btn:hover {
     margin-top: 2rem;
 }
 
-.text-info{
+.text-info {
     margin-top: 1rem;
 }
 
@@ -139,4 +139,10 @@ td>img {
 
 #deleteAccountBtn {
     margin-top: 2rem;
+}
+
+.backToMain {
+    position: absolute;
+    bottom: 0;
+    left: 1.5vw;
 }
