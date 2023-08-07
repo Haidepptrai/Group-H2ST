@@ -10,7 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-
+    {{-- Bootstrap 5 icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <link rel="stylesheet" href="../customer/about-us/about-us.css">
     <title>Home Page H2ST</title>
 </head>
@@ -39,24 +41,27 @@
                     @if (session('user'))
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                    width="40" height="40">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
-                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                        profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                             </ul>
                         </div>
-                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
-                        name='user'></box-icon></a></div>
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                                    name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
-                                name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
+                                value="" name="searchValue" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -105,8 +110,8 @@
             <div class="services-item">
                 <p class="service-icon"><svg width="49" height="62" viewBox="0 0 62 62" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.16667 21.9712H56.8333" stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M5.16667 21.9712H56.8333" stroke="#1A1A1A" stroke-width="1.5"
+                            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M15.5 42.6377H20.6667" stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10"
                             stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M27.125 42.6377H37.4583" stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10"
@@ -178,33 +183,18 @@
         </div>
 
         <div class="lastest-product-list">
-            <div class="product-card-item">
-                <div class="product-image">
-                    <img src="../customer/home-page/top-product/top-product01.jpg" alt="">
+            @foreach ($products as $product)
+                <div class="product-card-item">
+                    <div class="product-image">
+                        <img src="{{ asset('pro_img/' . $product->proimage) }}" alt="{{ $product->proname }}">
+                    </div>
+                    <div class="product-info">
+                        <a href="#" class="product-name"> {{ $product->proname }}</a>
+                        <p class="product-price">{{ $product->proprice }}$</p>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <a href="#" class="product-name">Pot</a>
-                    <p class="product-price">223,00</p>
-                </div>
-            </div>
-            <div class="product-card-item">
-                <div class="product-image">
-                    <img src="../customer/home-page/top-product/top-product02.jpg" alt="">
-                </div>
-                <div class="product-info">
-                    <a href="#" class="product-name">Pot</a>
-                    <p class="product-price">223,00</p>
-                </div>
-            </div>
-            <div class="product-card-item">
-                <div class="product-image">
-                    <img src="../customer/home-page/top-product/top-product03.jpg" alt="">
-                </div>
-                <div class="product-info">
-                    <a href="#" class="product-name">Pot</a>
-                    <p class="product-price">223,00</p>
-                </div>
-            </div>
+            @endforeach
+
             <script src="../convertToDollar.js"></script>
         </div>
     </div>

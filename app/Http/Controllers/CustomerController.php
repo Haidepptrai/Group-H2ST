@@ -70,7 +70,6 @@ class CustomerController extends Controller
             if ($user->userpassword == $request->userPassword) {
                 $request->session()->put('id', $user->id);
                 $request->session()->put('userfullname', $user->userfullname);
-                $request->session()->put('id', $user->id);
                 $request->session()->put('userimage', $user->userimage);
                 return redirect('customer/index');
             } else {
@@ -108,7 +107,7 @@ class CustomerController extends Controller
             $user->userimage = $fileName;
             $file->move('user_img', $fileName);
         } else {
-            $user->userimage = '';
+            $user->userimage = 'default.jpg';
         }
 
         $notifications = []; // Array to store notifications
@@ -155,6 +154,7 @@ class CustomerController extends Controller
                 'message' => 'An error occurred while creating the account. Please try again.',
             ]);
         }
+
     }
 
     //Login with Google
@@ -249,7 +249,8 @@ class CustomerController extends Controller
         return view('customer.list-products', compact('products', 'categories'));
     }
     public function aboutUs(){
-        return view('customer.about');
+        $products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
+        return view('customer.about', compact('products'));
     }
     public function detailProducts($id){
         $products = DB::table('products')
@@ -258,7 +259,7 @@ class CustomerController extends Controller
             ->select('products.*', 'categories.catname')
             ->first();
 
-        // Pass product to the view
         return view('customer.detail-products', compact('products'));
     }
+
 }

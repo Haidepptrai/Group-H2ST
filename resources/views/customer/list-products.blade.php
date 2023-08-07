@@ -56,7 +56,6 @@
                                         class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                         </ul>
                     </div>
-                    {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
                     @else
                     <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon name='user'></box-icon></a>
                     </div>

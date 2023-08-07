@@ -39,10 +39,17 @@
                             <!-- maybe add a hot product page? -->
                         </li>
                     </ul>
-                    @if (session('user'))
+                    @if (session('user') || Session()->has('id'))
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+
+                                @endif
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
@@ -50,7 +57,6 @@
                                 <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
                             </ul>
                         </div>
-                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
                     @else
                     <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
                         name='user'></box-icon></a></div>

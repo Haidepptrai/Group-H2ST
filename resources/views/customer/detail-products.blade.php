@@ -15,7 +15,8 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../customer/product-detail/product-detail.css">
-
+    {{-- Bootstrap 5 icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <title>Product Detail</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
 </head>
 
@@ -51,7 +52,6 @@
                                 <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
                             </ul>
                         </div>
-                        {{-- <div class="fw-bold">{{ session('user')->getName() }} </div> --}}
                     @else
                     <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
                         name='user'></box-icon></a></div>
