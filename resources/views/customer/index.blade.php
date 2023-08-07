@@ -132,7 +132,6 @@
                         @endif
                     @endforeach
                 @endisset
-
             </div>
             <div class="banner">
                 <img src="../customer/home-page/./banner/banner01.jpg" class="banner-wide-01">
