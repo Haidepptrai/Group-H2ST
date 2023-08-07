@@ -47,7 +47,7 @@ div#v-pills-tabContent {
 
 .tab-title {
     font-size: x-large;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .user-basic-info {
@@ -127,8 +127,16 @@ button#change-avatar-btn:hover {
     margin-top: 2rem;
 }
 
+.text-info{
+    margin-top: 1rem;
+}
+
 td>img {
     height: 14rem;
     width: 80%;
     object-fit: cover;
+}
+
+#deleteAccountBtn {
+    margin-top: 2rem;
 }

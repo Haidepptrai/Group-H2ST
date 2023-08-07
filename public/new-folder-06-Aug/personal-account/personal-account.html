@@ -26,18 +26,18 @@
             <div class="logo-brand">
                 <a class="navbar-brand" href="#">H2ST Furniture</a>
             </div>
-            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
-                type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Account</button>
-            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
-                type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Your order</button>
-            <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
-                type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-            <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
-                type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+            <button class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="#v-pills-profile"
+                aria-selected="true">Account</button>
+            <button class="nav-link" id="v-pills-order-tab" data-bs-toggle="pill" data-bs-target="#v-pills-order"
+                type="button" role="tab" aria-controls="v-pills-order" aria-selected="false">Your order</button>
+            <button class="nav-link" id="v-pills-delete-tab" data-bs-toggle="pill" data-bs-target="#v-pills-delete"
+                type="button" role="tab" aria-controls="v-pills-delete" aria-selected="false">Delete Account</button>
+            <a class="btn text-primary" href="#" role="button">Log out</a>
         </div>
         <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
-                tabindex="0">
+            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                aria-labelledby="v-pills-profile-tab" tabindex="0">
                 <div class="tab-title">
                     Your Profile
                 </div>
@@ -125,13 +125,14 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
+            <div class="tab-pane fade" id="v-pills-order" role="tabpanel" aria-labelledby="v-pills-order-tab"
                 tabindex="0">
                 <div class="tab-title">
                     Your Order
                 </div>
                 <div class="order-info">
                     <table class="table table-bordered">
+                        <h6 class="text-info">Order ID: #111 details</h6>
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -146,18 +147,55 @@
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
                                 <td>Jacob</td>
-                                <td><img src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg" alt=""></td>
+                                <td><img src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
+                                        alt=""></td>
                                 <td>Jacob</td>
                                 <td>Jacob</td>
                                 <td>Thornton</td>
                                 <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td><img src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
+                                        alt=""></td>
+                                <td>Jacob</td>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Jacob</td>
+                                <td><img src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
+                                        alt=""></td>
+                                <td>Jacob</td>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Date order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
@@ -168,14 +206,72 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
-                tabindex="0">...</div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"
-                tabindex="0">...</div>
+            <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
+                tabindex="0">
+                <div class="tab-title text-danger">
+                    Delete Your Account
+                </div>
+                <div class="input-password">
+                    <form action="#" id="userFormDelete">
+                        <div class="col">
+                            <label for="userPassDelete">Enter your password</label>
+                            <input type="password" name="userPassDelete" id="userPassDelete"
+                                placeholder="Enter your password">
+                            <label for="userPassConfirm">Confirm your password</label>
+                            <input type="password" id="userPassConfirm" placeholder="Enter your password">
+                        </div>
+                        <button type="submit" id="deleteAccountBtn" class="btn btn-danger">Delete Account</button>
+                    </form>
+                    <div class="modal fade" id="notMatchPassAlert" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Passwords do not match. Please enter the same password in both fields.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Thieu upload avatar nguoi dung nhe' co button roi` -->
 
-    <script src="validate-input.js"></script>
+    <script src="validate-input.js" charset="utf-8"></script>
     <script src="enable-change.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("userFormDelete");
+            const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+            const userPassDelete = document.getElementById("userPassDelete");
+            const userPassConfirm = document.getElementById("userPassConfirm");
+            const myModal = new bootstrap.Modal(document.getElementById('notMatchPassAlert'));
+            deleteAccountBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get the values of the password fields
+                const passwordDelete = userPassDelete.value;
+                const passwordConfirm = userPassConfirm.value;
+
+                // Perform the validation
+                if (passwordDelete !== passwordConfirm) {
+                    myModal.show();
+                    return;
+                }
+
+                // If validation passes, proceed with the form submission (delete account)
+                form.submit();
+            });
+        });
+    </script>
 </body>
