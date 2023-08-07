@@ -189,10 +189,10 @@
                                                 <tr>
                                                     <th> User ID</th>
                                                     <th> User Name </th>
-                                                    <th> Password </th>
                                                     <th> Photo </th>
                                                     <th> Email </th>
-                                                    <th> Fullname </th>
+                                                    <th> First Name </th>
+                                                    <th> Last Name </th>
                                                     <th> Birthday</th>
                                                     <th> Address </th>
                                                     <th> Gender </th>
@@ -205,11 +205,16 @@
                                                     <tr>
                                                         <td>{{ $u->id }}</td>
                                                         <td>{{ $u->username }}</td>
-                                                        <td>{{ $u->userpassword }}</td>
+                                                        @if (file_exists( public_path('user_img/' . $u->userimage)))
                                                         <td><img src="{{ '../../public/user_img/' . $u->userimage }}"
-                                                                width="100px" height="100px"></td>
+                                                            width="100px" height="100px"></td>
+                                                        @else
+                                                        <td><img src="{{ $u->userimage }}"
+                                                            width="100px" height="100px"></td>
+                                                        @endif
                                                         <td>{{ $u->useremail }}</td>
-                                                        <td>{{ $u->userfullname }}</td>
+                                                        <td>{{ $u->userfirstname }}</td>
+                                                        <td>{{ $u->userlastname }}</td>
                                                         <td>{{ $u->userbirthday }}</td>
                                                         <td>{{ $u->useraddress }}</td>
                                                         <td>{{ $u->usergender }}</td>

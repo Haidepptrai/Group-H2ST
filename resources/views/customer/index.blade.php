@@ -45,13 +45,11 @@
                                     <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
                                 @endif
                                 @if (Session()->has('id'))
-
                                     <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar" width="40" height="40">
-
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile')}}"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
                                 <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
                             </ul>

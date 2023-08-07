@@ -10,11 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-    <link rel="stylesheet" href="personal-account.css">
+    <link rel="stylesheet" href="../customer/personal-account/personal-account.css">
     <title>Personal Setting</title>
 </head>
 
@@ -24,7 +24,7 @@
     <div class="d-flex align-items-start">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <div class="logo-brand">
-                <a class="navbar-brand" href="#">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
             </div>
             <button class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill"
                 data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="#v-pills-profile"
@@ -32,11 +32,9 @@
             <button class="nav-link" id="v-pills-order-tab" data-bs-toggle="pill" data-bs-target="#v-pills-order"
                 type="button" role="tab" aria-controls="v-pills-order" aria-selected="false">Your order</button>
             <button class="nav-link" id="v-pills-delete-tab" data-bs-toggle="pill" data-bs-target="#v-pills-delete"
-                type="button" role="tab" aria-controls="v-pills-delete" aria-selected="false">Delete Account</button>
-            <a class="btn text-primary" href="#" role="button">Log out</a>
-            <a class="btn text-primary backToMain" href="#" role="button">Back To Menu</a>
-
-
+                type="button" role="tab" aria-controls="v-pills-delete" aria-selected="false">Delete
+                Account</button>
+            <a class="btn text-primary" href="{{ route('customerLogout') }}" role="button">Log out</a>
         </div>
         <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
@@ -47,11 +45,21 @@
 
                 <div class="user-profile">
                     <div class="user-ava">
-                        <img src="customer-ava.png" alt="">
+                        @if (session('user'))
+                            <img src="{{ session('user')->getAvatar() }}" alt="">
+                        @endif
+                        @if (Session()->has('id'))
+                            <img src="../user_img/{{ Session::get('userimage') }}" alt="">
+                        @endif
                     </div>
                     <div class="user-basic-info">
                         <div class="user-name">
-                            <h6>Alexandra</h6>
+                            @if (session('user'))
+                                <h6>{{ session('user')->getName() }}</h6>
+                            @endif
+                            @if (Session()->has('id'))
+                                <h6>{{ Session::get('userfullname') }}</h6>
+                            @endif
                         </div>
                         <div class="date-create">
                             <p>
@@ -76,30 +84,51 @@
                                 <div class="col">
                                     <label for="firstName">First Name</label>
                                     <input type="text" name="firstName" id="firstName"
-                                        placeholder="Input your first name">
+                                    value="
+                                        @if (session('user')) {{ session('user')->getName() }} @endif
+                            @if (Session()->has('id')) {{ Session::get('userfullname') }} @endif
+                                        ">
                                 </div>
                                 <div class="col">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" name="lastName" id="lastName" placeholder="Input your last name">
+                                    <input type="text" name="lastName" id="lastName"
+                                        value="
+                                        @if (session('user')) {{ session('user')->getName() }} @endif
+                            @if (Session()->has('id')) {{ Session::get('userfullname') }} @endif
+                                        ">
                                 </div>
                                 <div class="col">
                                     <label for="userEmail">Email</label>
-                                    <input type="email" name="userEmail" id="userEmail" placeholder="Input your email">
+                                    <input type="email" name="userEmail" id="userEmail"
+                                    value="
+                                        @if (session('user')) {{ session('user')->getEmail() }} @endif
+                            @if (Session()->has('id')) {{ Session::get('useremail') }} @endif
+                                        ">
                                 </div>
                                 <div class="col">
                                     <label for="userPass">Enter your password</label>
                                     <input type="password" name="userPass" id="userPass"
-                                        placeholder="Confirm your password">
+                                    value="
+                                        @if (session('user')) {{ session('user')->getName() }} @endif
+                            @if (Session()->has('id')) {{ Session::get('userfullname') }} @endif
+                                        ">
                                 </div>
                                 <div class="col">
                                     <label for="userAddress">Enter your Address</label>
                                     <input type="text" name="userAddress" id="userAddress"
-                                        placeholder="Enter your email">
+                                    value="
+                                        @if (session('user'))  @endif
+                            @if (Session()->has('id')) {{ Session::get('useraddress') }} @endif
+                                        ">
                                 </div>
                                 <div class="col">
                                     <label for="userPhone">Enter a phone number</label>
-                                    <input type="tel" id="userPhone" name="userPhone" placeholder="Your phone number"
-                                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required><br>
+                                    <input type="tel" id="userPhone" name="userPhone"
+                                    value="
+                                        @if (session('user')) @endif
+                            @if (Session()->has('id')) {{ Session::get('userphone') }} @endif
+                                        " pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                                        required><br>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary confirm-change" id="saveChangesBtn"
@@ -225,8 +254,9 @@
                         </div>
                         <button type="submit" id="deleteAccountBtn" class="btn btn-danger">Delete Account</button>
                     </form>
-                    <div class="modal fade" id="notMatchPassAlert" data-bs-backdrop="static" data-bs-keyboard="false"
-                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="notMatchPassAlert" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -253,13 +283,13 @@
     <script src="validate-input.js" charset="utf-8"></script>
     <script src="enable-change.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("userFormDelete");
             const deleteAccountBtn = document.getElementById("deleteAccountBtn");
             const userPassDelete = document.getElementById("userPassDelete");
             const userPassConfirm = document.getElementById("userPassConfirm");
             const myModal = new bootstrap.Modal(document.getElementById('notMatchPassAlert'));
-            deleteAccountBtn.addEventListener("click", function (event) {
+            deleteAccountBtn.addEventListener("click", function(event) {
                 event.preventDefault();
 
                 // Get the values of the password fields
