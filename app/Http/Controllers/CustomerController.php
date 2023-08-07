@@ -253,7 +253,7 @@ class CustomerController extends Controller
         $products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
         return view('customer.about', compact('products'));
     }
-    
+
     public function detailProducts($id){
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
@@ -262,6 +262,13 @@ class CustomerController extends Controller
             ->first();
 
         return view('customer.detail-products', compact('products'));
+    }
+
+
+    public function userProfile(){
+        $user = User::where('id')->first();
+
+        return view('customer.user-profile', compact('user'));
     }
 
 }

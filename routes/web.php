@@ -89,6 +89,7 @@ Route::get('/', function () {
     Route::get('customer/list-products',[CustomerController::class,'listProducts'])-> name('customerListProducts');
     Route::get('customer/detail-products/{id}',[CustomerController::class,'detailProducts'])-> name('customerDetailProducts');
     Route::get('customer/about',[CustomerController::class,'aboutUs'])-> name('aboutUs');
+    Route::get('customer/user-profile',[CustomerController::class,'userProfile'])-> name('userProfile');
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');
     Route::get('customer/login-customer/facebook/callback', [CustomerController::class, 'handleFacebookCallback']);

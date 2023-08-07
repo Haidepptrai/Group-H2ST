@@ -131,15 +131,16 @@
             </div>
             <div class="product-display">
                 <div class="product-list">
+
                     @foreach ($products as $product)
                     @php
                     $displayProduct = $product->status == 1 && $product->category->status == 1;
                     @endphp
-
                     @if ($displayProduct)
 
                     <div class="product-item">
-                        <a href="#" class="product">
+                        <a href="{{ url('customer/detail-products/' . $product->proid) }}"
+                                    class="btn btn-sm btn-outline-secondar" class="product">
                             <div class="product-image">
                                 <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
                             </div>
@@ -148,17 +149,13 @@
                                 <p class="product-price">{{ $product->proprice }}$</p>
                             </div>
                             <div class="btn-group">
-                                <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-sm btn-outline-secondary">Details
-                                </a>
+
                             </div>
                         </a>
                     </div>
                     @endif
                     @endforeach
                 </div>
-
-
                 <div class="category-list">
                     <h5>Categories</h5>
                     <ul>
