@@ -11,7 +11,7 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-        </script>
+    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../customer/products-list/product-list.css">
     {{-- Bootstrap 5 icon --}}
@@ -32,7 +32,8 @@
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('home') }}" draggable="false">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}"
+                                draggable="false">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('customerListProducts') }}" draggable="false">Shop</a>
@@ -42,30 +43,32 @@
                         </li>
                     </ul>
                     @if (session('user'))
-                    <div class="dropdown">
-                        <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                            <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                width="40" height="40">
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
-                                    profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>My order</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                        class="bi bi-box-arrow-in-left"></i> Log out</a></li>
-                        </ul>
-                    </div>
+                        <div class="dropdown">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                    width="40" height="40">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                        profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                            </ul>
+                        </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon name='user'></box-icon></a>
-                    </div>
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                                    name='user'></box-icon></a>
+                        </div>
                     @endif
 
-                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon
+                                name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
-                                name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
+                                value="" name="searchValue" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -88,7 +91,8 @@
                         <li><a class="dropdown-item"
                                 href="{{ route('customerListProducts', ['sort' => 'price']) }}">Price</a></li>
                         <li><a class="dropdown-item"
-                                href="{{ route('customerListProducts', ['sort' => 'bestseller']) }}">Popularity</a></li>
+                                href="{{ route('customerListProducts', ['sort' => 'bestseller']) }}">Popularity</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -124,53 +128,54 @@
                     <form id='filterPrice' action="{{ route('customerListProducts') }}" method="get">
                         <div class="form-item">
                             <label for="min_price">Min Price:</label>
-                            <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
+                            <input type="number" name="min_price" id="min_price"
+                                value="{{ request('min_price') }}">
                         </div>
                         <div class="form-item">
                             <label for="max_price">Max Price:</label>
-                            <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                            <input type="number" name="max_price" id="max_price"
+                                value="{{ request('max_price') }}">
                         </div>
                         <button type="submit">Apply Filters</button>
                     </form>
                 </div>
             </div>
+
             <div class="product-display">
                 <div class="product-list">
 
                     @foreach ($products as $product)
-                    @php
-                    $displayProduct = $product->status == 1 && $product->category->status == 1;
-                    @endphp
-                    @if ($displayProduct)
-
-                    <div class="product-item">
-                        <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-sm btn-outline-secondar" class="product" draggable="false">
-                            <div class="product-image">
-                                <img src="{{ asset('pro_img/' . $product->proimage)}}" alt="{{ $product->proname }}">
-                            </div>
-                            <div class="product-info">
-                                <p class="product-name">{{ $product->proname }}</p>
-                                <p class="product-price">{{ $product->proprice }}$</p>
-                            </div>
-                            <div class="btn-group">
+                        @php
+                            $displayProduct = $product->status == 1 && $product->category->status == 1;
+                        @endphp
+                        @if ($displayProduct)
+                            <div class="product-item btn-group">
                                 <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-sm btn-outline-secondary" draggable="false">Details
+                                    class="btn btn-outline-secondar border border-2 rounded-3" class="product"
+                                    draggable="false">
+                                    <div class="product-image">
+                                        <img src="{{ asset('pro_img/' . $product->proimage) }}"
+                                            alt="{{ $product->proname }}">
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">{{ $product->proname }}</p>
+                                        <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></p>
+                                        <p class="product-price">{{ $product->proprice }}$</p>
+                                    </div>
                                 </a>
                             </div>
-                        </a>
-                    </div>
-                    @endif
+                        @endif
                     @endforeach
                 </div>
                 <div class="category-list">
                     <h5>Categories</h5>
                     <ul>
                         @foreach ($categories as $category)
-                        <li>
-                            <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
-                                class="btn btn-outline-light text-dark" draggable="false">{{ $category->catname }}</a>
-                        </li>
+                            <li>
+                                <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
+                                    class="btn btn-outline-light text-dark"
+                                    draggable="false">{{ $category->catname }}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -187,10 +192,10 @@
                     <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}"><a class="page-link"
                             href="{{ $products->url($i) }}">{{ $i }}</a>
                     </li>
-                    @endfor
-                    <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
-                            href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
-                    </li>
+                @endfor
+                <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
+                        href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
+                </li>
             </ul>
         </nav>
     </div>

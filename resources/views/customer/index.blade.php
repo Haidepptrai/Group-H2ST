@@ -58,7 +58,7 @@
                     <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                         name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"

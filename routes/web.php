@@ -90,6 +90,11 @@ Route::get('/', function () {
     Route::get('customer/detail-products/{id}',[CustomerController::class,'detailProducts'])-> name('customerDetailProducts');
     Route::get('customer/about',[CustomerController::class,'aboutUs'])-> name('aboutUs');
     Route::get('customer/user-profile',[CustomerController::class,'userProfile'])-> name('userProfile');
+    Route::get('customer/cart',[CustomerController::class,'cart'])-> name('cart');
+    Route::middleware('auth')->group(function () {
+        Route::post('customer/upload-avatar', [CustomerController::class, 'upload'])->name('upload.avatar');
+    });
+
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');
     Route::get('customer/login-customer/facebook/callback', [CustomerController::class, 'handleFacebookCallback']);

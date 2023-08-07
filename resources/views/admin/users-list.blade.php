@@ -183,7 +183,7 @@
                                         <div class="alert alert-success" role="alert">{{ Session::get('success') }}
                                         </div>
                                     @endif
-                                    <div class="overflow-auto" style="height: 600px;">
+                                    <div class="overflow-auto" style="height: 700px;">
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>

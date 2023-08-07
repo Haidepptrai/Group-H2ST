@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- Add the SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
@@ -40,7 +39,7 @@
 
                         @csrf
                         <label for="userFullname">Enter your name</label><br>
-                        <input type="text" class="userInput" id="userfullname" name="userFullname"
+                        <input type="text" class="userInput" id="userfirstname" name="userFirstname"
                             placeholder="Your name"><br>
                         <label for="userEmail">Enter your email address</label><br>
                         <input type="text" class="userInput" id="userEmail" name="userEmail"
@@ -76,7 +75,7 @@
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
                     // Get data from the form
-                    const fullName = document.getElementById('userfullname').value.trim();
+                    const fullName = document.getElementById('userfirstname').value.trim();
                     const email = document.getElementById('userEmail').value.trim();
                     // Send form data to the server using Fetch API or AJAX
                     fetch(form.action, {

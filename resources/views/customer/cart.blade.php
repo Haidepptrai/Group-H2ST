@@ -13,8 +13,12 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-
-    <link rel="stylesheet" href="shopping-cart.css">
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../customer/shopping-cart/shopping-cart.css">
     <title>Personal Setting</title>
 </head>
 
@@ -26,20 +30,39 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="../home-page/home-page.html">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
-                    <div class="user-ava"><a href="#"><box-icon name='user'></box-icon></a></div>
+                    @if (session('user') || Session()->has('id'))
+                        <div class="dropdown">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile')}}"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
+                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                            </ul>
+                        </div>
+                    @else
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                        name='user'></box-icon></a></div>
+                    @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
@@ -53,14 +76,14 @@
         </nav>
 
         <div class="cart-info">
-            <a class="icon-link" href="#">
+            <a class="icon-link" href="{{ route('customerListProducts') }}">
                 <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
                 Continue Shopping
             </a>
             <div class="title">
                 <h5>Shopping cart</h5>
             </div>
-
+            <div class="overflow-auto border border-2" style="height: 700px;">
             <table class="table">
                 <thead>
                     <tr>
@@ -90,7 +113,7 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn-remove">Remove</button>
+                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     </tr>
                     <tr class="cart">
@@ -110,7 +133,7 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn-remove">Remove</button>
+                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     </tr>
                     <tr class="cart">
@@ -130,12 +153,13 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn-remove">Remove</button>
+                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     </tr>
 
                 </tbody>
             </table>
+            </div>
             <div class="float-end">
                 Totals: <span id="total-price"></span>
                 <br>
@@ -145,11 +169,11 @@
         </div>
     </div>
 </body>
-<script src="../convertToDollar.js"></script>
-<script src="product-quantity.js"></script>
+<script src="../customer/convertToDollar.js"></script>
+<script src="../customer/shopping-cart/product-quantity.js"></script>
 <footer>
     <div class="foot-container">
-        <a class="navbar-brand" href="#">H2ST Furniture</a>
+        <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
         <div class="nav-container">
             <div class="sub-nav">
                 <div class="sub-title">

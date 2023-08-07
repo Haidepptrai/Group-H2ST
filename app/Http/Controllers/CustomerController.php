@@ -14,12 +14,22 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 
 use Illuminate\Support\Carbon;
 
 class CustomerController extends Controller
-{   // home page
+{
+
+    private function buildResponse($success, $message)
+    {
+        return [
+            'success' => $success,
+            'message' => $message,
+        ];
+    }
+    // home page
     public function index()
     {
         $new_products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
@@ -69,14 +79,18 @@ class CustomerController extends Controller
         if ($user) {
             if ($user->userpassword == $request->userPassword) {
                 $request->session()->put('id', $user->id);
-                $request->session()->put('userfullname', $user->userfullname);
+                $request->session()->put('userfirstname', $user->userfirstname);
                 $request->session()->put('userimage', $user->userimage);
+                $request->session()->put('userpassword', $user->userpassword);
+                $request->session()->put('useraddress', $user->useraddress);
+                $request->session()->put('userphone', $user->userphone);
+                $request->session()->put('userbirthday', $user->userbirthday);
                 return redirect('customer/index');
             } else {
-                return back()->with('fail', 'Password does not match!');
+                return response()->json($this->buildResponse(false, 'Password does not match!. Please try again.'));
             }
         } else {
-            return back()->with('fail', 'Username does not exist!');
+            return response()->json($this->buildResponse(true, 'Login successful!'));
         }
     }
 
@@ -84,7 +98,11 @@ class CustomerController extends Controller
     {
         Session::pull('id');
         Session::pull('userimage');
-        Session::pull('userfullname');
+        Session::pull('userfirstname');
+        Session::pull('userpassword');
+        Session::pull('useraddress');
+        Session::pull('userphone');
+        Session::pull('userbirthday');
         Auth::logout();
         session()->flush();
         return redirect('customer/login-customer');
@@ -134,7 +152,7 @@ class CustomerController extends Controller
 
         // Update the user data
         $user->username = $request->userName;
-        $user->userfullname = $request->userFullname;
+        $user->userfirstname = $request->userFirstname;
         $user->useremail = $request->userEmail;
         $user->useraddress = $request->userAddress;
         $user->userphone = $request->contactNum;
@@ -143,18 +161,11 @@ class CustomerController extends Controller
         // Save the user to the database
         if ($user->save()) {
             // Registration success
-            return response()->json([
-                'success' => true,
-                'message' => 'Create account successfully!',
-            ]);
+            return response()->json($this->buildResponse(true, 'Create account successfully!'));
         } else {
             // Registration failed
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while creating the account. Please try again.',
-            ]);
+            return response()->json($this->buildResponse(false, 'An error occurred while creating the account. Please try again.'));
         }
-
     }
 
     //Login with Google
@@ -196,7 +207,7 @@ class CustomerController extends Controller
             $user->userpassword = hash('sha256', $randomString);
             $user->userimage = $data->avatar;
             $user->useremail = $data->email;
-            $user->userfullname = $data->name;
+            $user->userfirstname = $data->name;
             $user->provider_id = $data->id;
 
             $user->save();
@@ -205,7 +216,7 @@ class CustomerController extends Controller
         Auth::login($user);
     }
 
-    public function listProducts(Request $request)
+    public function listProducts(Request $request, $page = 1)
     {
         $categoryId = $request->input('catid');
 
@@ -215,8 +226,7 @@ class CustomerController extends Controller
             })
             ->whereHas('category', function ($query) {
                 return $query->where('status', 1);
-            })
-            ->OrderBy('catid', 'desc');
+            });
 
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
@@ -243,18 +253,26 @@ class CustomerController extends Controller
                 break;
         }
 
-        $products = $query->paginate(9);
+        $perPage = 9;
+        $products = $query->paginate($perPage);
         $categories = Category::where('status', 1)->get();
 
         return view('customer.list-products', compact('products', 'categories'));
     }
 
-    public function aboutUs(){
+    public function aboutUs()
+    {
         $products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
         return view('customer.about', compact('products'));
     }
 
-    public function detailProducts($id){
+    public function cart()
+    {
+        return view('customer.cart');
+    }
+
+    public function detailProducts($id)
+    {
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
             ->where('proid', $id)
@@ -265,10 +283,52 @@ class CustomerController extends Controller
     }
 
 
-    public function userProfile(){
+    public function userProfile()
+    {
         $user = User::where('id')->first();
 
         return view('customer.user-profile', compact('user'));
     }
 
+    public function updateUserProfile(Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        $user->userfirstName = $request->input('firstName');
+        $user->userlastName = $request->input('lastName');
+        $user->useremail = $request->input('userEmail');
+        $user->usergender = $request->input('userGender');
+        $user->useraddress = $request->input('userAddress');
+        $user->userphone = $request->input('userPhone');
+
+        $user->save();
+
+        return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
+    }
+    public function upload(Request $request)
+    {
+        // Assuming you have a logged-in user and you want to update their avatar
+        $user = auth()->user();
+
+        if ($request->hasFile('userimage')) {
+            // Delete the old avatar if it exists
+            if ($user->userimage) {
+                $oldAvatarPath = public_path('user_img/' . $user->userimage);
+                if (file_exists($oldAvatarPath)) {
+                    unlink($oldAvatarPath);
+                }
+            }
+
+            // Store the new avatar
+            $avatar = $request->file('userimage');
+            $avatarName = time() . '_' . $avatar->getClientOriginalName();
+            $avatar->move('user_img', $avatarName);
+
+            // Update the user's avatar field in the database
+            $user->userimage = $avatarName;
+            $user->save();
+        }
+
+        return response()->json(['message' => 'Avatar updated successfully.']);
+    }
 }

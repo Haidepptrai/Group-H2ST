@@ -10,6 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Add the SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <!-- Add the SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
 <body>
     <div class="cover-page">
@@ -29,7 +33,7 @@
                 </div>
                 <h1 class="title-signin">Sign in</h1>
                 <div class="login-icons">
-                    <a href="{{route('login.google')}}" class="with-google" onclick="signInWithGoogle()">
+                    <a href="{{ route('login.google') }}" class="with-google" onclick="signInWithGoogle()">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"
                                 fill="none">
@@ -70,11 +74,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    @if (Session::has('fail'))
-                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-                    @endif
-                    <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
-                        enctype="multipart/form-data">
+                <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST" enctype="multipart/form-data" id="login">
                         @csrf
                         <label for="userEmail">Email or Username</label><br>
                         <input type="text" class="userInput" id="userEmail" name="userEmail"
@@ -88,6 +88,8 @@
                 </div>
             </div>
         </main>
+        <!-- Script to handle the dialog -->
+
     </div>
 </body>
 
