@@ -151,11 +151,11 @@
                         @if ($displayProduct)
                             <div class="product-item btn-group">
                                 <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-outline-secondar border border-2 rounded-3" class="product"
+                                    class="btn btn-outline-secondar border border-2 rounded-4" class="product"
                                     draggable="false">
                                     <div class="product-image">
                                         <img src="{{ asset('pro_img/' . $product->proimage) }}"
-                                            alt="{{ $product->proname }}">
+                                            alt="{{ $product->proname }}" class="rounded-2">
                                     </div>
                                     <div class="product-info">
                                         <p class="product-name">{{ $product->proname }}</p>
@@ -205,9 +205,9 @@
     </div>
 </body>
 <footer loading='lazy'>
-    <div class="foot-container">
-        <a class="navbar-brand" href="#">H2ST Furniture</a>
-        <div class="nav-container">
+    <div class="foot-container text-center">
+        <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
+        <div class="text-center">
             <div class="sub-nav">
                 <div class="sub-title">
                     About Us

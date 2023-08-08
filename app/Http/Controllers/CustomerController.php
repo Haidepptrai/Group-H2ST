@@ -308,27 +308,31 @@ class CustomerController extends Controller
     public function upload(Request $request)
     {
         // Assuming you have a logged-in user and you want to update their avatar
-        $user = auth()->user();
-
-        if ($request->hasFile('userimage')) {
-            // Delete the old avatar if it exists
-            if ($user->userimage) {
-                $oldAvatarPath = public_path('user_img/' . $user->userimage);
-                if (file_exists($oldAvatarPath)) {
-                    unlink($oldAvatarPath);
+        $user = User::where('id')->first();
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $user = User::find($userId);
+            if ($request->hasFile('userimage')) {
+                // Delete the old avatar if it exists
+                if ($user->userimage) {
+                    $oldAvatarPath = public_path('user_img/' . $user->userimage);
+                    if (file_exists($oldAvatarPath)) {
+                        unlink($oldAvatarPath);
+                    }
                 }
+                // Store the new avatar
+                $avatar = $request->file('userimage');
+                $avatarName = time() . '_' . $avatar->getClientOriginalName();
+                $avatar->move(asset('user_img'), $avatarName);
+
+                // Update the user's avatar field in the database
+                $user->userimage = $avatarName;
+                $user->save();
             }
-
-            // Store the new avatar
-            $avatar = $request->file('userimage');
-            $avatarName = time() . '_' . $avatar->getClientOriginalName();
-            $avatar->move('user_img', $avatarName);
-
-            // Update the user's avatar field in the database
-            $user->userimage = $avatarName;
-            $user->save();
         }
-
+        if (!Auth::check()) {
+    return response()->json(['error' => 'User not authenticated.']);
+}
         return response()->json(['message' => 'Avatar updated successfully.']);
     }
 }

@@ -10,13 +10,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../customer/product-detail/product-detail.css">
     {{-- Bootstrap 5 icon --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <title>Product Detail</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
 </head>
 
@@ -44,23 +45,27 @@
                     @if (session('user'))
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                    width="40" height="40">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
-                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                        profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                             </ul>
                         </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
-                        name='user'></box-icon></a></div>
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                                    name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
-                                name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
+                                value="" name="searchValue" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -78,60 +83,62 @@
                     </ol>
                 </nav>
             </div>
-            <div class="product-display">
-<div class="product-image">
-                    <img src="{{asset('pro_img/'. $products -> proimage)}}" alt="{{ $products -> proname }}">
-                </div>
-                <div class="product-buy-info">
-                    <div class="product-name">
-                        <p>{{ $products -> proname }}</p>
+            <form action="" method="POST">
+                <div class="product-display">
+                    <div class="product-image">
+                        <img src="{{ asset('pro_img/' . $products->proimage) }}" alt="{{ $products->proname }}" class="border border-2 rounded-3">
                     </div>
-                    <div class="star-rating">
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div>
-                    <script src="../../customer/product-detail/star-fill.js"></script>
-                    <div class="product-price-display">
-                        <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
-                        <p id="origin-price" class="product-price">{{ $products -> proprice }}$</p> <!--Fetch tu database len-->
-                    </div>
-                    <div class="product-description">
-                        <p>{{ $products -> prodetails }}</p>
-                    </div>
-                    <div class="add-to-cart">
-                        <div class="cart">
-                            <box-icon id="previous" class="quantity-click" name='chevron-left'></box-icon>
-                            <p id="quantity"></p>
-                            <box-icon id="next" class="quantity-click" name='chevron-right'></box-icon>
+                    <div class="product-buy-info">
+                        <div class="product-name">
+                            <p>{{ $products->proname }}</p>
                         </div>
-                        <button type="button" class="btn btn-secondary btn-sm">Add to cart</button>
-                    </div>
-                    <div class="addition-information">
-                        <div class="category">
-                            <p><strong>Category: {{ $products -> catname }}</strong></p>
+                        <div class="star-rating">
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
                         </div>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                    data-bs-target="#description" type="button" role="tab" aria-controls="description"
-                                    aria-selected="true">Description</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="description" role="tabpanel"
-                                aria-labelledby="home-tab" tabindex="0">
-                                <p>
-                                    {{ $products -> prodescription }}
-                                </p>
+                        <script src="../../customer/product-detail/star-fill.js"></script>
+                        <div class="product-price-display">
+                            <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
+                            <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
+                            <!--Fetch tu database len-->
+                        </div>
+                        <div class="product-description">
+                            <p>{{ $products->prodetails }}</p>
+                        </div>
+                        <div class="add-to-cart">
+                            <div class="cart">
+                                <box-icon id="previous" class="quantity-click" name='chevron-left'></box-icon>
+                                <p id="quantity"></p>
+                                <box-icon id="next" class="quantity-click" name='chevron-right'></box-icon>
+                            </div>
+                            <button type="submit" class="btn btn-secondary btn-sm">Add to cart</button>
+                        </div>
+                        <div class="addition-information">
+                            <div class="category">
+                                <p><strong>Category: {{ $products->catname }}</strong></p>
+                            </div>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#description" type="button" role="tab"
+                                        aria-controls="description" aria-selected="true">Description</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="description" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
+                                    <p>
+                                        {{ $products->prodescription }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
+            </form>
             <div class="user-feedback">
                 <h3>Give your feedback about this product</h3>
                 <form id="feedback-form">
@@ -169,7 +176,8 @@
                                     Please select a rating before submitting.
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                    <button type="button" class="btn btn-primary"
+                                        data-bs-dismiss="modal">OK</button>
                                 </div>
                             </div>
                         </div>

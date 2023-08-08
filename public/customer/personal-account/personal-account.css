@@ -146,3 +146,14 @@ td>img {
     bottom: 0;
     left: 1.5vw;
 }
+
+.logoutBtn{
+    position: absolute;
+    bottom: 0;
+    margin-left: 3rem;
+}
+
+.logoutBtn:focus{
+    background-color: transparent;
+    border: 0;
+}

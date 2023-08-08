@@ -13,8 +13,11 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-
     <link rel="stylesheet" href="../customer/personal-account/personal-account.css">
+    <!-- Add the SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <!-- Add the SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <title>Personal Setting</title>
 </head>
 
@@ -30,11 +33,11 @@
                 data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="#v-pills-profile"
                 aria-selected="true">Account</button>
             <button class="nav-link" id="v-pills-order-tab" data-bs-toggle="pill" data-bs-target="#v-pills-order"
-                type="button" role="tab" aria-controls="v-pills-order" aria-selected="false">Your order</button>
+                type="button" role="tab" aria-controls="v-pills-order" aria-selected="true">Your order</button>
             <button class="nav-link" id="v-pills-delete-tab" data-bs-toggle="pill" data-bs-target="#v-pills-delete"
                 type="button" role="tab" aria-controls="v-pills-delete" aria-selected="false">Delete
                 Account</button>
-            <a class="btn text-primary" href="{{ route('customerLogout') }}" role="button">Log out</a>
+            <a class="btn text-primary logoutBtn" href="{{ route('customerLogout') }}" role="button">Log out</a>
         </div>
         <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
@@ -73,12 +76,13 @@
                                 onsubmit="return uploadAvatar(event);">
                                 @csrf
                                 <input type="file" name="userimage" style="display: none;"
-                                    onchange="this.form.submit()">
+                                    onchange="this.form.submit()"/>
                                 <button type="button" id="change-avatar-btn"
                                     onclick="document.querySelector('input[name=userimage]').click()">Change
-                                    Avatar</button>
+                                    Avatar
+                                </button>
                             </form>
-                        @endif
+                            @endif
                     </div>
                 </div>
                 <hr width="95%" style="margin: auto;">
@@ -150,22 +154,25 @@
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Alert</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                                aria-label="Close">
+                                            </button>
                                         </div>
                                         <div class="modal-body">
                                             Please do not let first name and last name be empty. Also in correct format
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary"
-                                                data-bs-dismiss="modal">Understood</button>
+                                                data-bs-dismiss="modal">Understood
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
-
                 </div>
             </div>
+
             <div class="tab-pane fade" id="v-pills-order" role="tabpanel" aria-labelledby="v-pills-order-tab"
                 tabindex="0">
                 <div class="tab-title">
@@ -247,6 +254,7 @@
                     </table>
                 </div>
             </div>
+
             <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
                 tabindex="0">
                 <div class="tab-title text-danger">
@@ -287,8 +295,6 @@
             </div>
         </div>
     </div>
-    <!-- Thieu upload avatar nguoi dung nhe' co button roi` -->
-
     <script src="validate-input.js" charset="utf-8"></script>
     <script src="enable-change.js"></script>
     <script>
@@ -314,6 +320,7 @@
             });
         });
     </script>
+    <!-- upload avatar of user -->
     <script>
         function upload(event) {
             event.preventDefault();

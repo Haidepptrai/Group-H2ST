@@ -255,6 +255,7 @@
         </div>
         <!-- main-panel ends -->
         <!-- page-body-wrapper ends -->
+
     </div>
     <!-- container-scroller -->
 
@@ -282,12 +283,6 @@
     <script src="../admin/js/dashboard.js"></script>
     <script src="../admin/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-    <footer>
-        <div class="footer mt-5">
-            <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
-            <p class="text-center">Help: 0123 456 789</p>
-        </div>
-    </footer>
 </body>
 
 </html>

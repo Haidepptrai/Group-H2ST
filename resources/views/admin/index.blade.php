@@ -546,17 +546,14 @@
     <!-- endinject -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.category-row').hover(
-                function() {
-                    $(this).next('.product-details').slideDown();
-                },
-                function() {
-                    $(this).next('.product-details').slideUp();
-                }
-            );
+    $(document).ready(function() {
+        $('.category-row').click(function() {
+            var productDetails = $(this).next('.product-details');
+            $('.product-details').not(productDetails).slideUp('fast');
+            productDetails.slideToggle('fast');
         });
-    </script>
+    });
+</script>
 
     <!-- Custom js for this page-->
     <script src="../admin/js/dashboard.js"></script>

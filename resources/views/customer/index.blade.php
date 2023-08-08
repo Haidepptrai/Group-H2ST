@@ -311,10 +311,10 @@
         </div>
     </div>
 </body>
-<footer>
-    <div class="foot-container">
-        <a class="navbar-brand" href="#">H2ST Furniture</a>
-        <div class="nav-container">
+<footer loading='lazy'>
+    <div class="foot-container text-center">
+        <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
+        <div class="text-center">
             <div class="sub-nav">
                 <div class="sub-title">
                     About Us

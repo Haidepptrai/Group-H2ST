@@ -18,6 +18,7 @@ class AuthCheck
         if(!Session()->has('adminid')){
             return redirect('admin/login') -> with('fail', 'You have to login first!');
         }
+
         return $next($request);
     }
 }
