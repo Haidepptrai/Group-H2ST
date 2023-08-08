@@ -10,10 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <!-- Add the SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
-    <!-- Add the SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
 <body>
     <div class="cover-page">
@@ -74,7 +70,11 @@
                     </a>
                 </div>
                 <div class="login-form">
-                <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST" enctype="multipart/form-data" id="login">
+                    <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
+                        enctype="multipart/form-data" id="login">
+                        @if (Session::has('error'))
+                            {{ Session::get('success') }}
+                        @endif
                         @csrf
                         <label for="userEmail">Email or Username</label><br>
                         <input type="text" class="userInput" id="userEmail" name="userEmail"

@@ -18,7 +18,8 @@
     {{-- Bootstrap 5 icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
         integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
-    <title>Product Detail</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Products: {{ $products->proname }}</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
 </head>
 
 <body>
@@ -42,15 +43,21 @@
                             <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
-                    @if (session('user'))
+                    @if (session('user') || Session()->has('id'))
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                    width="40" height="40">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
+                                @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
-                                        profile</a></li>
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
+                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
@@ -58,7 +65,7 @@
                             </ul>
                         </div>
                     @else
-                        <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
@@ -72,7 +79,9 @@
                 </div>
             </div>
         </nav>
-
+        @if (Session::has('AddToCart'))
+            <div class="alert alert-success text-center">{{ Session::get('AddToCart') }}</div>
+        @endif
         <main>
             <div class="breadcrumb">
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
@@ -83,108 +92,138 @@
                     </ol>
                 </nav>
             </div>
-            <form action="" method="POST">
-                <div class="product-display">
-                    <div class="product-image">
-                        <img src="{{ asset('pro_img/' . $products->proimage) }}" alt="{{ $products->proname }}" class="border border-2 rounded-3">
+            <div class="product-display">
+                <div class="product-image">
+                    <img src="{{ asset('pro_img/' . $products->proimage) }}" alt="{{ $products->proname }}"
+                        class="border border-2 rounded-3">
+                </div>
+                <div class="product-buy-info">
+                    <div class="product-name">
+                        <p>{{ $products->proname }}</p>
                     </div>
-                    <div class="product-buy-info">
-                        <div class="product-name">
-                            <p>{{ $products->proname }}</p>
+                    <div class="star-rating">
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                    <script src="../../customer/product-detail/star-fill.js"></script>
+                    <div class="product-price-display">
+                        <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
+                        <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
+                        <!--Fetch tu database len-->
+                    </div>
+                    <div class="product-description">
+                        <p>{{ $products->prodetails }}</p>
+                    </div>
+                    <div class="add-to-cart">
+                        <div class="cart">
+                            <box-icon id="previous" class="quantity-click" name='chevron-left'></box-icon>
+                            <p id="quantity"></p>
+                            <box-icon id="next" class="quantity-click" name='chevron-right'></box-icon>
                         </div>
-                        <div class="star-rating">
-                            <span class="fa fa-star "></span>
-                            <span class="fa fa-star "></span>
-                            <span class="fa fa-star "></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                        <a href="{{ url('customer/add-to-cart/' . $products->proid) }}"
+                            class="btn btn-secondary text-light text center">Add to cart</a>
+                    </div>
+                    <div class="addition-information">
+                        <div class="category">
+                            <p><strong>Category: {{ $products->catname }}</strong></p>
                         </div>
-                        <script src="../../customer/product-detail/star-fill.js"></script>
-                        <div class="product-price-display">
-                            <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
-                            <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
-                            <!--Fetch tu database len-->
-                        </div>
-                        <div class="product-description">
-                            <p>{{ $products->prodetails }}</p>
-                        </div>
-                        <div class="add-to-cart">
-                            <div class="cart">
-                                <box-icon id="previous" class="quantity-click" name='chevron-left'></box-icon>
-                                <p id="quantity"></p>
-                                <box-icon id="next" class="quantity-click" name='chevron-right'></box-icon>
-                            </div>
-                            <button type="submit" class="btn btn-secondary btn-sm">Add to cart</button>
-                        </div>
-                        <div class="addition-information">
-                            <div class="category">
-                                <p><strong>Category: {{ $products->catname }}</strong></p>
-                            </div>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                        data-bs-target="#description" type="button" role="tab"
-                                        aria-controls="description" aria-selected="true">Description</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="description" role="tabpanel"
-                                    aria-labelledby="home-tab" tabindex="0">
-                                    <p>
-                                        {{ $products->prodescription }}
-                                    </p>
-                                </div>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#description" type="button" role="tab"
+                                    aria-controls="description" aria-selected="true">Description</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="description" role="tabpanel"
+                                aria-labelledby="home-tab" tabindex="0">
+                                <p>
+                                    {{ $products->prodescription }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
             <div class="user-feedback">
                 <h3>Give your feedback about this product</h3>
-                <form id="feedback-form">
+                <form id="feedback-form" action="{{ url('customer/submit-feedback/'.Auth::id()) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ Auth::id() }}">
+                    <input type="hidden" name="proid" value="{{ $products->proid }}">
                     <div class="mb-3">
-                        <label for="displayName" class="form-label">Name you want to display</label>
-                        <input type="text" class="form-control" name="userName" id="displayName">
+                        <label for="vote" class="form-label">Vote</label>
+                        <input type="number" class="form-control" name="vote" id="vote" required>
                     </div>
                     <div class="mb-3">
-                        <label for="userComment" class="form-label">Your thought</label>
-                        <textarea class="form-control" id="userComment" name="userComment" rows="3"></textarea>
+                        <label for="detail" class="form-label">Detail</label>
+                        <textarea class="form-control" id="detail" name="detail" rows="3" required></textarea>
                     </div>
                     <h5>Your rating about this product</h5>
                     <div class="rating mb-3">
-                        <input type="radio" id="star5" name="rating" value="5" />
+                        <input type="radio" id="star5" name="rating" value="5" required />
                         <label for="star5" title="5 stars">5</label>
-                        <input type="radio" id="star4" name="rating" value="4" />
+                        <input type="radio" id="star4" name="rating" value="4" required />
                         <label for="star4" title="4 stars">4</label>
-                        <input type="radio" id="star3" name="rating" value="3" />
+                        <input type="radio" id="star3" name="rating" value="3" required />
                         <label for="star3" title="3 stars">3</label>
-                        <input type="radio" id="star2" name="rating" value="2" />
+                        <input type="radio" id="star2" name="rating" value="2" required />
                         <label for="star2" title="2 stars">2</label>
-                        <input type="radio" id="star1" name="rating" value="1" />
+                        <input type="radio" id="star1" name="rating" value="1" required />
                         <label for="star1" title="1 star">1</label>
                     </div>
-                    <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                        tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="ratingModalLabel">Alert</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Please select a rating before submitting.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary"
-                                        data-bs-dismiss="modal">OK</button>
-                                </div>
+                    <br>
+                <!-- @if (session('user') || Session()->has('id')) -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <!-- @else -->
+                        <div class="alert alert-warning" role="alert">
+                            You must have to login first!
+                        </div>
+                    <!-- @endif -->
+                </form>
+
+                <script>
+                    // Form submission and validation
+                    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+                        event.preventDefault(); // Prevent the default form submission
+
+                        // Perform client-side validation
+                        var vote = document.getElementById('vote').value;
+                        var rating = document.querySelector('input[name="rating"]:checked');
+
+                        if (!vote || !rating) {
+                            // Show the validation error modal
+                            var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
+                            ratingModal.show();
+                        } else {
+                            // Submit the form
+                            this.submit();
+                        }
+                    });
+                </script>
+
+                <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ratingModalLabel">Alert</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Please select a rating before submitting.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                </div>
             </div>
             <h3 style="margin-top: 2rem;">Previous User Feedback</h3>
             <div class="view-user-feedback">
@@ -333,6 +372,7 @@ ratingForm.addEventListener('submit', function (event) {
 });
 
 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <footer>
     <div class="foot-container text-center">
         <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>

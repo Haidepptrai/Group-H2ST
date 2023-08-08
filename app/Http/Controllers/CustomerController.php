@@ -87,10 +87,8 @@ class CustomerController extends Controller
                 $request->session()->put('userbirthday', $user->userbirthday);
                 return redirect('customer/index');
             } else {
-                return response()->json($this->buildResponse(false, 'Password does not match!. Please try again.'));
+                return redirect('customer/login')->with('error', 'Invalid Password');
             }
-        } else {
-            return response()->json($this->buildResponse(true, 'Login successful!'));
         }
     }
 
@@ -254,11 +252,19 @@ class CustomerController extends Controller
         }
 
         $perPage = 9;
-        $products = $query->paginate($perPage);
-        $categories = Category::where('status', 1)->get();
-
-        return view('customer.list-products', compact('products', 'categories'));
+        $searchQuery = $request->input('query');
+        if (isset($searchQuery)) {
+            $products = $query->where('proname', 'LIKE', "%$searchQuery%")->paginate($perPage);
+            $categories = Category::where('status', 1)->get();
+            $products->appends($request->all());
+            return view('customer.list-products', compact('products', 'categories', 'searchQuery'));
+        } else {
+            $products = $query->paginate($perPage);
+            $categories = Category::where('status', 1)->get();
+            return view('customer.list-products', compact('products', 'categories'));
+        }
     }
+
 
     public function aboutUs()
     {
@@ -269,6 +275,27 @@ class CustomerController extends Controller
     public function cart()
     {
         return view('customer.cart');
+    }
+    public function addToCart($id)
+    {
+        $product = Product::where('proid', $id)->first();
+        $cart = session()->get('cart');
+        $cart[$id] = [
+            "proid" => $product->proid,
+            "proname" => $product->proname,
+            "proprice" => $product->proprice,
+            "proimage" => $product->proimage,
+            "proquantity" => $product->quantity
+        ];
+        session()->put('cart', $cart);
+
+        return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
+    }
+
+    public function removeFromCart($id)
+    {
+        Session::forget('cart.' . $id);
+        return redirect()->back();
     }
 
     public function detailProducts($id)
@@ -308,7 +335,7 @@ class CustomerController extends Controller
     public function upload(Request $request)
     {
         // Assuming you have a logged-in user and you want to update their avatar
-        $user = User::where('id')->first();
+        $user = User::find(Auth::id());
         if (Auth::check()) {
             $userId = Auth::id();
             $user = User::find($userId);
@@ -331,8 +358,32 @@ class CustomerController extends Controller
             }
         }
         if (!Auth::check()) {
-    return response()->json(['error' => 'User not authenticated.']);
-}
+            return response()->json(['error' => 'User not authenticated.']);
+        }
         return response()->json(['message' => 'Avatar updated successfully.']);
+    }
+
+    public function userfeeback(Request $request, $id)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'vote' => 'required',
+            'detail' => 'required',
+            'proid' => 'required',
+            'rating' => 'required',
+        ]);
+
+        $feedback = new ProductFeedback();
+        $feedback->vote = $validatedData['vote'];
+        $feedback->detail = $validatedData['detail'];
+        $feedback->date = now();
+
+        $feedback->id = $id;
+
+        $feedback->proid = $validatedData['proid'];
+
+        $feedback->save();
+
+        return redirect()->back();
     }
 }

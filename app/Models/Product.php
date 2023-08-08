@@ -13,5 +13,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'catid', 'catid');
     }
+    public function feedbacks()
+    {
+        return $this->hasMany(Productfeedback::class);
+    }
 
 }

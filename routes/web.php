@@ -91,7 +91,10 @@ Route::get('/', function () {
     Route::get('customer/about',[CustomerController::class,'aboutUs'])-> name('aboutUs');
     Route::get('customer/user-profile',[CustomerController::class,'userProfile'])-> name('userProfile');
     Route::post('customer/upload-avatar', [CustomerController::class, 'upload'])->name('upload.avatar');
-    Route::get('customer/cart',[CustomerController::class,'cart'])-> name('cart');
+    Route::get('customer/cart',[CustomerController::class,'cart'])->name('cart');
+    Route::get('customer/add-to-cart/{id}',[CustomerController::class,'addToCart']);
+    Route::get('customer/remove-from-cart/{id}',[CustomerController::class,'removeFromCart']);
+    Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
 
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');

@@ -65,13 +65,14 @@
 
                     <div class="shopping-cart"><a href="#" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
-                    <form class="d-flex" role="search" action="search">
+                    <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
-                                value="" name="searchValue" title="Search for:" />
+                                name="query" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
+
                 </div>
             </div>
         </nav>
@@ -151,7 +152,7 @@
                         @if ($displayProduct)
                             <div class="product-item btn-group">
                                 <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-outline-secondar border border-2 rounded-4" class="product"
+                                    class="btn btn-outline-secondary border border-2 rounded-4 product"
                                     draggable="false">
                                     <div class="product-image">
                                         <img src="{{ asset('pro_img/' . $product->proimage) }}"
@@ -159,13 +160,43 @@
                                     </div>
                                     <div class="product-info">
                                         <p class="product-name">{{ $product->proname }}</p>
-                                        <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></p>
+                                        <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                class="bi bi-star"></i></p>
                                         <p class="product-price">{{ $product->proprice }}$</p>
                                     </div>
                                 </a>
                             </div>
                         @endif
                     @endforeach
+
+                    @if (isset($search))
+                        @foreach ($search as $result)
+                            @php
+                                $displayProduct = $result->status == 1 && $result->category->status == 1;
+                            @endphp
+                            @if ($displayProduct)
+                                <div class="product-item btn-group">
+                                    <a href="{{ url('customer/detail-products/' . $result->proid) }}"
+                                        class="btn btn-outline-secondary border border-2 rounded-4 product"
+                                        draggable="false">
+                                        <div class="product-image">
+                                            <img src="{{ asset('pro_img/' . $result->proimage) }}"
+                                                alt="{{ $result->proname }}" class="rounded-2">
+                                        </div>
+                                        <div class="product-info">
+                                            <p class="product-name">{{ $result->proname }}</p>
+                                            <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                    class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                    class="bi bi-star"></i></p>
+                                            <p class="product-price">{{ $result->proprice }}$</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+
                 </div>
                 <div class="category-list">
                     <h5>Categories</h5>
@@ -185,18 +216,40 @@
     <div class="pagination">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}"><a class="page-link"
-                        href="{{ $products->previousPageUrl() }}"><i class="bi bi-arrow-bar-left"></i></a>
-                </li>
-                @for ($i = 1; $i <= $products->lastPage(); $i++)
-                    <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}"><a class="page-link"
-                            href="{{ $products->url($i) }}">{{ $i }}</a>
+                @if (isset($search))
+                    <li class="page-item{{ $search->previousPageUrl() ? '' : ' disabled' }}">
+                        <a class="page-link"
+                            href="{{ $search->appends(['query' => $searchQuery])->previousPageUrl() }}"><i
+                                class="bi bi-arrow-bar-left"></i></a>
                     </li>
-                @endfor
-                <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}"><a class="page-link"
-                        href="{{ $products->nextPageUrl() }}"><i class="bi bi-arrow-bar-right"></i></a>
-                </li>
+                    @for ($i = 1; $i <= $search->lastPage(); $i++)
+                        <li class="page-item{{ $i == $search->currentPage() ? ' active' : '' }}">
+                            <a class="page-link"
+                                href="{{ $search->appends(['query' => $searchQuery])->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item{{ $search->nextPageUrl() ? '' : ' disabled' }}">
+                        <a class="page-link"
+                            href="{{ $search->appends(['query' => $searchQuery])->nextPageUrl() }}"><i
+                                class="bi bi-arrow-bar-right"></i></a>
+                    </li>
+                @else
+                    <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}">
+                        <a class="page-link" href="{{ $products->previousPageUrl() }}"><i
+                                class="bi bi-arrow-bar-left"></i></a>
+                    </li>
+                    @for ($i = 1; $i <= $products->lastPage(); $i++)
+                        <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}">
+                            <a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}">
+                        <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
+                                class="bi bi-arrow-bar-right"></i></a>
+                    </li>
+                @endif
             </ul>
+
         </nav>
     </div>
     </div>

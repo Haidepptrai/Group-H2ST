@@ -13,7 +13,8 @@
 
     <link rel="stylesheet" href="../customer/home-page/home-page.css">
     {{-- Bootstrap 5 icon --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <title>Home Page H2ST</title>
 </head>
 
@@ -29,7 +30,8 @@
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('home') }}" draggable="false">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}"
+                                draggable="false">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('customerListProducts') }}" draggable="false">Shop</a>
@@ -42,30 +44,37 @@
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
                                 @if (session('user'))
-                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
                                 @endif
                                 @if (Session()->has('id'))
-                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('customer/user-profile')}}"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
-                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
+                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                             </ul>
                         </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
-                        name='user'></box-icon></a></div>
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                                    name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon name='cart'></box-icon></a></div>
-                    <form class="d-flex" role="search" action="search">
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
+                                name='cart'></box-icon></a></div>
+                    <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
-                                value="" name="searchValue" title="Search for:" />
+                                name="query" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
+
                 </div>
             </div>
         </nav>
@@ -82,11 +91,12 @@
                 </div>
                 <div class="position-absolute top-50 start-50 translate-middle home-title">
                     <h1 class="head-title">All for your home</h1>
-                    <p class="head-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat dolor
+                    <p class="head-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat
+                        dolor
                         odio odio malesuada at
                         condimentum adipiscing iaculis semper.</p>
-                    <a class="addition-link" href="{{ route('customerListProducts') }}">View More<box-icon name='chevron-right'
-                            color="#fff"></box-icon></a>
+                    <a class="addition-link" href="{{ route('customerListProducts') }}">View More<box-icon
+                            name='chevron-right' color="#fff"></box-icon></a>
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
@@ -106,7 +116,9 @@
                     Products of the week
                 </h1>
                 <p class="top-description">
-                Discover our handpicked collection of the finest products of the week, curated with care to bring you the best in style, quality, and elegance. Explore these exclusive picks and elevate your living space with sophistication and charm.
+                    Discover our handpicked collection of the finest products of the week, curated with care to bring
+                    you the best in style, quality, and elegance. Explore these exclusive picks and elevate your living
+                    space with sophistication and charm.
                 </p>
             </div>
             <div class="top-product-card">
@@ -120,7 +132,8 @@
                             <div class="product-card-item">
                                 <p class="state">New Products</p>
                                 <div class="product-image">
-                                    <img src="{{ asset('pro_img/' . $product->proimage) }}" alt="{{ $product->proname }}">
+                                    <img src="{{ asset('pro_img/' . $product->proimage) }}"
+                                        alt="{{ $product->proname }}">
                                 </div>
                                 <div class="product-info">
                                     <a href="#" class="product-name" draggable="false">{{ $product->proname }}</a>
@@ -136,8 +149,8 @@
                 <div class="banner-description">
                     <p class="banner-title">Discover Elegance and Style - Unravel the Finest Selection of Exquisite
                         Furniture at Our Esteemed Store.</p>
-                    <a href="{{ route('customerListProducts') }}" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
-                            color="#fff"></box-icon></a>
+                    <a href="{{ route('customerListProducts') }}" class="addition-link" draggable="false">View
+                        more<box-icon name='chevron-right' color="#fff"></box-icon></a>
                 </div>
             </div>
             <div class="banner">
@@ -153,8 +166,8 @@
                             <div class="product-title">
                                 <h1>{{ $fp->category->catname }}</h1>
                                 <p>{{ $fp->prodescription }}</p>
-                                <a href="#" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
-                                        color="#373737"></box-icon></a>
+                                <a href="#" class="addition-link" draggable="false">View more<box-icon
+                                        name='chevron-right' color="#373737"></box-icon></a>
                             </div>
                             <div class="product-image">
                                 <img src="{{ asset('pro_img/' . $fp->proimage) }}" alt=""
@@ -313,7 +326,7 @@
 </body>
 <footer loading='lazy'>
     <div class="foot-container text-center">
-        <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
+        <a class="navbar-brand" href="">H2ST Furniture</a>
         <div class="text-center">
             <div class="sub-nav">
                 <div class="sub-title">

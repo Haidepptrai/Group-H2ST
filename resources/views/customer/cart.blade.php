@@ -10,8 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <!-- Bootstrap 5 css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -47,27 +47,32 @@
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
                                 @if (session('user'))
-                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
                                 @endif
                                 @if (Session()->has('id'))
-                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar" width="40" height="40">
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('customer/user-profile')}}"><i class="bi bi-person-lines-fill "></i>  My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>  My order</a></li>
-                                <li><a class="dropdown-item" href="{{route('customerLogout')}}"><i class="bi bi-box-arrow-in-left"></i>  Log out</a></li>
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
+                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
                             </ul>
                         </div>
                     @else
-                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
-                        name='user'></box-icon></a></div>
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                                    name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
-                                name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
+                                value="" name="searchValue" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -83,91 +88,56 @@
             <div class="title">
                 <h5>Shopping cart</h5>
             </div>
-            <div class="overflow-auto border border-2" style="height: 700px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="cart">
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td class="product-image"><img
-                                src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg" alt="">
-                        </td>
-                        <td class="product-price">1</td>
-                        <td class="view-quantity">
-                            <div class="adjust-quantity">
-                                <div class="select-quantity">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="cart">
-                        <th scope="row">1</th>
-                        <td>asd</td>
-                        <td class="product-image"><img
-                                src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg" alt="">
-                        </td>
-                        <td class="product-price">999</td>
-                        <td class="view-quantity">
-                            <div class="adjust-quantity">
-                                <div class="select-quantity">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="cart">
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td class="product-image"><img
-                                src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg" alt="">
-                        </td>
-                        <td class="product-price">999</td>
-                        <td class="view-quantity">
-                            <div class="adjust-quantity">
-                                <div class="select-quantity">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn-remove"><i class="bi bi-trash-fill"></i></button>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-            </div>
-            <div class="float-end">
-                Totals: <span id="total-price"></span>
-                <br>
-                <button id="confirmButton" class="btn btn-primary">Confirm Cart</button>
-            </div>
-
+                <div class="overflow-auto border border-2" style="height: 700px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (session('cart'))
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @foreach (session('cart') as $id => $details)
+                                    <tr class="cart">
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>{{ $details['proname'] }}</td>
+                                        <td><img src="../pro_img/{{ $details['proimage'] }}"
+                                                alt="" class="rounded" width="100" height="100">
+                                        </td>
+                                        <td class="product-price">{{ $details['proprice'] }}</td>
+                                        <td class="view-quantity">
+                                            <div class="adjust-quantity">
+                                                <div class="select-quantity">
+                                                    <button class="btn-minus">-</button>
+                                                    <input type="number" class="quantity-input" value="1"
+                                                        min="1">
+                                                    <button class="btn-plus">+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn-remove"><a href="{{ url('customer/remove-from-cart/'.$details['proid']) }}" class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div class="float-end">
+                    Totals: <span id="total-price"></span>
+                    <br>
+                    <button id="confirmButton" class="btn btn-primary">Confirm Cart</button>
+                </div>
         </div>
-    </div>
 </body>
 <script src="../customer/convertToDollar.js"></script>
 <script src="../customer/shopping-cart/product-quantity.js"></script>
