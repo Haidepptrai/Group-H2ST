@@ -129,8 +129,8 @@ td.view-quantity {
 }
 
 .product-image img {
-    width: 59%;
-    height: 15rem;
+    width: 75%;
+    height: 12rem;
     object-fit: cover;
 }
 
@@ -169,8 +169,8 @@ td.view-quantity {
     font-weight: 550;
 }
 
-.table>thead,
-.table>tbody {
+.table > thead,
+.table > tbody {
     text-align: center;
 }
 
@@ -189,7 +189,7 @@ footer {
 }
 
 .foot-container a {
-    color: #E9E9E9;
+    color: #e9e9e9;
     text-align: center;
     font-size: 1.9375rem;
     font-weight: 700;
@@ -209,13 +209,32 @@ footer {
 }
 
 .sub-title {
-    color: #E9E9E9;
+    color: #e9e9e9;
     font-size: 1.625rem;
     font-weight: 700;
 }
 
 .sub-description {
-    color: #ABABAB;
+    color: #ababab;
     font-size: 1rem;
     font-weight: 400;
+}
+
+.confirm-send {
+    display: flex;
+}
+
+.customer-infor {
+    width: 50%;
+}
+
+.product-confirm {
+    width: 70%;
+}
+
+.line {
+    margin-right: 2%;
+    margin-left: 2%;
+    border-left: 2px solid #fadcd9;
+    height: 100vh;
 }

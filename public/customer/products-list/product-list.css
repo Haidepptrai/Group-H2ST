@@ -181,12 +181,19 @@ input.search-submit {
     font-weight: 700;
     line-height: normal;
     margin-top: 0.75rem;
+    text-transform: capitalize;
 }
 
 .product-price {
     color: #564E4E;
     font-size: 1.25rem;
     font-weight: 400;
+}
+
+.stars{
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
 }
 
 a.btn.btn-sm.btn-outline-secondary {

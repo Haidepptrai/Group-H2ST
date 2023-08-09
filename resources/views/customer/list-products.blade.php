@@ -152,7 +152,7 @@
                         @if ($displayProduct)
                             <div class="product-item btn-group">
                                 <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-outline-secondary border border-2 rounded-4 product"
+                                    class="btn btn-outline-secondary border border-5 rounded-4 product"
                                     draggable="false">
                                     <div class="product-image">
                                         <img src="{{ asset('pro_img/' . $product->proimage) }}"
@@ -160,7 +160,7 @@
                                     </div>
                                     <div class="product-info">
                                         <p class="product-name">{{ $product->proname }}</p>
-                                        <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                        <p class="stars"><i class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                 class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                 class="bi bi-star"></i></p>
                                         <p class="product-price">{{ $product->proprice }}$</p>
