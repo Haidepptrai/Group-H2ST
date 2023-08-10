@@ -88,63 +88,64 @@
             <div class="title">
                 <h5>Shopping cart</h5>
             </div>
-            <div class="overflow-auto border border-2" style="height: 700px;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (session('cart'))
-                            @php
-                                $i = 1;
-                            @endphp
-                            <form action="">
-                            @foreach (session('cart') as $id => $details)
-                                <tr class="cart">
-                                    <th scope="row">{{ $i++ }}</th>
-                                    <td>{{ $details['proname'] }}</td>
-                                    <td><img src="../pro_img/{{ $details['proimage'] }}" alt=""
-                                            class="rounded" width="100" height="100">
-                                    </td>
-                                    <td class="product-price">{{ $details['proprice'] }}</td>
-                                    <td class="view-quantity">
-                                        <div class="adjust-quantity">
-                                            <div class="select-quantity">
-                                                <button class="btn-minus">-</button>
-                                                <input type="number" class="quantity-input" value="1"
-                                                    min="1">
-                                                <button class="btn-plus">+</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="btn-remove"><a
-                                                href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
-                                                class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </form>
-                        @else
+            {{-- <form action="{{ url('customer/confirm-order-page/'. Auth::id()) }}" method="POST"> --}}
+                <div class="overflow-auto border border-2" style="height: 700px;">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td colspan="6" class="text-center text-danger">Cart is empty</td>
+                                <th scope="col">No</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Options</th>
                             </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-            <div class="float-end">
-                Totals: <span id="total-price"></span>
-                <br>
-                <a href="{{ url('customer/confirm-order-page/'. Auth::id()) }}" class="btn btn-primary text-light text center">Add to cart</a>
-            </div>
+                        </thead>
+                        <tbody>
+                            @if (session('cart'))
+                                @php
+                                    $i = 1;
+                                @endphp
+
+                                @foreach (session('cart') as $id => $details)
+                                    <tr class="cart">
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>{{ $details['proname'] }}</td>
+                                        <td><img src="../pro_img/{{ $details['proimage'] }}" alt=""
+                                                class="rounded" width="100" height="100">
+                                        </td>
+                                        <td class="product-price">{{ $details['proprice'] }}</td>
+                                        <td class="view-quantity">
+                                            <div class="adjust-quantity">
+                                                <div class="select-quantity">
+                                                    <button class="btn-minus">-</button>
+                                                    <input type="number" class="quantity-input" value=""
+                                                        min="1" id='quantity' name="quantity" readonly>
+                                                    <button class="btn-plus">+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn-remove"><a
+                                                    href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
+                                                    class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="text-center text-danger">Cart is empty</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div class="float-end">
+                    Totals: <span id="total-price"></span>
+                    <br>
+                    <button type="submit" class="btn btn-primary text-light text center">Add to cart</button>
+                </div>
+            {{-- </form> --}}
         </div>
 </body>
 <script src="../customer/convertToDollar.js"></script>

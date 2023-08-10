@@ -14,10 +14,8 @@
     </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../customer/personal-account/personal-account.css">
-    <!-- Add the SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
-    <!-- Add the SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/css/bootstrap.min.css">
     <title>Personal Setting</title>
 </head>
 
@@ -83,6 +81,7 @@
                             </form>
                         </div>
                     @endif
+
                 </div>
                 <hr width="95%" style="margin: auto;">
                 <div class="personal-setting">
@@ -325,8 +324,12 @@
             });
         });
     </script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+       document.addEventListener("DOMContentLoaded", function() {
             const avatarInput = document.getElementById("avatarInput");
             const changeAvatarBtn = document.getElementById("change-avatar-btn");
 
@@ -335,10 +338,8 @@
             });
 
             avatarInput.addEventListener("change", function() {
-                // Submit the form when a file is selected
                 this.closest("form").submit();
             });
         });
     </script>
-
 </body>

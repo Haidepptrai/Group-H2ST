@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail;
 
 use Illuminate\Support\Carbon;
 
@@ -166,6 +170,67 @@ class CustomerController extends Controller
         }
     }
 
+    // Show the forgot password form
+    public function showForgotPasswordForm()
+    {
+        return view('customer.forgot-password');
+    }
+
+    // Send password reset link
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'useremail' => 'required|email',
+        ]);
+
+        $user = User::where('useremail', $request->useremail)->first();
+        if (!$user) {
+            return redirect()->back()->withErrors(['useremail' => 'User not found.']);
+        }
+
+        $token = Str::random(60); // Generate a random token
+        $user->password_reset_token = $token;
+        $user->save();
+
+        // Send the password reset email with the OTP
+        Mail::to($user->useremail)->send(new ResetPasswordMail($user));
+
+        return redirect()->back()->with('status', 'Password reset link has been sent to your email address.');
+    }
+
+    // Update the password
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $resetRecord = DB::table('password_resets')
+            ->where('email', $request->useremail)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$resetRecord) {
+            return redirect()->back()->withErrors(['useremail' => 'Invalid password reset token or email address.']);
+        }
+
+        $user = User::where('useremail', $resetRecord->email)->first();
+        if (!$user) {
+            return redirect()->back()->withErrors(['useremail' => 'User not found.']);
+        }
+
+        $user->userpassword = Hash::make($request->password);
+        $user->save();
+
+        DB::table('password_resets')
+            ->where('email', $request->useremail)
+            ->delete();
+
+        return redirect()->route('customer.login')->with('status', 'Password has been reset successfully. Please log in with your new password.');
+    }
+
     //Login with Google
     public function redirectToGoogle()
     {
@@ -272,20 +337,26 @@ class CustomerController extends Controller
         return view('customer.about', compact('products'));
     }
 
+    public function getQuantity($request)
+    {
+        $quantity = $request->input('quantity');
+        Session::put('quantity', $quantity);
+    }
+
     public function cart()
     {
         return view('customer.cart');
     }
-    public function addToCart($id)
+    public function addToCart($id, Request $request)
     {
         $product = Product::where('proid', $id)->first();
         $cart = session()->get('cart');
+        $quantity = $request->
         $cart[$id] = [
             "proid" => $product->proid,
             "proname" => $product->proname,
             "proprice" => $product->proprice,
             "proimage" => $product->proimage,
-            "proquantity" => $product->quantity
         ];
         session()->put('cart', $cart);
 
@@ -342,26 +413,28 @@ class CustomerController extends Controller
         return redirect()->route('userProfile', $id)->with('success', 'Profile updated successfully.');
     }
 
-    public function updateUserAvatar(Request $request, $id){
-
+    public function updateUserAvatar(Request $request, $id)
+    {
         $user = User::find($id);
         $request->validate([
-            'userimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('userimage') && $request->file('userimage')->isValid()) {
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
             if ($user->userimage) {
                 Storage::delete('user_img/' . $user->userimage);
             }
 
-            $file = $request->file('userimage');
+            $file = $request->file('avatar');
             $img = $file->getClientOriginalName();
             $file->move('user_img', $img);
+            $user->userimage = $img;
         }
-        $user->save();
 
-        return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully.');
+        $user->save();
+        return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully. Login again to update your avatar');
     }
+
     public function userfeeback(Request $request, $id)
     {
         // Validate the form data

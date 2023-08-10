@@ -27,7 +27,7 @@
                     <h3 class="title-child">No Account ?<br><a href="{{ url('customer/register-customer') }}"
                             class="flag-green">Sign up</a></h3>
                 </div>
-                <h1 class="title-signin">Sign in</h1>
+                <h1 class="title-signin">Reset Password</h1>
                 <div class="login-icons">
                     <a href="{{ route('login.google') }}" class="with-google" onclick="signInWithGoogle()">
                         <div>
@@ -70,25 +70,40 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
-                        enctype="multipart/form-data" id="login">
-                        @if (Session::has('error'))
-                            {{ Session::get('success') }}
-                        @endif
+                    <form method="POST" action="{{ route('customer.password.update') }}">
                         @csrf
-                        <label for="userEmail">Email or Username</label><br>
-                        <input type="text" class="userInput" id="userEmail" name="userEmail"
-                            placeholder="You email address or username" required><br>
-                        <label for="userPassword">Password</label><br>
-                        <input type="password" class="userInput" id="userPassword" name="userPassword"
-                            placeholder="Password" required>
-                        <a href="{{ route('customer.password.request') }}" class="forgot-link">Forgot Password</a>
-                        <input type="submit" class="submitButton" value="Sign in">
+                        <input type="hidden" name="token" value="{{ $token }}">
+                        <div>
+                            <label for="email">Email</label>
+                            <input class="userInput" id="email" type="email" name="email" value="{{ old('email') }}" required
+                                autocomplete="email" autofocus>
+                            @error('email')
+                                <span role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input class="userInput" id="password" type="password" name="password" required autocomplete="new-password">
+                            @error('password')
+                                <span role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input class="userInput" id="password_confirmation"type="password" name="password_confirmation" required
+                                autocomplete="new-password">
+                            @error('password_confirmation')
+                                <span role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div>
+                            <button class="submitButton" type="submit">Reset Password</button>
+                        </div>
                     </form>
                 </div>
-            </div>
-        </main>
-    </div>
-</body>
+        </div>
+
+
+/bod
 
 </html>

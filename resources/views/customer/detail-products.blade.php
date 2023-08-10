@@ -19,6 +19,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
         integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        document.getElementById("addToCart").addEventListener("click", function() {
+            var quantity = parseInt(document.getElementById("quantity").innerText);
+
+            var request = new XMLHttpRequest();
+            request.open('POST', 'customer/getQuantity', true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    // Xử lý thành công
+                    console.log('Quantity saved to session');
+                } else {
+                    // Xử lý lỗi
+                    console.error('Error saving quantity to session');
+                }
+            };
+            request.send(JSON.stringify({
+                quantity: quantity
+            }));
+        });
+    </script>
     <title>Products: {{ $products->proname }}</title> <!--Cai nay nho set thanh ten cua san pham gi nha-->
 </head>
 
@@ -110,9 +132,8 @@
                     </div>
                     <script src="../../customer/product-detail/star-fill.js"></script>
                     <div class="product-price-display">
-                        <p id="sale-price" class="product-price"></p> <!--Cai nay ko can lam gi ca-->
+                        <p id="sale-price" class="product-price"></p>
                         <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
-                        <!--Fetch tu database len-->
                     </div>
                     <div class="product-description">
                         <p>{{ $products->prodetails }}</p>
@@ -124,7 +145,7 @@
                             <box-icon id="next" class="quantity-click" name='chevron-right'></box-icon>
                         </div>
                         <a href="{{ url('customer/add-to-cart/' . $products->proid) }}"
-                            class="btn btn-secondary text-light text center">Add to cart</a>
+                            class="btn btn-secondary text-light text center" id="addToCart">Add to cart</a>
                     </div>
                     <div class="addition-information">
                         <div class="category">
