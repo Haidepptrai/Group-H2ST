@@ -150,7 +150,7 @@
             </div>
             <div class="user-feedback">
                 <h3>Give your feedback about this product</h3>
-                <form id="feedback-form" action="{{ url('customer/submit-feedback/'.Auth::id()) }}" method="POST"
+                <form id="feedback-form" action="{{ url('customer/submit-feedback/' . Auth::id()) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="{{ Auth::id() }}">
@@ -177,13 +177,10 @@
                         <label for="star1" title="1 star">1</label>
                     </div>
                     <br>
-                <!-- @if (session('user') || Session()->has('id')) -->
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    <!-- @else -->
-                        <div class="alert alert-warning" role="alert">
-                            You must have to login first!
-                        </div>
-                    <!-- @endif -->
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="alert alert-warning" role="alert">
+                        You must have to login first!
+                    </div>
                 </form>
 
                 <script>

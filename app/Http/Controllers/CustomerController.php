@@ -298,6 +298,12 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
+    public function comfirmOrderPage($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('customer.confirm-order-page', compact('user'));
+    }
+
     public function detailProducts($id)
     {
         $products = DB::table('products')
@@ -316,13 +322,16 @@ class CustomerController extends Controller
 
         return view('customer.user-profile', compact('user'));
     }
-
-    public function updateUserProfile(Request $request)
+    public function updateUserProfile(Request $request, $id)
     {
-        $user = User::find(Auth::id());
+        $user = User::find($id);
 
-        $user->userfirstName = $request->input('firstName');
-        $user->userlastName = $request->input('lastName');
+        if (!$user) {
+            return redirect()->route('userProfile', $id)->with('error', 'User not found.');
+        }
+
+        $user->userfirstname = $request->input('userfirstName');
+        $user->userlastname = $request->input('userlastName');
         $user->useremail = $request->input('userEmail');
         $user->usergender = $request->input('userGender');
         $user->useraddress = $request->input('userAddress');
@@ -330,39 +339,29 @@ class CustomerController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
+        return redirect()->route('userProfile', $id)->with('success', 'Profile updated successfully.');
     }
-    public function upload(Request $request)
-    {
-        // Assuming you have a logged-in user and you want to update their avatar
-        $user = User::find(Auth::id());
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $user = User::find($userId);
-            if ($request->hasFile('userimage')) {
-                // Delete the old avatar if it exists
-                if ($user->userimage) {
-                    $oldAvatarPath = public_path('user_img/' . $user->userimage);
-                    if (file_exists($oldAvatarPath)) {
-                        unlink($oldAvatarPath);
-                    }
-                }
-                // Store the new avatar
-                $avatar = $request->file('userimage');
-                $avatarName = time() . '_' . $avatar->getClientOriginalName();
-                $avatar->move(asset('user_img'), $avatarName);
 
-                // Update the user's avatar field in the database
-                $user->userimage = $avatarName;
-                $user->save();
+    public function updateUserAvatar(Request $request, $id){
+
+        $user = User::find($id);
+        $request->validate([
+            'userimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('userimage') && $request->file('userimage')->isValid()) {
+            if ($user->userimage) {
+                Storage::delete('user_img/' . $user->userimage);
             }
-        }
-        if (!Auth::check()) {
-            return response()->json(['error' => 'User not authenticated.']);
-        }
-        return response()->json(['message' => 'Avatar updated successfully.']);
-    }
 
+            $file = $request->file('userimage');
+            $img = $file->getClientOriginalName();
+            $file->move('user_img', $img);
+        }
+        $user->save();
+
+        return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully.');
+    }
     public function userfeeback(Request $request, $id)
     {
         // Validate the form data

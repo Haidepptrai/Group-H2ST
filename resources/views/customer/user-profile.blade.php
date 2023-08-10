@@ -70,106 +70,111 @@
                             </p>
                         </div>
                     </div>
-                    <div class="change-ava-button">
-                        @if (Session()->has('id'))
-                            <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data"
-                                onsubmit="return uploadAvatar(event);">
+                    @if (Session()->has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                    @endif
+                    @if (session()->has('id'))
+                        <div class="change-ava-button">
+                            <form action="{{ route('updateUserAvatar', ['id' => session()->get('id')]) }}"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="file" name="userimage" style="display: none;"
-                                    onchange="this.form.submit()"/>
-                                <button type="button" id="change-avatar-btn"
-                                    onclick="document.querySelector('input[name=userimage]').click()">Change
-                                    Avatar
-                                </button>
+                                <input type="file" name="avatar" style="display: none;" id="avatarInput" />
+                                <button type="button" id="change-avatar-btn">Change Avatar</button>
                             </form>
-                            @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
                 <hr width="95%" style="margin: auto;">
-
                 <div class="personal-setting">
-                    <form action="" id="userForm">
-                        <div class="container-lg">
-                            <div class="row row-cols-2">
-                                <div class="col">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" name="firstName" id="firstName"
-                                        value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userfirstname') : '' }}"
-                                        placeholder="Update your first name">
+                    @if (session()->has('id'))
+                        <form action="{{ route('updateUserProfile', ['id' => session()->get('id')]) }}" id="userForm"
+                            enctype="multipart/form-data" method="POST">
+                            @csrf
+                            <div class="container-lg">
+                                <div class="row row-cols-2">
+                                    <div class="col">
+                                        <label for="userfirstName">First Name</label>
+                                        <input type="text" name="userfirstName" id="userfirstName"
+                                            value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userfirstname') : '' }}"
+                                            placeholder="Update your first name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="userlastName">Last Name</label>
+                                        <input type="text" name="userlastName" id="userlastName"
+                                            value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userlastname') : '' }}"
+                                            placeholder="Update your last name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="userEmail">Email</label>
+                                        <input type="email" name="userEmail" id="userEmail"
+                                            value="{{ session('user') ? session('user')->getEmail() : '' }}{{ Session()->has('id') ? Session::get('useremail') : '' }}"
+                                            placeholder="Update your email">
+                                    </div>
+                                    <div class="col">
+                                        <label for="userGender">Gender</label>
+                                        <select name="userGender" id="userGender">
+                                            <option value="0"
+                                                {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 0 ? 'selected' : '' }}>
+                                                Male</option>
+                                            <option value="1"
+                                                {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 1 ? 'selected' : '' }}>
+                                                Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="userPass">Enter your password</label>
+                                        <input type="text" name="userPass" id="userPass"
+                                            value=" @if (session('user')) {{ Session::get('userpassword') }} @endif @if (Session()->has('id')) {{ Session::get('userpassword') }} @endif ">
+                                    </div>
+                                    <div class="col">
+                                        <label for="userAddress">Enter your Address</label>
+                                        <input type="text" name="userAddress" id="userAddress"
+                                            value="{{ session('user') ? Session::get('useraddress') : '' }}{{ Session()->has('id') ? Session::get('useraddress') : '' }}"
+                                            placeholder="Update your address">
+                                    </div>
+                                    <div class="col">
+                                        <label for="userPhone">Enter a phone number</label>
+                                        <input type="tel" id="userPhone" name="userPhone"
+                                            value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
+                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                                            placeholder="Update your phone number"><br>
+                                    </div>
+                                    <div class="col">
+                                        <label for="userAddress">Enter your birthday</label>
+                                        <input type="text" name="userAddress" id="userAddress"
+                                            value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}"
+                                            placeholder="Update your birthday">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" name="lastName" id="lastName"
-                                        value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userlastname') : '' }}"
-                                        placeholder="Update your last name">
-                                </div>
-                                <div class="col">
-                                    <label for="userEmail">Email</label>
-                                    <input type="email" name="userEmail" id="userEmail"
-                                        value="{{ session('user') ? session('user')->getEmail() : '' }}{{ Session()->has('id') ? Session::get('useremail') : '' }}"
-                                        placeholder="Update your email">
-                                </div>
-                                <div class="col">
-                                    <label for="userGender">Gender</label>
-                                    <select name="userGender" id="userGender">
-                                        <option value="0"
-                                            {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 0 ? 'selected' : '' }}>
-                                            Male</option>
-                                        <option value="1"
-                                            {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 1 ? 'selected' : '' }}>
-                                            Female</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="userPass">Enter your password</label>
-                                    <input type="text" name="userPass" id="userPass"
-                                        value=" @if (session('user')) {{ Session::get('userpassword') }} @endif @if (Session()->has('id')) {{ Session::get('userpassword') }} @endif ">
-                                </div>
-                                <div class="col">
-                                    <label for="userAddress">Enter your Address</label>
-                                    <input type="text" name="userAddress" id="userAddress"
-                                        value="{{ session('user') ? Session::get('useraddress') : '' }}{{ Session()->has('id') ? Session::get('useraddress') : '' }}"
-                                        placeholder="Update your address">
-                                </div>
-                                <div class="col">
-                                    <label for="userPhone">Enter a phone number</label>
-                                    <input type="tel" id="userPhone" name="userPhone"
-                                        value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
-                                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number"><br>
-                                </div>
-                                <div class="col">
-                                    <label for="userAddress">Enter your birthday</label>
-                                    <input type="text" name="userAddress" id="userAddress"
-                                        value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}"
-                                        placeholder="Update your birthday">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary " id="saveChangesBtn">Save changes</button>
-                            {{-- <button type="submit" class="btn btn-primary confirm-change">Save changes</button> --}}
-                            <div class="modal fade" id="nameAlert" data-bs-backdrop="static"
-                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Alert</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Please do not let first name and last name be empty. Also in correct format
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary"
-                                                data-bs-dismiss="modal">Understood
-                                            </button>
+                                <button type="submit" class="btn btn-primary " id="saveChangesBtn">Save
+                                    changes</button>
+                                {{-- <button type="submit" class="btn btn-primary confirm-change">Save changes</button> --}}
+                                <div class="modal fade" id="nameAlert" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Alert</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Please do not let first name and last name be empty. Also in correct
+                                                format
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary"
+                                                    data-bs-dismiss="modal">Understood
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    @endif
                 </div>
             </div>
 
@@ -320,34 +325,20 @@
             });
         });
     </script>
-    <!-- upload avatar of user -->
     <script>
-        function upload(event) {
-            event.preventDefault();
+        document.addEventListener("DOMContentLoaded", function() {
+            const avatarInput = document.getElementById("avatarInput");
+            const changeAvatarBtn = document.getElementById("change-avatar-btn");
 
-            const form = event.target;
-            const avatarInput = form.querySelector('input[name=userimage]');
+            changeAvatarBtn.addEventListener("click", function() {
+                avatarInput.click();
+            });
 
-            if (avatarInput.files.length === 0) {
-                return false;
-            }
-
-            const formData = new FormData(form);
-            fetch('{{ route('upload.avatar') }}', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Handle the error if necessary
-                });
-
-            return false;
-        }
+            avatarInput.addEventListener("change", function() {
+                // Submit the form when a file is selected
+                this.closest("form").submit();
+            });
+        });
     </script>
 
 </body>

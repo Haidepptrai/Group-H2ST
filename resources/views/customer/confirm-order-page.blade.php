@@ -14,7 +14,14 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-    <link rel="stylesheet" href="confirm-order.css">
+    <link rel="stylesheet" href="../../customer/confirm-order/confirm-order.css">
+
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <title>Personal Setting</title>
 </head>
 
@@ -63,6 +70,7 @@
 
             <div class="confirm-information">
                 <form class="confirm-send">
+                    {{-- <div class="overflow-auto border border-2" style="height: 700px;"></div> --}}
                     <table class="table product-confirm">
                         <thead>
                             <tr>
@@ -73,48 +81,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="cart">
-                                <input type="text" name='productID' value="c" hidden>
-                                <!--Cai nay dung de read product ID, sau nay submit form thi chi nhan cai product ID nay ve server thoi-->
-                                <td>Mark</td>
-                                <td class="product-image" style="width: 50%;"><img
-                                        src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
-                                        alt="">
-                                </td>
-                                <td class="product-price">1</td>
-                                <td class="view-quantity">
-                                    1
-                                </td>
-                            </tr>
-                            <tr class="cart">
-                                <input type="text" name='productID' value="b" hidden>
-                                <!--Cai nay dung de read product ID, sau nay submit form thi chi nhan cai product ID nay ve server thoi-->
-                                <td>asd</td>
-                                <td class="product-image"><img
-                                        src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
-                                        alt="">
-                                </td>
-                                <td class="product-price">999</td>
-                                <td class="view-quantity">
-                                    2
-                                </td>
-                            </tr>
-                            <tr class="cart">
-                                <input type="text" name='productID' value="a" hidden>
-                                <!--Cai nay dung de read product ID, sau nay submit form thi chi nhan cai product ID nay ve server thoi-->
-                                <td>Mark</td>
-                                <td class="product-image"><img
-                                        src="../product-list-page/product-list/051d8eb5f2d13e23a6b2d9832bb17b64.jpg"
-                                        alt="">
-                                </td>
-                                <td class="product-price">999</td>
-                                <td class="view-quantity">
-                                    1
-                                </td>
-                            </tr>
+                            @if (session('cart'))
+                                @foreach (session('cart') as $id => $details)
+                                <tr class="cart">
+                                    <input type="text" name='productID' value="c" hidden>
+                                    <td>{{ $details['proname'] }}</td>
+                                    <td ><img
+                                            src="../../pro_img/{{ $details['proimage'] }}"
+                                            class="rounded" width="100" height="100">
+                                    </td>
+                                    <td class="product-price">{{ $details['proprice'] }}</td>
+                                    <td class="view-quantity">
+                                        1
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
-                    <div class="line"></div> <!--Dung co dung vo cai nay neu kh biet no la gi :)-->
+                    <div class="line"></div>
                     <div class="customer-infor">
                         <h4>Customer Information</h4>
                         <div class="mb-3 ms-3">
@@ -152,7 +137,7 @@
         </div>
     </div>
 </body>
-<script src="../convertToDollar.js"></script>
+<script src="../../customer/convertToDollar.js"></script>
 <script>
     const productElement = document.querySelectorAll('.cart');
     let totalPrice = 0;
