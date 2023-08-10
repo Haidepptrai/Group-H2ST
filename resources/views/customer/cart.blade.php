@@ -105,6 +105,7 @@
                             @php
                                 $i = 1;
                             @endphp
+                            <form action="">
                             @foreach (session('cart') as $id => $details)
                                 <tr class="cart">
                                     <th scope="row">{{ $i++ }}</th>
@@ -130,6 +131,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            </form>
                         @else
                             <tr>
                                 <td colspan="6" class="text-center text-danger">Cart is empty</td>
