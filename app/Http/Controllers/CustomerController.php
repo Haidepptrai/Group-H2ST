@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgetPasswordMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
@@ -9,6 +11,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Productfeedback;
 use App\Models\Orderproduct;
+use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +21,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ResetPasswordMail;
+use Illuminate\Auth\Events\PasswordReset;
 
 use Illuminate\Support\Carbon;
 
@@ -175,8 +177,6 @@ class CustomerController extends Controller
     {
         return view('customer.forgot-password');
     }
-
-    // Send password reset link
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
@@ -184,51 +184,55 @@ class CustomerController extends Controller
         ]);
 
         $user = User::where('useremail', $request->useremail)->first();
+
         if (!$user) {
-            return redirect()->back()->withErrors(['useremail' => 'User not found.']);
+            return back()->withErrors(['useremail' => ['User not found']]);
+        } else {
+            $token = Str::random(60);
+            PasswordResetToken::create([
+                'email' => $user->useremail,
+                'userid' => $user->id,
+                'token' => $token
+            ]);
+            Mail::to($user->useremail)->send(new ForgetPasswordMail($user->userfirstname, $token));
+            return back()->with('success', 'We have e-mailed your password reset link!');
         }
+    }
 
-        $token = Str::random(60); // Generate a random token
-        $user->password_reset_token = $token;
-        $user->save();
-
-        // Send the password reset email with the OTP
-        Mail::to($user->useremail)->send(new ResetPasswordMail($user));
-
-        return redirect()->back()->with('status', 'Password reset link has been sent to your email address.');
+    // Show the reset password form
+    public function showResetPasswordForm($token)
+    {
+        $password_reset = PasswordResetToken::where('token', $token)->first();
+        if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
+            return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
+        } else {
+            return view('customer.reset-password', ['token' => $token]);
+        }
     }
 
     // Update the password
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request, $token)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
-
-        $resetRecord = DB::table('password_resets')
-            ->where('email', $request->useremail)
-            ->where('token', $request->token)
-            ->first();
-
-        if (!$resetRecord) {
-            return redirect()->back()->withErrors(['useremail' => 'Invalid password reset token or email address.']);
+        $password_reset = PasswordResetToken::where('token', $token)->first();
+        if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
+            return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
+        } else {
+            $request->validate([
+                'useremail' => 'required|email',
+                'userpassword' => 'required|min:6|max:20',
+                'password_confirmation' => 'required|same:password',
+            ]);
+            $user = User::find($password_reset->userid);
+            if ($user->useremail != $request->email) {
+                return redirect()->back()->with('error', 'Enter correct email address');
+            } else {
+                $password_reset->delete();
+                $user->update([
+                    'userpassword' => bcrypt($request->password)
+                ]);
+                return redirect()->route('customerLogin')->with('success', 'Password reset successfully');
+            }
         }
-
-        $user = User::where('useremail', $resetRecord->email)->first();
-        if (!$user) {
-            return redirect()->back()->withErrors(['useremail' => 'User not found.']);
-        }
-
-        $user->userpassword = Hash::make($request->password);
-        $user->save();
-
-        DB::table('password_resets')
-            ->where('email', $request->useremail)
-            ->delete();
-
-        return redirect()->route('customer.login')->with('status', 'Password has been reset successfully. Please log in with your new password.');
     }
 
     //Login with Google
@@ -337,12 +341,6 @@ class CustomerController extends Controller
         return view('customer.about', compact('products'));
     }
 
-    public function getQuantity($request)
-    {
-        $quantity = $request->input('quantity');
-        Session::put('quantity', $quantity);
-    }
-
     public function cart()
     {
         return view('customer.cart');
@@ -351,12 +349,13 @@ class CustomerController extends Controller
     {
         $product = Product::where('proid', $id)->first();
         $cart = session()->get('cart');
-        $quantity = $request->
+        $quantity = $request->getQuantity;
         $cart[$id] = [
             "proid" => $product->proid,
             "proname" => $product->proname,
             "proprice" => $product->proprice,
             "proimage" => $product->proimage,
+            "quantity" => $quantity
         ];
         session()->put('cart', $cart);
 
@@ -458,4 +457,10 @@ class CustomerController extends Controller
 
         return redirect()->back();
     }
+
+    public function showUserReview(Request $request){
+        $feedbacks = Productfeedback::all();
+        return view('user_feedback', compact('feedbacks'));
+    }
+
 }

@@ -70,7 +70,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form method="POST" action="{{ route('customer.password.email') }}">
+                    <form method="POST" action="{{ route('postForgotPassword') }}">
                         @csrf
                         <div>
                             <label for="useremail">Email</label>

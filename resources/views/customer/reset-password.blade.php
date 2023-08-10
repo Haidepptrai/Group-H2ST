@@ -70,7 +70,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form method="POST" action="{{ route('customer.password.update') }}">
+                    <form method="POST" action="{{ route('updatePassword', $token) }}">
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div>

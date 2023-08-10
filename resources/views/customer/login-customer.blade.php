@@ -82,7 +82,7 @@
                         <label for="userPassword">Password</label><br>
                         <input type="password" class="userInput" id="userPassword" name="userPassword"
                             placeholder="Password" required>
-                        <a href="{{ route('customer.password.request') }}" class="forgot-link">Forgot Password</a>
+                        <a href="{{ route('getForgotPassword') }}" class="forgot-link">Forgot Password</a>
                         <input type="submit" class="submitButton" value="Sign in">
                     </form>
                 </div>

@@ -140,10 +140,6 @@ td.view-quantity {
     margin: 0;
 }
 
-.adjust-quantity {
-    display: flex;
-}
-
 .select-quantity {
     display: flex;
     gap: 1rem;

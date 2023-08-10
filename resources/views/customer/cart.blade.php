@@ -119,7 +119,7 @@
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
                                                     <button class="btn-minus">-</button>
-                                                    <input type="number" class="quantity-input" value=""
+                                                    <input type="number" class="quantity-input" value="{{ $details['quantity'] }}"
                                                         min="1" id='quantity' name="quantity" readonly>
                                                     <button class="btn-plus">+</button>
                                                 </div>
@@ -127,7 +127,7 @@
                                         </td>
                                         <td>
                                             <button type="submit" class="btn-remove"><a
-                                                    href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
+                                                    {{-- href="{{ url('customer/remove-from-cart/' . $details['proid']) }}" --}}
                                                     class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
                                         </td>
                                     </tr>
