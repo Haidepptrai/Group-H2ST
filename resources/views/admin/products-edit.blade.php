@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
 </head>
 
 <body>
@@ -266,7 +268,17 @@
                                                     Please enter some product quantity.
                                                 </div>
                                             </div>
-
+                                            <div class="mb-3 mt-3">
+                                                <label for="supplier">Supplier:</label>
+                                                <select name="suppid" id="suppid" class="form-control">
+                                                    @foreach ($supp as $s)
+                                                        <option value="{{ $s->id }}"
+                                                            {{ $s->id == $pro->supid ? 'selected' : '' }}>
+                                                            {{ $s->suppliername }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                             <br>
                                             <button type="submit" class="btn btn-success">Update</button>
                                             <a href="{{ url('admin/products-list') }}"
@@ -285,11 +297,15 @@
     </div>
     <!-- container-scroller -->
     <script>
-        CKEDITOR.replace('prodescription');
-    </script>
-    <script>
-        CKEDITOR.replace('prodetails');
-    </script>
+            CKEDITOR.replace('prodescription',{
+                autoParagraph: false
+            });
+        </script>
+        <script>
+            CKEDITOR.replace('prodetails',{
+                autoParagraph: false
+            });
+        </script>
     <!-- plugins:js -->
     <script src="../../admin/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->

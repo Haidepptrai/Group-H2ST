@@ -41,7 +41,7 @@ html {
 .navbar {
   --bs-navbar-padding-x: 1.5rem;
   --bs-navbar-padding-y: 2rem;
-  --bs-navbar-brand-margin-end: 5.31rem;
+  --bs-navbar-brand-margin-end: 2%;
   width: 97%;
 }
 
@@ -239,7 +239,7 @@ p.state {
 .banner-description {
   position: absolute;
   text-align: center;
-  padding: 0rem calc(5vw/2);
+  padding: 0rem calc(10vw/2);
   left: 50%;
   top: 32%;
 }
@@ -360,7 +360,7 @@ footer {
 
 .foot-container {
   background-color: #353535;
-  padding: 3rem 0rem 0rem 3rem;
+  padding: 3rem;
 }
 
 .foot-container a {
@@ -410,15 +410,34 @@ footer {
 }
 
 @media (max-width: 1051px) {
+  .top-description{
+    width: 80%;
+  }
+
   .order-now {
     padding: 2rem;
     gap: 2rem;
   }
+
+  .product-card-item img{
+    height: 30rem;
+  }
 }
 
-@media (max-width: 992px) {
+
+@media (max-width: 991px) {
   .navbar {
-    --bs-navbar-brand-margin-end: 1.31rem;
+    width: 100%;
+  }
+
+  .navbar-nav{
+    gap: 1.25rem;
+  }
+
+  .user-profile{
+    transform: translateX(-1rem);
+    width: 7.5%;
+    z-index: 2;
   }
 
   .mb-2 {
@@ -484,6 +503,10 @@ footer {
   .home-title {
     top: 30rem;
   }
+
+  .product-card-item img{
+    height: 20rem;
+  }
 }
 
 @media (max-width: 455px) {
@@ -505,5 +528,11 @@ footer {
 @media (max-width: 401px) {
   .carousel-caption {
     bottom: calc(15% /2);
+  }
+}
+
+@media(max-height: 780px){
+  .carousel-inner{
+    height: 130vh;
   }
 }

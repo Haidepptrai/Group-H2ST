@@ -36,6 +36,14 @@ Route::get('/', function () {
     Route::post('admin/categories-update',[AdminController::class,'categoriesUpdate'])-> middleware('isLoggedIn');
     Route::get('admin/categories-delete/{id}',[AdminController::class,'categoriesDelete'])-> middleware('isLoggedIn');
 
+    //admin suppliers
+    Route::get('admin/suppliers-list',[AdminController::class,'suppliersList'])-> middleware('isLoggedIn');
+    Route::get('admin/suppliers-add',[AdminController::class,'suppliersAdd'])->middleware('isLoggedIn');
+    Route::post('admin/suppliers-save',[AdminController::class,'suppliersSave'])-> middleware('isLoggedIn');
+    Route::get('admin/suppliers-edit/{id}',[AdminController::class,'suppliersEdit'])-> middleware('isLoggedIn');
+    Route::post('admin/suppliers-update',[AdminController::class,'suppliersUpdate'])-> middleware('isLoggedIn');
+    Route::get('admin/suppliers-delete/{id}',[AdminController::class,'suppliersDelete'])-> middleware('isLoggedIn');
+
     //Active Category
     Route::get('/unactive_category/{id}',[AdminController::class,'unactive_category']);
     Route::get('/active_category/{id}',[AdminController::class,'active_category']);
@@ -103,7 +111,6 @@ Route::get('/', function () {
     Route::get('customer/remove-from-cart/{id}',[CustomerController::class,'removeFromCart']);
     Route::post('customer/confirm-order-page/{id}', [CustomerController::class, 'comfirmOrderPage']);
     Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
-    Route::post('customer/user-feedback', [CustomerController::class, 'showUserReview'])->name('showUserfeeback');
 
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');
@@ -112,6 +119,7 @@ Route::get('/', function () {
     // login with google
     Route::get('customer/login-customer/google', [CustomerController::class, 'redirectToGoogle'])->name('login.google');
     Route::get('customer/login-customer/google/callback', [CustomerController::class, 'handleGoogleCallback']);
+
 
 
 

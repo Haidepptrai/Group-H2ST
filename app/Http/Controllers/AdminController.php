@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Productfeedback;
@@ -221,7 +222,41 @@ class AdminController extends Controller
         DB::table('categories')->where('catid', $id)->update(['status' => 1]);
         return Redirect::to('admin/categories-list')->with('success', 'The product category has been activated successfully!');
     }
+    //suppliers
+    public function suppliersList( )
+    {
+        $supp = Supplier::get();
+        return view('admin.suppliers-list', compact('supp'));
+    }
+    public function suppliersAdd()
+    {
+        return view('admin.suppliers-add');
+    }
+    public function suppliersSave(Request $request)
+    {
+        $supp = new Supplier();
+        $supp->suppliername = $request->suppliername;
+        $supp->save();
+        return redirect()->back()->with('success', 'Supplier added successfully!');
+    }
+    public function suppliersEdit($id)
+    {
+        $supp = Supplier::where('id', '=', $id)->first();
+        return view('admin.suppliers-edit', compact('supp'));
+    }
+    public function suppliersUpdate(Request $request)
+    {
+        Supplier::where('id', '=', $request->SupplierID)->update([
+            'suppliername' => $request->suppliername
+        ]);
+        return redirect()->back()->with('success', 'Supplier updated successfully!');
+    }
 
+    public function suppliersDelete($id)
+    {
+        $supp = Supplier::where('id', '=', $id)->delete();
+        return redirect()->back()->with('success', 'Supplier deleted successfully!');
+    }
     // Products
     public function productsList(Request $request)
     {
@@ -257,7 +292,8 @@ class AdminController extends Controller
     public function productsAdd()
     {
         $cate = Category::get();
-        return view('admin.products-add', compact('cate'));
+        $supp = Supplier::get();
+        return view('admin.products-add', compact('cate', 'supp'));
     }
 
     public function productsSave(Request $request)
@@ -279,6 +315,7 @@ class AdminController extends Controller
         $pro->quantity = $request->quantity;
         $pro->bestseller = $request->bestseller;
         $pro->catid = $request->catid;
+        $pro->suppid = $request->supplierid;
 
         $pro->save();
 
@@ -294,8 +331,9 @@ class AdminController extends Controller
     public function productsEdit($id)
     {
         $cate = Category::get();
+        $supp = Supplier::get();
         $pro = Product::where('proid', '=', $id)->first();
-        return view('admin.products-edit', compact('pro', 'cate'));
+        return view('admin.products-edit', compact('pro', 'cate', 'supp'));
     }
 
     public function productsUpdate(Request $request)
@@ -322,7 +360,8 @@ class AdminController extends Controller
             'proprice' => $request->proprice,
             'discount' => $request->discount,
             'quantity' => $request->quantity,
-            'catid' => $request->catid
+            'catid' => $request->catid,
+            'supid' => $request->suppid
         ]);
 
         return redirect()->back()->with('success', 'Product updated successfully!');

@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
     <style>
         table {
             border-collapse: collapse;
@@ -306,7 +307,18 @@
                                                     Please enter some product quantity.
                                                 </div>
                                             </div>
-
+                                            <div class="md-3">
+                                                <label for="suppid" class="form-label">Supplier:</label>
+                                                <select id="suppid" name="suppid" class="form-select" required>
+                                                    @foreach ($supp as $s)
+                                                        <option value="{{ $s->id }}">{{ $s->suppliername }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please select a supplier.
+                                                </div>
+                                            </div>
                                             <br>
                                             <button type="submit" class="btn btn-success">Add new</button>
                                         </form>
@@ -344,10 +356,14 @@
         <script src="../admin/js/Chart.roundedBarCharts.js"></script>
         <!-- End custom js for this page-->
         <script>
-            CKEDITOR.replace('prodescription');
+            CKEDITOR.replace('prodescription',{
+                autoParagraph: false
+            });
         </script>
         <script>
-            CKEDITOR.replace('prodetails');
+            CKEDITOR.replace('prodetails',{
+                autoParagraph: false
+            });
         </script>
         <footer>
             <div class="footer mt-5">
@@ -356,5 +372,4 @@
             </div>
         </footer>
 </body>
-
 </html>

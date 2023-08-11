@@ -38,7 +38,6 @@ div#v-pills-tab {
 div#v-pills-tabContent {
     width: 100%;
     background: #f9f9f9;
-    height: 100%;
 }
 
 .tab-pane {
@@ -108,7 +107,6 @@ button#change-avatar-btn:hover {
 }
 
 .col input {
-    border: 1px solid silver;
     border-radius: 3rem;
     height: 2.5rem;
     padding: 1rem;
@@ -148,12 +146,14 @@ td>img {
 }
 
 .logoutBtn{
-    position: absolute;
-    bottom: 0;
-    margin-left: 3rem;
+    color: red !important;
 }
 
 .logoutBtn:focus{
     background-color: transparent;
     border: 0;
+}
+
+.form-floating>label{
+    left: unset;
 }

@@ -7,26 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Admin H2ST</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../../admin/vendors/feather/feather.css">
-    <link rel="stylesheet" href="../../admin/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="../../admin/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../admin/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../admin/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../admin/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="../../admin/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="../../admin/js/select.dataTables.min.css">
+    <link rel="stylesheet" href="../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../admin/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="../admin/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="../../admin/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="../admin/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../../admin/images/favicon.png" />
+    <link rel="shortcut icon" href="../admin/images/favicon.png" />
     <!-- bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Add the SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
-    <!-- Add the SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -35,9 +30,9 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo mr-5" href="{{ url('admin/index') }}"><img
-                        src="../../admin/images/Logo_name.png" class="mr-2" alt="logo" /></a>
+                        src="../admin/images/Logo_name.png" class="mr-2" alt="logo" /></a>
                 <a class="navbar-brand brand-logo-mini" href="{{ url('admin/index') }}"><img
-                        src="../../admin/images/Logo_text_darkblue.png" alt="logo" /></a>
+                        src="../admin/images/Logo_text_darkblue.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -59,7 +54,7 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="../../admin_img/{{ Session::get('adminimage') }}" alt="profile" />
+                            <img src="../admin_img/{{ Session::get('adminimage') }}" alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
@@ -106,8 +101,8 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link"
                                         href="{{ url('admin/categories-list') }}">Categories List</a></li>
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="{{ url('admin/categories-add') }}">Add Category</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url('admin/categories-add') }}">Add
+                                        Category</a></li>
                             </ul>
                         </div>
                     </li>
@@ -173,87 +168,67 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-                        <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Products Detail</h3>
-                                    @section('content')
-                                        <div class="container">
-                                            <h1>{{ $product->proname }}</h1>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-4"
-                                                    style="border: solid 1px black; border-radius: 50px 20px; display: flex; justify-content: center; align-items: center;">
-                                                    <img src="{{ asset('pro_img/' . $product->proimage) }}"
-                                                        alt="{{ $product->proname }}" class="img-fluid-3"
-                                                        style="max-width: 90%; max-height: 90%; object-fit: cover;">
+                        <div class="col-md-6 d-flex align-items-stretch grid-margin">
+                            <div class="row flex-grow">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h2 class="card-title mb-4 text-center">Add New Supplier</h2>
+                                            @if (Session::has('success'))
+                                                <div class="alert alert-success" role="alert">
+                                                    {{ Session::get('success') }}</div>
+                                            @endif
+                                            <form class="forms-sample" method="POST"
+                                                action="{{ url('admin/suppliers-save') }}">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="suppliername">Supplier name</label>
+                                                    <input type="text" class="form-control" id="suppliername"
+                                                        name="suppliername" placeholder="Enter supplier name" required>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <p><strong>Description:</strong> {{ $product->prodescription }}</p> 
-                                                    <p><strong>Details:</strong> {{ $product->prodetails }}</p>
-                                                    <p><strong>Price:</strong> ${{ $product->proprice }}</p>
-                                                    <p><strong>Discount:</strong> {{ $product->discount }}%</p>
-                                                    <p><strong>Quantity:</strong> {{ $product->quantity }}</p>
-                                                    <p><strong>Category:</strong> {{ $product->catname }}</p>
-                                                    <p><strong>Status:</strong>
-                                                        @if ($product->status == 1)
-                                                            <span style="color: green;">Show</span>
-                                                        @else
-                                                            <span style="color: red;">Not Show</span>
-                                                        @endif
-                                                    </p>
-                                                    <p><strong>Hot Sales:</strong>
-                                                        @if ($product->bestseller == 1)
-                                                            <span style="color: green;">Best Sell</span>
-                                                        @else
-                                                            <span style="color: red;">Normal</span>
-                                                        @endif
-                                                    </p>
-                                                    <p><strong>Date Added:</strong>
-                                                        {{ date('Y-m-d', strtotime($product->date)) }}</p>
-                                                </div>
-                                            </div>
-                                        </div><br><br>
-                                        <a href="{{ url('admin/products-edit/' . $product->proid) }}"
-                                            class="btn btn-secondary">Edit</a>
-                                        <a href="{{ url('admin/products-list') }}" class="btn btn-secondary">Back</a>
+                                                <button type="submit" class="btn btn-success mr-2">Add new</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- main-panel ends -->
                 </div>
-                <!-- page-body-wrapper ends -->
             </div>
-            <!-- container-scroller -->
-            <!-- plugins:js -->
-            <script src="../../admin/vendors/js/vendor.bundle.base.js"></script>
-            <!-- endinject -->
-            <!-- Plugin js for this page -->
-            <script src="../../admin/vendors/chart.js/Chart.min.js"></script>
-            <script src="../../admin/vendors/datatables.net/jquery.dataTables.js"></script>
-            <script src="../../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-            <script src="../../admin/js/dataTables.select.min.js"></script>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
 
-            <!-- End plugin js for this page -->
-            <!-- inject:js -->
-            <script src="../../admin/js/off-canvas.js"></script>
-            <script src="../../admin/js/hoverable-collapse.js"></script>
-            <script src="../../admin/js/template.js"></script>
-            <script src="../../admin/js/settings.js"></script>
-            <script src="../../admin/js/todolist.js"></script>
-            <!-- endinject -->
-            <!-- Custom js for this page-->
-            <script src="../../admin/js/dashboard.js"></script>
-            <script src="../../admin/js/Chart.roundedBarCharts.js"></script>
-            <!-- End custom js for this page-->
-            <footer>
-                <div class="footer mt-5">
-                    <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
-                    <p class="text-center">Help: 0123 456 789</p>
-                </div>
-            </footer>
-    </body>
+    <!-- plugins:js -->
+    <script src="../admin/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../admin/vendors/chart.js/Chart.min.js"></script>
+    <script src="../admin/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="../admin/js/dataTables.select.min.js"></script>
 
-    </html>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../admin/js/off-canvas.js"></script>
+    <script src="../admin/js/hoverable-collapse.js"></script>
+    <script src="../admin/js/template.js"></script>
+    <script src="../admin/js/settings.js"></script>
+    <script src="../admin/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../admin/js/dashboard.js"></script>
+    <script src="../admin/js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <footer>
+        <div class="footer mt-5">
+            <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
+            <p class="text-center">Help: 0123 456 789</p>
+        </div>
+    </footer>
+</body>
+
+</html>

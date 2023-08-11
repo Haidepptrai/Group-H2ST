@@ -266,8 +266,8 @@
                                                     $detail = explode(' - Quantity: ', $productDetail);
                                                 @endphp
                                                 <tr>
-                                                    <td>{{ $detail[0] }}</td>
-                                                    <td>{{ $detail[1] }}</td>
+                                                    <td>{{ isset($detail[0]) ? $detail[0] : '' }}</td>
+                                                    <td>{{ isset($detail[1]) ? $detail[1] : '' }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -546,14 +546,14 @@
     <!-- endinject -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $('.category-row').click(function() {
-            var productDetails = $(this).next('.product-details');
-            $('.product-details').not(productDetails).slideUp('fast');
-            productDetails.slideToggle('fast');
+        $(document).ready(function() {
+            $('.category-row').click(function() {
+                var productDetails = $(this).next('.product-details');
+                $('.product-details').not(productDetails).slideUp('fast');
+                productDetails.slideToggle('fast');
+            });
         });
-    });
-</script>
+    </script>
 
     <!-- Custom js for this page-->
     <script src="../admin/js/dashboard.js"></script>

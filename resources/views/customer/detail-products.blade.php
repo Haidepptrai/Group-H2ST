@@ -71,11 +71,12 @@
                         <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
-                    <form class="d-flex" role="search" action="search">
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
+                                name='cart'></box-icon></a></div>
+                    <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
-                                value="" name="searchValue" title="Search for:" />
+                                name="query" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
@@ -117,7 +118,7 @@
                         <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
                     </div>
                     <div class="product-description">
-                        <p>{{ $products->prodetails }}</p>
+                        <p>{{ $products->prodescription }}</p>
                     </div>
                     <div>
                         <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
@@ -147,9 +148,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="description" role="tabpanel"
                                 aria-labelledby="home-tab" tabindex="0">
-                                <p>
-                                    {{ $products->prodescription }}
-                                </p>
+                                {{ $products->prodetails }}
                             </div>
                         </div>
                     </div>
@@ -231,37 +230,25 @@
             </div>
             <h3 style="margin-top: 2rem;">Previous User Feedback</h3>
             <div class="view-user-feedback">
-                @foreach ($feedbacks as $feedback)
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $feedback->user->userfirstname }}
-                                {{ $feedback->user->userlastname }}</h5>
-                            <h5 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h5>
-                            <div class="already-rating mb-3">
-                                @for ($i = 5; $i >= 1; $i--)
-                                    <label for="star{{ $i }}"
-                                        title="{{ $i }} stars">{{ $i }}</label>
-                                @endfor
+                @if ($feedbacks)
+                    @foreach ($feedbacks as $feedback)
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $feedback->username }}</h5>
+                                <h5 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h5>
+                                <div class="already-rating mb-3">
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        <label for="star{{ $i }}"
+                                            title="{{ $i }} stars">{{ $i }}</label>
+                                    @endfor
+                                </div>
+                                <p class="card-text">{{ $feedback->detail }}</p>
                             </div>
-                            <p class="card-text">{{ $feedback->detail }}</p>
                         </div>
-                    </div>
-                @endforeach
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">User Name</h5>
-                        <h5 class="card-subtitle mb-2 text-body-secondary">Rating</h5>
-                        <div class="already-rating mb-3">
-                            <label for="star5" title="5 stars">5</label>
-                            <label for="star4" title="4 stars">4</label>
-                            <label for="star3" title="3 stars">3</label>
-                            <label for="star2" title="2 stars">2</label>
-                            <label for="star1" title="1 star">1</label>
-                        </div>
-                        <p class="card-text">Leave user thought here.</p>
-
-                    </div>
-                </div>
+                    @endforeach
+                @else
+                    <p>No feedbacks found.</p>
+                @endif
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">User Name</h5>

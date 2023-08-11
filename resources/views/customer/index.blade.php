@@ -41,7 +41,7 @@
                         </li>
                     </ul>
                     @if (session('user') || Session()->has('id'))
-                        <div class="dropdown">
+                        <div class="dropdown user-profile">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
                                 @if (session('user'))
                                     <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"

@@ -382,7 +382,14 @@ class CustomerController extends Controller
             ->select('products.*', 'categories.catname')
             ->first();
 
-        return view('customer.detail-products', compact('products'));
+        $feedbacks = DB::table('productfeedbacks')
+            ->join('products', 'productfeedbacks.proid', '=', 'products.proid')
+            ->join('users', 'productfeedbacks.userid', '=', 'users.id')
+            ->where('productfeedbacks.proid', $id)
+            ->select('productfeedbacks.*', 'products.proname', 'users.username', 'users.userimage')
+            ->first();
+
+        return view('customer.detail-products', compact('products', 'feedbacks'));
     }
 
 
@@ -457,10 +464,4 @@ class CustomerController extends Controller
 
         return redirect()->back();
     }
-
-    public function showUserReview(Request $request){
-        $feedbacks = Productfeedback::all();
-        return view('user_feedback', compact('feedbacks'));
-    }
-
 }

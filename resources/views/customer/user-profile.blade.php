@@ -89,29 +89,29 @@
                         <form action="{{ route('updateUserProfile', ['id' => session()->get('id')]) }}" id="userForm"
                             enctype="multipart/form-data" method="POST">
                             @csrf
-                            <div class="container-lg">
+                            <div class="container">
                                 <div class="row row-cols-2">
                                     <div class="col">
-                                        <label for="userfirstName">First Name</label>
-                                        <input type="text" name="userfirstName" id="userfirstName"
+                                        <label for="userfirstName" class="form-label">First Name</label>
+                                        <input type="text" name="userfirstName" id="userfirstName" class="form-control"
                                             value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userfirstname') : '' }}"
                                             placeholder="Update your first name">
                                     </div>
                                     <div class="col">
                                         <label for="userlastName">Last Name</label>
-                                        <input type="text" name="userlastName" id="userlastName"
+                                        <input type="text" name="userlastName" id="userlastName" class="form-control"
                                             value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userlastname') : '' }}"
                                             placeholder="Update your last name">
                                     </div>
                                     <div class="col">
                                         <label for="userEmail">Email</label>
-                                        <input type="email" name="userEmail" id="userEmail"
+                                        <input type="email" name="userEmail" id="userEmail" class="form-control"
                                             value="{{ session('user') ? session('user')->getEmail() : '' }}{{ Session()->has('id') ? Session::get('useremail') : '' }}"
-                                            placeholder="Update your email">
+                                            placeholder="Update your email" required>
                                     </div>
                                     <div class="col">
                                         <label for="userGender">Gender</label>
-                                        <select name="userGender" id="userGender">
+                                        <select class="form-select" aria-label="Select gender" name="userGender" id="userGender">
                                             <option value="0"
                                                 {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 0 ? 'selected' : '' }}>
                                                 Male</option>
@@ -120,32 +120,51 @@
                                                 Female</option>
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <!-- <div class="col">
                                         <label for="userPass">Enter your password</label>
-                                        <input type="text" name="userPass" id="userPass"
+                                        <input type="password" name="userPass" id="userPass"
                                             value=" @if (session('user')) {{ Session::get('userpassword') }} @endif @if (Session()->has('id')) {{ Session::get('userpassword') }} @endif ">
+                                    </div> -->
+                                    <div class="col">
+                                        <label for="userPhone">Enter a phone number</label>
+                                        <input type="tel" id="userPhone" name="userPhone" class="form-control"
+                                        value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
+                                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                                        placeholder="Update your phone number">
                                     </div>
                                     <div class="col">
-                                        <label for="userAddress">Enter your Address</label>
-                                        <input type="text" name="userAddress" id="userAddress"
+                                        <label for="userAddress">Enter your birthday</label>
+                                        <input type="date" name="userAddress" id="userAddress" class="form-control"
+                                        value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}"
+                                        >
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="userDoB">Enter your Address Number</label>
+                                        <input type="text" name="userAddress" id="userDoB" class="form-control"
                                             value="{{ session('user') ? Session::get('useraddress') : '' }}{{ Session()->has('id') ? Session::get('useraddress') : '' }}"
                                             placeholder="Update your address">
                                     </div>
                                     <div class="col">
-                                        <label for="userPhone">Enter a phone number</label>
-                                        <input type="tel" id="userPhone" name="userPhone"
-                                            value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
-                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                                            placeholder="Update your phone number"><br>
+                                        <label for="select-province">Select Province</label>
+                                        <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
+                                            <option disabled selected>Select City</option>
+                                        </select>
                                     </div>
                                     <div class="col">
-                                        <label for="userAddress">Enter your birthday</label>
-                                        <input type="text" name="userAddress" id="userAddress"
-                                            value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}"
-                                            placeholder="Update your birthday">
+                                        <label for="select-district">Select District</label>
+                                        <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict" required>
+                                            <option disabled selected>Select Districts</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="select-ward">Select Ward</label>
+                                        <select class="form-select" id="select-ward" aria-label="Select Wards" name="userWards" required>
+                                            <option disabled selected>Select Wards</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary " id="saveChangesBtn">Save
+                                <button type="submit" class="btn btn-primary float-end my-5" id="saveChangesBtn">Save
                                     changes</button>
                                 {{-- <button type="submit" class="btn btn-primary confirm-change">Save changes</button> --}}
                                 <div class="modal fade" id="nameAlert" data-bs-backdrop="static"
@@ -341,5 +360,91 @@
                 this.closest("form").submit();
             });
         });
+    </script>
+    <script>
+    const selectProvince = document.getElementById("select-province");
+    const selectDistrict = document.getElementById("select-district");
+    const selectWards = document.getElementById("select-ward");
+    selectDistrict.disabled = true;
+    selectWards.disabled = true;
+
+    //Get province
+    fetch("https://provinces.open-api.vn/api/?depth=3")
+        .then((response) => response.json())
+        .then((data) => {
+            // Process the data and update your application's state
+            data.map((d) => {
+                const option = document.createElement("option"); // Create a new option element
+                option.value = d.code; // Add value for the option, d.code is the code of each city
+                option.textContent = d.name; // Set the text content of the option, d.name is city name from api
+                selectProvince.appendChild(option); // Append the option to the select element
+            });
+
+            //Happens when user select their city
+            selectProvince.addEventListener("change", function () {
+                //Get province code
+                const getSelectProvince = selectProvince.value;
+
+                selectDistrict.disabled = false;
+
+                //Reset the district option
+                selectDistrict.innerHTML =
+                    "<option selected disabled></option>";
+                selectWards.innerHTML =
+                    "<option selected disabled></option>";
+
+                //Get city details district. Find the specific city by it value set at beginning
+                const selectedCityData = data.find(
+                    (city) => city.code === parseInt(getSelectProvince)
+                );
+
+                if (selectedCityData) {
+                    //Create district data of that province
+                    selectedCityData.districts.map((district) => {
+                        const option = document.createElement("option");
+                        option.value = district.code; //Set district value as its code for further purposes
+                        option.textContent = district.name;
+                        selectDistrict.appendChild(option);
+                    });
+
+                    //If user selected their district, the wards will came appear
+                    selectDistrict.addEventListener("change", function () {
+                        //Get district code
+                        const getSelectDistrict = selectDistrict.value;
+                        selectWards.disabled = false;
+
+                        //Reset the ward option
+                        selectWards.innerHTML =
+                            "<option selected disabled></option>";
+
+                        //Find specific district data
+                        const selectedDistrictData =
+                            selectedCityData.districts.find(
+                                (district) =>
+                                    district.code ===
+                                    parseInt(getSelectDistrict)
+                            );
+
+                        //Create ward data of that district
+                        if (selectedDistrictData) {
+                            selectedDistrictData.wards.map((wards) => {
+                                const option =
+                                    document.createElement("option");
+                                option.value = wards.code;
+                                option.textContent = wards.name;
+                                selectWards.appendChild(option);
+                            });
+                        }
+                    });
+                }
+            });
+        })
+        .catch((error) => {
+            console.error(
+                "Error fetching data - Please reload the page:",
+                error
+            );
+        });
+
     </script>
 </body>
