@@ -70,11 +70,13 @@
                     </a>
                 </div>
                 <div class="login-form">
+                    @if (Session::has('error'))
+                        {{ Session::get('error') }}
+                        @else{{ Session::get('success') }}
+                    @endif
                     <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
                         enctype="multipart/form-data" id="login">
-                        @if (Session::has('error'))
-                            {{ Session::get('success') }}
-                        @endif
+
                         @csrf
                         <label for="userEmail">Email or Username</label><br>
                         <input type="text" class="userInput" id="userEmail" name="userEmail"

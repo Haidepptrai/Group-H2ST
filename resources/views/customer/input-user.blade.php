@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="input-user-info.css">
+    <link rel="stylesheet" href="../customer/input-user-info/input-user-info.css">
     <title>Home Page H2ST</title>
 </head>
 
@@ -60,8 +60,7 @@
                     <input type="email" class="form-control" id="userEmail" name="userEmail"
                         aria-describedby="emailHelp">
                     <div id="emailHelp" class="form-text text-danger user-select-none">We'll never share your email with
-                        anyone
-                        else.</div>
+                        anyone else.</div>
                 </div>
                 <div class="mb-3">
                     <label for="userName" class="form-label">Your Name</label>

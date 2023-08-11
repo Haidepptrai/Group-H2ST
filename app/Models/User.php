@@ -16,6 +16,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Productfeedback::class);
     }
+    public function passwordResetToken()
+    {
+        return $this->hasOne(PasswordResetToken::class, 'id', 'userid');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

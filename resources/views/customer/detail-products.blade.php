@@ -54,7 +54,7 @@
                                         width="40" height="40">
                                 @endif
                                 @if (Session()->has('id'))
-                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                    <img src="../../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
                                         alt="Avatar" width="40" height="40">
                                 @endif
                             </a>
@@ -234,8 +234,8 @@
                     @foreach ($feedbacks as $feedback)
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $feedback->username }}</h5>
-                                <h5 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h5>
+                                <h6 class="card-title">Name: {{ $feedback->username }}</h6><br>
+                                <h7 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h7><br>
                                 <div class="already-rating mb-3">
                                     @for ($i = 5; $i >= 1; $i--)
                                         <label for="star{{ $i }}"

@@ -82,8 +82,9 @@ class CustomerController extends Controller
             $query->where('username', $request->userEmail)
                 ->orWhere('useremail', $request->userEmail);
         })->first();
+
         if ($user) {
-            if ($user->userpassword == $request->userPassword) {
+            if (Hash::check($request->userPassword, $user->userpassword)) {
                 $request->session()->put('id', $user->id);
                 $request->session()->put('userfirstname', $user->userfirstname);
                 $request->session()->put('userimage', $user->userimage);
@@ -93,7 +94,7 @@ class CustomerController extends Controller
                 $request->session()->put('userbirthday', $user->userbirthday);
                 return redirect('customer/index');
             } else {
-                return redirect('customer/login')->with('error', 'Invalid Password');
+                return redirect('customer/login-customer')->with('error', 'Invalid Password');
             }
         }
     }
@@ -121,7 +122,7 @@ class CustomerController extends Controller
     {
         $user = new User();
 
-        $user->userpassword = $request->userPassword;
+        $user->userpassword = bcrypt($request->userpassword);
 
         if ($request->hasFile('userimage')) {
             $file = $request->file('userimage');
@@ -177,6 +178,7 @@ class CustomerController extends Controller
     {
         return view('customer.forgot-password');
     }
+
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
@@ -203,37 +205,53 @@ class CustomerController extends Controller
     public function showResetPasswordForm($token)
     {
         $password_reset = PasswordResetToken::where('token', $token)->first();
+
         if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
             return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
-        } else {
-            return view('customer.reset-password', ['token' => $token]);
         }
+
+        $user = User::find($password_reset->userid);
+
+        if (!$user) {
+            return redirect()->route('showResetPasswordForm')->with('error', 'Invalid user');
+        }
+
+        return view('customer.reset-password', [
+            'token' => $token,
+            'useremail' => $user->useremail,
+        ]);
     }
 
-    // Update the password
+
     public function resetPassword(Request $request, $token)
     {
         $password_reset = PasswordResetToken::where('token', $token)->first();
         if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
             return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
-        } else {
-            $request->validate([
-                'useremail' => 'required|email',
-                'userpassword' => 'required|min:6|max:20',
-                'password_confirmation' => 'required|same:password',
-            ]);
-            $user = User::find($password_reset->userid);
-            if ($user->useremail != $request->email) {
-                return redirect()->back()->with('error', 'Enter correct email address');
-            } else {
-                $password_reset->delete();
-                $user->update([
-                    'userpassword' => bcrypt($request->password)
-                ]);
-                return redirect()->route('customerLogin')->with('success', 'Password reset successfully');
-            }
         }
+
+        $request->validate([
+            'useremail' => 'required|email',
+            'userpassword' => 'required|min:6|max:20',
+            'password_confirmation' => 'required|same:userpassword',
+        ]);
+
+        $user = $password_reset->user;
+
+        if (!$user || $user->useremail != $request->useremail) {
+            return redirect()->back()->with('error', 'Invalid user or email address');
+        }
+
+        $user->userpassword = bcrypt($request->userpassword);
+        $user->save();
+
+        // Delete the password reset token
+        $password_reset->delete();
+
+        return redirect('customer/login-customer')->with('success', 'Password reset successfully, you can login now!');
     }
+
+
 
     //Login with Google
     public function redirectToGoogle()
@@ -320,7 +338,7 @@ class CustomerController extends Controller
                 break;
         }
 
-        $perPage = 9;
+        $perPage = 12;
         $searchQuery = $request->input('query');
         if (isset($searchQuery)) {
             $products = $query->where('proname', 'LIKE', "%$searchQuery%")->paginate($perPage);
@@ -368,6 +386,11 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
+    public function inputUser()
+    {
+        return view('customer.input-user');
+    }
+
     public function comfirmOrderPage($id)
     {
         $user = User::where('id', $id)->first();
@@ -382,12 +405,12 @@ class CustomerController extends Controller
             ->select('products.*', 'categories.catname')
             ->first();
 
-        $feedbacks = DB::table('productfeedbacks')
+            $feedbacks = DB::table('productfeedbacks')
             ->join('products', 'productfeedbacks.proid', '=', 'products.proid')
             ->join('users', 'productfeedbacks.userid', '=', 'users.id')
             ->where('productfeedbacks.proid', $id)
             ->select('productfeedbacks.*', 'products.proname', 'users.username', 'users.userimage')
-            ->first();
+            ->get();
 
         return view('customer.detail-products', compact('products', 'feedbacks'));
     }
@@ -399,6 +422,7 @@ class CustomerController extends Controller
 
         return view('customer.user-profile', compact('user'));
     }
+
     public function updateUserProfile(Request $request, $id)
     {
         $user = User::find($id);

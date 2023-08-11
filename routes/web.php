@@ -111,6 +111,7 @@ Route::get('/', function () {
     Route::get('customer/remove-from-cart/{id}',[CustomerController::class,'removeFromCart']);
     Route::post('customer/confirm-order-page/{id}', [CustomerController::class, 'comfirmOrderPage']);
     Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
+    Route::get('customer/input-user', [CustomerController::class,'inputUser'])->name('inputUser');
 
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');

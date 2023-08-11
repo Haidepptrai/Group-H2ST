@@ -1,12 +1,16 @@
 <x-mail::message>
-# Introduction
+    # Password Reset
+    <p>Hello</p>
+    You are receiving this email because we received a password reset request for your account.
+    To continue with the password reset process for your account, click the button below.
+    Verification codes are only valid for a moment, update your account password quickly. This code is secret do not share with anyone!
+    <x-mail::button :url="route('getResetPassword', ['token' => $token])">
+        Reset Password
+    </x-mail::button>
 
-The body of your message.
+    If you did not request a password reset, no further action is required.
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
-
-Thanks,<br>
-{{ config('app.name') }}
+    Thanks,<br>
+    {{ config('app.name') }}
 </x-mail::message>
+

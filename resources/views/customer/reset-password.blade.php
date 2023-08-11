@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login Page - H2ST</title>
-    <link href="../customer/login/login-styles.css" rel="stylesheet">
+    <link href="../../customer/login/login-styles.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -70,40 +70,48 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form method="POST" action="{{ route('updatePassword', $token) }}">
+                    @if (Session::has('error'))
+                        {{ Session::get('error') }}
+                        @else{{ Session::get('success') }}
+                    @endif
+                    <form method="POST" action="{{ route('updatePassword', $token) }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div>
                             <label for="email">Email</label>
-                            <input class="userInput" id="email" type="email" name="email" value="{{ old('email') }}" required
-                                autocomplete="email" autofocus>
-                            @error('email')
+                            <input class="userInput" id="email" type="email" name="useremail"
+                                value="{{ $useremail }}" readonly autocomplete="email" autofocus>
+                            @error('useremail')
                                 <span role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                         <div>
-                            <label for="password">Password</label>
-                            <input class="userInput" id="password" type="password" name="password" required autocomplete="new-password">
-                            @error('password')
+                            <label for="password">New Password</label>
+                            <input class="userInput" id="userpassword" type="password" name="userpassword" required
+                                autocomplete="new-password">
+                            @error('userpassword')
                                 <span role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                         <div>
                             <label for="password_confirmation">Confirm Password</label>
-                            <input class="userInput" id="password_confirmation"type="password" name="password_confirmation" required
-                                autocomplete="new-password">
+                            <input class="userInput" id="password_confirmation" type="password"
+                                name="password_confirmation" required autocomplete="new-password">
                             @error('password_confirmation')
                                 <span role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
                         <div>
                             <button class="submitButton" type="submit">Reset Password</button>
                         </div>
                     </form>
+
+
                 </div>
-        </div>
+            </div>
 
 
-/bod
+</body>
 
 </html>

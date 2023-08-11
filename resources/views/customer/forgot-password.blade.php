@@ -71,6 +71,9 @@
                 </div>
                 <div class="login-form">
                     <form method="POST" action="{{ route('postForgotPassword') }}">
+                        @if (Session::has('success'))
+                            {{ Session::get('success') }}
+                        @endif
                         @csrf
                         <div>
                             <label for="useremail">Email</label>
