@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="input-user-info.css">
+    <link rel="stylesheet" href="input-user-info.css" />
     <title>Home Page H2ST</title>
 </head>
 
@@ -38,8 +38,12 @@
                             <a class="nav-link" href="#">About Us</a>
                         </li>
                     </ul>
-                    <div class="user-ava"><a href="#"><box-icon name='user'></box-icon></a></div>
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
+                    <div class="user-ava">
+                        <a href="#"><box-icon name="user"></box-icon></a>
+                    </div>
+                    <div class="shopping-cart">
+                        <a href="#"><box-icon name="cart"></box-icon></a>
+                    </div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
@@ -52,65 +56,154 @@
         </nav>
 
         <div class="information">
+            <a class="icon-link" href="{{ route('customerListProducts') }}">
+                <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
+                Back to your cart
+            </a>
             <h1>Fill your information for shipment</h1>
-            <br>
-            <form action="#" method="get">
+            <br />
+            <form action="#" method="get" id="userForm">
                 <div class="mb-3">
                     <label for="userEmail" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="userEmail" name="userEmail"
-                        aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text text-danger user-select-none">We'll never share your email with
-                        anyone
-                        else.</div>
+                        aria-describedby="emailHelp" required />
+                    <div id="emailHelp" class="form-text text-danger user-select-none">
+                        We'll never share your email with anyone else.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="userName" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="userName" id="userName">
+                    <input type="text" class="form-control" id="userName" />
+                    <div class="modal fade" id="nameAlert" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="phoneFormatAlert" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="nameAlertLable">
+                                        Alert
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">Incorrect name format, the name should not be empty and is not
+                                    contain special characters</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
-                    <input type="text" class="form-control" id="userPhone" name="userPhone">
+                    <input type="text" class="form-control" id="userPhone" name="userPhone" required />
+                    <div class="modal fade" id="phoneAlert" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="phoneFormatAlert" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="phoneAlertLabel">
+                                        Alert
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">Incorrect phone number format</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" id="select-province" aria-label="Select City" name="userCity">
-                        <option disabled selected>Select City</option>
-                    </select>
+                    <label for="userDetailAddress" class="form-label">Your Address Number</label>
+                    <input type="text" class="form-control" id="userDetailAddress" name="userDetailAddress" required />
                 </div>
-                <div class="mb-3">
-                    <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict">
-                        <option disabled selected>Select Districts</option>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
+                        <option disabled selected></option>
                     </select>
+                    <label for="select-province">Choose your city</label>
                 </div>
-                <div class="mb-3">
-                    <select class="form-select" id="select-wards" aria-label="Select Wards" name="userWards">
-                        <option disabled selected>Select Wards</option>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict"
+                        required>
+                        <option disabled selected></option>
                     </select>
+                    <label for="select-district">Choose your district</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="select-ward" aria-label="Select Wards" name="userWard" required>
+                        <option disabled selected></option>
+                    </select>
+                    <label for="select-ward">Choose your ward</label>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
             </form>
         </div>
     </div>
 </body>
 
 <script>
-    const selectProvince = document.getElementById('select-province');
-    const selectDistrict = document.getElementById('select-district');
-    const selectWards = document.getElementById('select-wards');
+    // Validate Name Field
+    const form = document.getElementById("userForm");
+    const nameAlertModal = new bootstrap.Modal(document.getElementById("nameAlert"));
+    const phoneAlertModal = new bootstrap.Modal(document.getElementById("phoneAlert"));
+
+    // Add event listener for form submission
+    form.addEventListener("submit", function (event) {
+        // Prevent the form from submitting
+        event.preventDefault();
+
+        // Get the values of first name and last name input fields
+        const userName = document.getElementById("userName").value;
+        const phoneNum = document.getElementById("userPhone").value;
+
+        // Define regular expression to check for numbers and special characters
+        const nameRegex = /^[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]+$/;
+        const phoneRegex = /^[0-9]{3}[0-9]{3}[0-9]{4}/;
+
+        // Validate first name and last name
+        if (userName.trim() === "" || !userName.match(nameRegex)) {
+            nameAlertModal.show();
+            return;
+        }
+
+        else if (phoneNum.trim() === "" || !phoneNum.match(phoneRegex)) {
+            phoneAlertModal.show();
+            return;
+        }
+
+        // If the validation passes, submit the form
+        form.submit();
+    });
+
+</script>
+<script>
+    const selectProvince = document.getElementById("select-province");
+    const selectDistrict = document.getElementById("select-district");
+    const selectWards = document.getElementById("select-ward");
     selectDistrict.disabled = true;
     selectWards.disabled = true;
 
-
     //Get province
-    fetch('https://provinces.open-api.vn/api/?depth=3')
-        .then(response => response.json())
-        .then(data => {
+    fetch("https://provinces.open-api.vn/api/?depth=3")
+        .then((response) => response.json())
+        .then((data) => {
             // Process the data and update your application's state
             data.map((d) => {
-                const option = document.createElement('option'); // Create a new option element
+                const option = document.createElement("option"); // Create a new option element
                 option.value = d.code; // Add value for the option, d.code is the code of each city
                 option.textContent = d.name; // Set the text content of the option, d.name is city name from api
                 selectProvince.appendChild(option); // Append the option to the select element
-            })
+            });
 
             //Happens when user select their city
             selectProvince.addEventListener("change", function () {
@@ -120,51 +213,65 @@
                 selectDistrict.disabled = false;
 
                 //Reset the district option
-                selectDistrict.innerHTML = '<option selected disabled>Select District</option>';
-                selectWards.innerHTML = '<option selected disabled>Select District</option>';
+                selectDistrict.innerHTML =
+                    "<option selected disabled></option>";
+                selectWards.innerHTML =
+                    "<option selected disabled></option>";
 
                 //Get city details district. Find the specific city by it value set at beginning
-                const selectedCityData = data.find(city => city.code === parseInt(getSelectProvince));
+                const selectedCityData = data.find(
+                    (city) => city.code === parseInt(getSelectProvince)
+                );
 
                 if (selectedCityData) {
                     //Create district data of that province
                     selectedCityData.districts.map((district) => {
-                        const option = document.createElement('option');
+                        const option = document.createElement("option");
                         option.value = district.code; //Set district value as its code for further purposes
                         option.textContent = district.name;
                         selectDistrict.appendChild(option);
-                    })
+                    });
 
                     //If user selected their district, the wards will came appear
-                    selectDistrict.addEventListener('change', function () {
+                    selectDistrict.addEventListener("change", function () {
                         //Get district code
                         const getSelectDistrict = selectDistrict.value;
                         selectWards.disabled = false;
 
                         //Reset the ward option
-                        selectWards.innerHTML = '<option selected disabled>Select Ward</option>';
+                        selectWards.innerHTML =
+                            "<option selected disabled></option>";
 
                         //Find specific district data
-                        const selectedDistrictData = selectedCityData.districts.find(district => district.code === parseInt(getSelectDistrict));
+                        const selectedDistrictData =
+                            selectedCityData.districts.find(
+                                (district) =>
+                                    district.code ===
+                                    parseInt(getSelectDistrict)
+                            );
 
                         //Create ward data of that district
                         if (selectedDistrictData) {
                             selectedDistrictData.wards.map((wards) => {
-                                const option = document.createElement('option');
+                                const option =
+                                    document.createElement("option");
                                 option.value = wards.code;
                                 option.textContent = wards.name;
                                 selectWards.appendChild(option);
-                            })
+                            });
                         }
-                    })
+                    });
                 }
-            })
-
+            });
         })
-        .catch(error => {
-            console.error('Error fetching data - Please reload the page:', error);
+        .catch((error) => {
+            console.error(
+                "Error fetching data - Please reload the page:",
+                error
+            );
         });
 
-    //Get Districts
-
+        //Get Districts
 </script>
+
+</html>
