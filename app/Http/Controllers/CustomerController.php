@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgetPasswordMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
@@ -9,13 +11,17 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Productfeedback;
 use App\Models\Orderproduct;
+use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 
 use Illuminate\Support\Carbon;
 
@@ -166,6 +172,69 @@ class CustomerController extends Controller
         }
     }
 
+    // Show the forgot password form
+    public function showForgotPasswordForm()
+    {
+        return view('customer.forgot-password');
+    }
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'useremail' => 'required|email',
+        ]);
+
+        $user = User::where('useremail', $request->useremail)->first();
+
+        if (!$user) {
+            return back()->withErrors(['useremail' => ['User not found']]);
+        } else {
+            $token = Str::random(60);
+            PasswordResetToken::create([
+                'email' => $user->useremail,
+                'userid' => $user->id,
+                'token' => $token
+            ]);
+            Mail::to($user->useremail)->send(new ForgetPasswordMail($user->userfirstname, $token));
+            return back()->with('success', 'We have e-mailed your password reset link!');
+        }
+    }
+
+    // Show the reset password form
+    public function showResetPasswordForm($token)
+    {
+        $password_reset = PasswordResetToken::where('token', $token)->first();
+        if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
+            return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
+        } else {
+            return view('customer.reset-password', ['token' => $token]);
+        }
+    }
+
+    // Update the password
+    public function resetPassword(Request $request, $token)
+    {
+        $password_reset = PasswordResetToken::where('token', $token)->first();
+        if (!$password_reset || Carbon::now()->subMinutes(60) > $password_reset->created_at) {
+            return redirect()->route('showResetPasswordForm')->with('error', 'Invalid password reset link or link has expired');
+        } else {
+            $request->validate([
+                'useremail' => 'required|email',
+                'userpassword' => 'required|min:6|max:20',
+                'password_confirmation' => 'required|same:password',
+            ]);
+            $user = User::find($password_reset->userid);
+            if ($user->useremail != $request->email) {
+                return redirect()->back()->with('error', 'Enter correct email address');
+            } else {
+                $password_reset->delete();
+                $user->update([
+                    'userpassword' => bcrypt($request->password)
+                ]);
+                return redirect()->route('customerLogin')->with('success', 'Password reset successfully');
+            }
+        }
+    }
+
     //Login with Google
     public function redirectToGoogle()
     {
@@ -276,16 +345,17 @@ class CustomerController extends Controller
     {
         return view('customer.cart');
     }
-    public function addToCart($id)
+    public function addToCart($id, Request $request)
     {
         $product = Product::where('proid', $id)->first();
         $cart = session()->get('cart');
+        $quantity = $request->getQuantity;
         $cart[$id] = [
             "proid" => $product->proid,
             "proname" => $product->proname,
             "proprice" => $product->proprice,
             "proimage" => $product->proimage,
-            "proquantity" => $product->quantity
+            "quantity" => $quantity
         ];
         session()->put('cart', $cart);
 
@@ -296,6 +366,12 @@ class CustomerController extends Controller
     {
         Session::forget('cart.' . $id);
         return redirect()->back();
+    }
+
+    public function comfirmOrderPage($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('customer.confirm-order-page', compact('user'));
     }
 
     public function detailProducts($id)
@@ -316,13 +392,16 @@ class CustomerController extends Controller
 
         return view('customer.user-profile', compact('user'));
     }
-
-    public function updateUserProfile(Request $request)
+    public function updateUserProfile(Request $request, $id)
     {
-        $user = User::find(Auth::id());
+        $user = User::find($id);
 
-        $user->userfirstName = $request->input('firstName');
-        $user->userlastName = $request->input('lastName');
+        if (!$user) {
+            return redirect()->route('userProfile', $id)->with('error', 'User not found.');
+        }
+
+        $user->userfirstname = $request->input('userfirstName');
+        $user->userlastname = $request->input('userlastName');
         $user->useremail = $request->input('userEmail');
         $user->usergender = $request->input('userGender');
         $user->useraddress = $request->input('userAddress');
@@ -330,37 +409,29 @@ class CustomerController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
+        return redirect()->route('userProfile', $id)->with('success', 'Profile updated successfully.');
     }
-    public function upload(Request $request)
-    {
-        // Assuming you have a logged-in user and you want to update their avatar
-        $user = User::find(Auth::id());
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $user = User::find($userId);
-            if ($request->hasFile('userimage')) {
-                // Delete the old avatar if it exists
-                if ($user->userimage) {
-                    $oldAvatarPath = public_path('user_img/' . $user->userimage);
-                    if (file_exists($oldAvatarPath)) {
-                        unlink($oldAvatarPath);
-                    }
-                }
-                // Store the new avatar
-                $avatar = $request->file('userimage');
-                $avatarName = time() . '_' . $avatar->getClientOriginalName();
-                $avatar->move(asset('user_img'), $avatarName);
 
-                // Update the user's avatar field in the database
-                $user->userimage = $avatarName;
-                $user->save();
+    public function updateUserAvatar(Request $request, $id)
+    {
+        $user = User::find($id);
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            if ($user->userimage) {
+                Storage::delete('user_img/' . $user->userimage);
             }
+
+            $file = $request->file('avatar');
+            $img = $file->getClientOriginalName();
+            $file->move('user_img', $img);
+            $user->userimage = $img;
         }
-        if (!Auth::check()) {
-            return response()->json(['error' => 'User not authenticated.']);
-        }
-        return response()->json(['message' => 'Avatar updated successfully.']);
+
+        $user->save();
+        return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully. Login again to update your avatar');
     }
 
     public function userfeeback(Request $request, $id)
@@ -386,4 +457,10 @@ class CustomerController extends Controller
 
         return redirect()->back();
     }
+
+    public function showUserReview(Request $request){
+        $feedbacks = Productfeedback::all();
+        return view('user_feedback', compact('feedbacks'));
+    }
+
 }

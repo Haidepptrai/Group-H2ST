@@ -83,6 +83,12 @@ Route::get('/', function () {
     Route::get('customer/index',[CustomerController::class,'index'])->name('home');
     Route::get('customer/login-customer',[CustomerController::class,'login'])->name('customerLogin');
     Route::post('customer/loginProcess',[CustomerController::class,'loginProcess']) -> name('userLoginProcess');
+
+    Route::get('customer/forgot-password', [CustomerController::class, 'showForgotPasswordForm'])->name('getForgotPassword');
+    Route::post('customer/forgot-password', [CustomerController::class, 'sendResetLinkEmail'])->name('postForgotPassword');
+    Route::get('customer/reset-password/{token}', [CustomerController::class, 'showResetPasswordForm'])->name('getResetPassword');
+    Route::post('customer/reset-password/{token}', [CustomerController::class, 'resetPassword'])->name('updatePassword');
+
     Route::get('customer/logout',[CustomerController::class,'logout']) -> name('customerLogout');
     Route::get('customer/register-customer',[CustomerController::class,'register']);
     Route::post('customer/registerProcess',[CustomerController::class,'registerProcess']) -> name('userRegisterProcess');
@@ -90,11 +96,14 @@ Route::get('/', function () {
     Route::get('customer/detail-products/{id}',[CustomerController::class,'detailProducts'])-> name('customerDetailProducts');
     Route::get('customer/about',[CustomerController::class,'aboutUs'])-> name('aboutUs');
     Route::get('customer/user-profile',[CustomerController::class,'userProfile'])-> name('userProfile');
-    Route::post('customer/upload-avatar', [CustomerController::class, 'upload'])->name('upload.avatar');
+    Route::post('customer/update-profile/{id}', [CustomerController::class, 'updateUserProfile'])->name('updateUserProfile');
+    Route::post('customer/update-avatar/{id}', [CustomerController::class, 'updateUserAvatar'])->name('updateUserAvatar');
     Route::get('customer/cart',[CustomerController::class,'cart'])->name('cart');
-    Route::get('customer/add-to-cart/{id}',[CustomerController::class,'addToCart']);
+    Route::post('customer/add-to-cart/{id}',[CustomerController::class,'addToCart']);
     Route::get('customer/remove-from-cart/{id}',[CustomerController::class,'removeFromCart']);
+    Route::post('customer/confirm-order-page/{id}', [CustomerController::class, 'comfirmOrderPage']);
     Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
+    Route::post('customer/user-feedback', [CustomerController::class, 'showUserReview'])->name('showUserfeeback');
 
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');

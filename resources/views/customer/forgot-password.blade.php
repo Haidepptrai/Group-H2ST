@@ -26,8 +26,8 @@
                     <h3 class="title-child">Welcome to <span class="flag-green">H2ST Furniture</span></h3>
                     <h3 class="title-child">No Account ?<br><a href="{{ url('customer/register-customer') }}"
                             class="flag-green">Sign up</a></h3>
-                </div>
-                <h1 class="title-signin">Sign in</h1>
+                </div><br>
+                <h1 class="title-signin">Reset Password</h1>
                 <div class="login-icons">
                     <a href="{{ route('login.google') }}" class="with-google" onclick="signInWithGoogle()">
                         <div>
@@ -70,22 +70,23 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
-                        enctype="multipart/form-data" id="login">
-                        @if (Session::has('error'))
-                            {{ Session::get('success') }}
-                        @endif
+                    <form method="POST" action="{{ route('postForgotPassword') }}">
                         @csrf
-                        <label for="userEmail">Email or Username</label><br>
-                        <input type="text" class="userInput" id="userEmail" name="userEmail"
-                            placeholder="You email address or username" required><br>
-                        <label for="userPassword">Password</label><br>
-                        <input type="password" class="userInput" id="userPassword" name="userPassword"
-                            placeholder="Password" required>
-                        <a href="{{ route('getForgotPassword') }}" class="forgot-link">Forgot Password</a>
-                        <input type="submit" class="submitButton" value="Sign in">
+                        <div>
+                            <label for="useremail">Email</label>
+                            <input id="useremail" class="userInput" type="email" name="useremail" required autofocus>
+                            @error('useremail')
+                                <span role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <button class="submitButton" type="submit">Send Password Reset Link</button>
+                        </div>
                     </form>
                 </div>
+                <h3 class="title-child">Do you have any Account? Let's <br><a
+                        href="{{ url('customer/login-customer') }}" class="flag-green">Sign in</a></h3>
             </div>
         </main>
     </div>
