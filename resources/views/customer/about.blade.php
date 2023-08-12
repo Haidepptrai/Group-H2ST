@@ -71,7 +71,7 @@
 
         <div class="banner-with-title">
             <img src="../customer/home-page/carousel/carousel01.jpg" alt="">
-            <div class="banner-title">About us</div>
+            <div class="banner-title position-absolute top-50 start-50 translate-middle ">About us</div>
         </div>
 
         <div class="services">

@@ -104,14 +104,15 @@ Route::get('/', function () {
     Route::get('customer/detail-products/{id}',[CustomerController::class,'detailProducts'])-> name('customerDetailProducts');
     Route::get('customer/about',[CustomerController::class,'aboutUs'])-> name('aboutUs');
     Route::get('customer/user-profile',[CustomerController::class,'userProfile'])-> name('userProfile');
+    Route::post('customer/delete-account/{id}',[CustomerController::class,'deleteAccount'])-> name('deleteAccount');
     Route::post('customer/update-profile/{id}', [CustomerController::class, 'updateUserProfile'])->name('updateUserProfile');
     Route::post('customer/update-avatar/{id}', [CustomerController::class, 'updateUserAvatar'])->name('updateUserAvatar');
     Route::get('customer/cart',[CustomerController::class,'cart'])->name('cart');
     Route::post('customer/add-to-cart/{id}',[CustomerController::class,'addToCart']);
     Route::get('customer/remove-from-cart/{id}',[CustomerController::class,'removeFromCart']);
-    Route::post('customer/confirm-order-page/{id}', [CustomerController::class, 'comfirmOrderPage']);
+    Route::post('customer/confirm-order-page', [CustomerController::class, 'comfirmOrderPage']);
     Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
-    Route::get('customer/input-user', [CustomerController::class,'inputUser'])->name('inputUser');
+    Route::post('customer/input-user', [CustomerController::class,'inputUser'])->name('inputUser');
 
     // login with facebook
     Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');

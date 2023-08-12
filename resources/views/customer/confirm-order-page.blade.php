@@ -14,7 +14,7 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-    <link rel="stylesheet" href="../../customer/confirm-order/confirm-order.css">
+    <link rel="stylesheet" href="../customer/confirm-order/confirm-order.css">
 
     <!-- Bootstrap 5 css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -92,7 +92,7 @@
                                     </td>
                                     <td class="product-price">{{ $details['proprice'] }}</td>
                                     <td class="view-quantity">
-                                        1
+                                        {{ $details['quantity'] }}
                                     </td>
                                 </tr>
                                 @endforeach

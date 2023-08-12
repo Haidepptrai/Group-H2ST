@@ -88,7 +88,8 @@
             <div class="title">
                 <h5>Shopping cart</h5>
             </div>
-            {{-- <form action="{{ url('customer/confirm-order-page/'. Auth::id()) }}" method="POST"> --}}
+            <form action="{{ route('inputUser') }}" method="POST">
+                @csrf
                 <div class="overflow-auto border border-2" style="height: 700px;">
                     <table class="table">
                         <thead>
@@ -106,8 +107,8 @@
                                 @php
                                     $i = 1;
                                 @endphp
-
                                 @foreach (session('cart') as $id => $details)
+                                    <input type="hidden" value="{{  $details['proid']  }}" name="proid[]">
                                     <tr class="cart">
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>{{ $details['proname'] }}</td>
@@ -118,10 +119,10 @@
                                         <td class="view-quantity">
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
-                                                    <button class="btn-minus">-</button>
+                                                    <button type="button" class="btn-minus">-</button>
                                                     <input type="number" class="quantity-input" value="1"
                                                         min="1" id='quantity' name="quantity" readonly>
-                                                    <button class="btn-plus">+</button>
+                                                    <button type="button" class="btn-plus">+</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -143,10 +144,9 @@
                 <div class="float-end">
                     Totals: <span id="total-price"></span>
                     <br>
-                    {{-- <button type="submit" class="btn btn-primary text-light text center">Confirm</button> --}}
-                    <a href="{{ route('inputUser') }}" class="btn btn-primary text-light text center">Confirm</a>
+                    <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
                 </div>
-            {{-- </form> --}}
+            </form>
         </div>
 </body>
 <script src="../customer/convertToDollar.js"></script>

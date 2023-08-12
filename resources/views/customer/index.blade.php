@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <link rel="stylesheet" href="../customer/home-page/home-page.css">
@@ -22,12 +25,12 @@
     <div class="page-container">
         <nav class="navbar navbar-expand-lg bg-transparent position-absolute z-1">
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav"
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand" href="{{ route('home') }}" draggable="false">H2ST Furniture</a>
-                <div class="collapse navbar-collapse" id="navbarToggler">
+                <div class="collapse navbar-collapse" id="topNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{ route('home') }}"
@@ -165,7 +168,7 @@
                         <div class="product-list">
                             <div class="product-title">
                                 <h1>{{ $fp->category->catname }}</h1>
-                                <p>{{ $fp->prodescription }}</p>
+                                <p>{{ $fp->prodetails }}</p>
                                 <a href="#" class="addition-link" draggable="false">View more<box-icon
                                         name='chevron-right' color="#373737"></box-icon></a>
                             </div>
@@ -346,8 +349,5 @@
     </div>
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-</script>
 
 </html>

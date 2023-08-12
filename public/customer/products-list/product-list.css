@@ -289,6 +289,18 @@ footer {
     font-weight: 400;
 }
 
+@media (min-width: 2060px){
+    .product-item{
+        padding: 7% !important;
+    }
+}
+
+@media (min-width: 1920px){
+    .product-item{
+        padding: 5%;
+    }
+}
+
 @media (max-width: 1664px){
     .product-item{
         padding: 1%;
@@ -345,26 +357,17 @@ footer {
     .product-list{
         justify-content: center;
     }
-
-    .pagination{
-        left: 37%;
-    }
-}
-
-@media (max-width: 546px){
-    .pagination{
-        left: 35%;
-    }
 }
 
 @media (max-width: 455px){
-    .pagination{
-        left: 27%;
-    }
 }
 
 @media (max-width: 358px){
     .category-list>ul{
         flex-direction: column;
+    }
+
+    .pagination{
+        left: 32%;
     }
 }

@@ -69,6 +69,7 @@ input.search-submit {
 }
 
 .banner-with-title {
+    position: relative;
     text-align: center;
     transform: translateY(2.5rem);
     user-select: none;
@@ -82,10 +83,6 @@ input.search-submit {
 }
 
 .banner-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: #3F3F3F;
     font-size: 4.25rem;
     font-weight: 700;
@@ -232,4 +229,72 @@ footer {
     color: #ABABAB;
     font-size: 1rem;
     font-weight: 400;
+}
+
+@media (max-width: 1024px){
+    html{
+        font-size: 14px;
+    }
+
+    .services{
+        margin: 5rem 6.5rem;
+    }
+
+    .website-introduction{
+        margin: 3rem 6rem;
+    }
+
+    .lastest-product-list {
+        margin: 0 5rem;
+    }
+
+    .percent {
+        right: 5rem;
+    }
+}
+
+@media (max-width: 768px){
+    .services{
+        display: block;
+    }
+
+    .website-introduction{
+        flex-direction: column;
+    }
+
+    .introduction-title{
+        width: 100%;
+    }
+
+    .introduction-progress-bar{
+        width: 100%;
+    }
+
+    .lastest-product-list{
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 425px) {
+    .website-introduction{
+        margin: 3rem;
+    }
+
+    .lastest-product-list{
+        margin: 0;
+    }
+
+    .percent{
+        right: 3rem;
+    }
+}
+
+@media (max-width: 568px) {
+    .foot-container{
+        padding: 3rem;
+    }
+
+    .nav-container{
+        flex-direction: column;
+    }
 }

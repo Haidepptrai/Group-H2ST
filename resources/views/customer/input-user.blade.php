@@ -14,7 +14,7 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../customer/input-user-info/input-user-info.css">
-    <title>Home Page H2ST</title>
+    <title>Your information</title>
 </head>
 
 <body>
@@ -50,38 +50,41 @@
                 </div>
             </div>
         </nav>
-
         <div class="information">
             <h1>Fill your information for shipment</h1>
             <br>
-            <form action="#" method="get">
+            <form action="{{ url('customer/confirm-order-page') }}" method="post">
+                @csrf
                 <div class="mb-3">
                     <label for="userEmail" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="userEmail" name="userEmail"
-                        aria-describedby="emailHelp">
+                    value="@if(session('user')){{ session('user')->getEmail() }}@else{{ Session::get('useremail') }}@endif"
+                        aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text text-danger user-select-none">We'll never share your email with
                         anyone else.</div>
                 </div>
                 <div class="mb-3">
                     <label for="userName" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="userName" id="userName">
+                    <input type="text" class="form-control" id="userName" id="userName"
+                    value="@if(session('user')){{ session('user')->getName() }}@else{{ Session::get('userfirstname') }} {{ Session::get('userlastname') }}@endif" required>
                 </div>
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
-                    <input type="text" class="form-control" id="userPhone" name="userPhone">
+                    <input type="text" class="form-control" id="userPhone" name="userPhone"
+                    value="@if(session('user'))@if (method_exists(session('user'), 'getPhone')){{ session('user')->getPhone() }}@endif @else{{ Session::get('userphone') }}@endif" required>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" id="select-province" aria-label="Select City" name="userCity">
+                    <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
                         <option disabled selected>Select City</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict">
+                    <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict" required>
                         <option disabled selected>Select Districts</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" id="select-wards" aria-label="Select Wards" name="userWards">
+                    <select class="form-select" id="select-wards" aria-label="Select Wards" name="userWard" required>
                         <option disabled selected>Select Wards</option>
                     </select>
                 </div>

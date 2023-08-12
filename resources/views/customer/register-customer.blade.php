@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Page - H2ST</title>
+    <title>Register Page - H2ST</title>
     <link href="../customer/login/register-styles.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,22 +38,27 @@
                         enctype="multipart/form-data" id="signup-form">
 
                         @csrf
-                        <label for="userFullname">Enter your name</label><br>
+                        <label for="userFullname">Enter first name</label><br>
                         <input type="text" class="userInput" id="userfirstname" name="userFirstname"
-                            placeholder="Your name"><br>
+                            placeholder="Your first name"><br>
+                        <label for="userLastname">Enter last name</label><br>
+                        <input type="text" class="userInput" id="userlastname" name="userLastname"
+                            placeholder="Your last name"><br>
                         <label for="userEmail">Enter your email address</label><br>
-                        <input type="text" class="userInput" id="userEmail" name="userEmail"
+                        <input type="email" class="userInput" id="userEmail" name="userEmail"
                             placeholder="Your email address"><br>
                         <div class="input-group">
                             <div class="input-item">
                                 <label for="username">Username</label><br>
                                 <input type="text" class="userInput" id="username" name="userName"
-                                    placeholder="Your username"><br>
+                                    placeholder="Your username" required pattern="[a-zA-Z0-9_]{3,20}"
+                                    title="Username must be between 3 and 20 characters and can contain letters, numbers, and underscores"><br>
                             </div>
                             <div class="input-item">
                                 <label for="contactNum">Contact number</label><br>
-                                <input type="text" class="userInput" id="contactNum" name="contactNum"
-                                    placeholder="Your phone number"><br>
+                                <input type="tel" class="userInput" id="contactNum" name="contactNum"
+                                    placeholder="Your phone number" required pattern="[0-9]{10,12}"
+                                    title="Please enter a valid 10 to 12 digit phone number"><br>
                             </div>
                         </div>
                         <label for="userPassword">Enter your password</label><br>
@@ -62,7 +67,6 @@
                         <label for="userAddress">Address</label><br>
                         <input type="text" class="userInput" id="useraddress" name="userAddress"
                             placeholder="Your address"><br>
-                        <a href="#" class="forgot-link">Forgot Password</a>
                         <input type="submit" class="submitButton" value="Sign up">
                     </form>
                 </div>

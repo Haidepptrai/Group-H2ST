@@ -82,16 +82,17 @@ class CustomerController extends Controller
             $query->where('username', $request->userEmail)
                 ->orWhere('useremail', $request->userEmail);
         })->first();
-
         if ($user) {
             if (Hash::check($request->userPassword, $user->userpassword)) {
                 $request->session()->put('id', $user->id);
                 $request->session()->put('userfirstname', $user->userfirstname);
+                $request->session()->put('userlastname', $user->userlastname);
                 $request->session()->put('userimage', $user->userimage);
                 $request->session()->put('userpassword', $user->userpassword);
                 $request->session()->put('useraddress', $user->useraddress);
                 $request->session()->put('userphone', $user->userphone);
                 $request->session()->put('userbirthday', $user->userbirthday);
+                $request->session()->put('useremail', $user->useremail);
                 return redirect('customer/index');
             } else {
                 return redirect('customer/login-customer')->with('error', 'Invalid Password');
@@ -104,10 +105,12 @@ class CustomerController extends Controller
         Session::pull('id');
         Session::pull('userimage');
         Session::pull('userfirstname');
+        Session::pull('userlastname');
         Session::pull('userpassword');
         Session::pull('useraddress');
         Session::pull('userphone');
         Session::pull('userbirthday');
+        Session::pull('useremail');
         Auth::logout();
         session()->flush();
         return redirect('customer/login-customer');
@@ -120,9 +123,10 @@ class CustomerController extends Controller
 
     public function registerProcess(Request $request)
     {
+
         $user = new User();
 
-        $user->userpassword = bcrypt($request->userpassword);
+        $user->userpassword = bcrypt($request->userPassword);
 
         if ($request->hasFile('userimage')) {
             $file = $request->file('userimage');
@@ -133,8 +137,7 @@ class CustomerController extends Controller
             $user->userimage = 'default.jpg';
         }
 
-        $notifications = []; // Array to store notifications
-
+        $notifications = [];
         // Check if the username already exists in the database
         if ($request->userName != $user->username && User::where('username', $request->userName)->exists()) {
             $notifications[] = 'Username already exists!';
@@ -158,6 +161,7 @@ class CustomerController extends Controller
         // Update the user data
         $user->username = $request->userName;
         $user->userfirstname = $request->userFirstname;
+        $user->userlastname = $request->userLastname;
         $user->useremail = $request->userEmail;
         $user->useraddress = $request->userAddress;
         $user->userphone = $request->contactNum;
@@ -282,6 +286,16 @@ class CustomerController extends Controller
     {
 
         $user = User::where('useremail', $data->email)->first();
+        $name = $data->name;
+        $nameParts = explode(' ', $name);
+
+        $firstname = $nameParts[0];
+
+        if (count($nameParts) > 1) {
+            $lastname = $nameParts[count($nameParts) - 1];
+        } else {
+            $lastname = '';
+        }
 
         if (!$user) {
 
@@ -292,7 +306,8 @@ class CustomerController extends Controller
             $user->userpassword = hash('sha256', $randomString);
             $user->userimage = $data->avatar;
             $user->useremail = $data->email;
-            $user->userfirstname = $data->name;
+            $user->userfirstname = $firstname;
+            $user->userlastname = $lastname;
             $user->provider_id = $data->id;
 
             $user->save();
@@ -363,17 +378,15 @@ class CustomerController extends Controller
     {
         return view('customer.cart');
     }
-    public function addToCart($id, Request $request)
+    public function addToCart($id)
     {
         $product = Product::where('proid', $id)->first();
         $cart = session()->get('cart');
-        $quantity = $request->getQuantity;
         $cart[$id] = [
             "proid" => $product->proid,
             "proname" => $product->proname,
             "proprice" => $product->proprice,
-            "proimage" => $product->proimage,
-            "quantity" => $quantity
+            "proimage" => $product->proimage
         ];
         session()->put('cart', $cart);
 
@@ -386,15 +399,22 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function inputUser()
+    public function inputUser(Request $request)
     {
+        $cart = session()->get('cart');
+        $ids = $request->input('proid');
+        foreach ($ids as $id){
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity'] = $request->input('quantity');
+                session()->put('cart', $cart);
+            }
+        }
         return view('customer.input-user');
     }
 
-    public function comfirmOrderPage($id)
+    public function comfirmOrderPage()
     {
-        $user = User::where('id', $id)->first();
-        return view('customer.confirm-order-page', compact('user'));
+        return view('customer.confirm-order-page');
     }
 
     public function detailProducts($id)
@@ -405,9 +425,9 @@ class CustomerController extends Controller
             ->select('products.*', 'categories.catname')
             ->first();
 
-            $feedbacks = DB::table('productfeedbacks')
+        $feedbacks = DB::table('productfeedbacks')
             ->join('products', 'productfeedbacks.proid', '=', 'products.proid')
-            ->join('users', 'productfeedbacks.userid', '=', 'users.id')
+            ->join('users', 'productfeedbacks.id', '=', 'users.id')
             ->where('productfeedbacks.proid', $id)
             ->select('productfeedbacks.*', 'products.proname', 'users.username', 'users.userimage')
             ->get();
@@ -447,7 +467,7 @@ class CustomerController extends Controller
     {
         $user = User::find($id);
         $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:4096',
         ]);
 
         if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -464,6 +484,50 @@ class CustomerController extends Controller
         $user->save();
         return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully. Login again to update your avatar');
     }
+
+    public function deleteAccount(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return 'User not found';
+        }
+
+        if (Hash::check($request->userPassDelete, $user->userpassword)) {
+            $user->delete();
+            $user->destroy();
+            Auth::logout();
+            return redirect('customer/login-customer');
+        } else {
+            return redirect()->route('userProfile', $id)->with('error', 'Password is incorrect');
+        }
+    }
+
+    public function changePassword()
+    {
+        return view('customer.change-password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|min:6|max:20',
+            'new_password' => 'required|min:6|max:20',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        $user = Auth::user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->$request->update([
+                'password' => bcrypt($request->new_password),
+            ]);
+            return redirect()->back()->with('success', 'Password changed successfully');
+        } else {
+            return redirect()->back()->with('error', 'Old password does not match');
+        }
+    }
+
 
     public function userfeeback(Request $request, $id)
     {

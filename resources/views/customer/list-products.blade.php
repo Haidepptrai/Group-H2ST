@@ -144,7 +144,6 @@
 
             <div class="product-display">
                 <div class="product-list">
-
                     @foreach ($products as $product)
                         @php
                             $displayProduct = $product->status == 1 && $product->category->status == 1;
@@ -195,6 +194,10 @@
                                 </div>
                             @endif
                         @endforeach
+                    @else
+                    <div class="">
+                        <p>No product found!</p>
+                    </div>
                     @endif
 
                 </div>
@@ -213,7 +216,7 @@
             </div>
 
     </div>
-    <div class="pagination">
+    <div class="pagination translate-middle">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 @if (isset($search))

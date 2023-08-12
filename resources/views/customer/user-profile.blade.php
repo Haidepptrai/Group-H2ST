@@ -85,21 +85,23 @@
                 </div>
                 <hr width="95%" style="margin: auto;">
                 <div class="personal-setting">
-                    @if (session()->has('id'))
-                        <form action="{{ route('updateUserProfile', ['id' => session()->get('id')]) }}" id="userForm"
-                            enctype="multipart/form-data" method="POST">
+                    @if (session()->has('id') || session('user'))
+                        <form action="{{ route('updateUserProfile', ['id' => session()->get('id') ?? Auth::id()]) }}"
+                            id="userForm" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="container">
                                 <div class="row row-cols-2">
                                     <div class="col">
                                         <label for="userfirstName" class="form-label">First Name</label>
-                                        <input type="text" name="userfirstName" id="userfirstName" class="form-control"
+                                        <input type="text" name="userfirstName" id="userfirstName"
+                                            class="form-control"
                                             value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userfirstname') : '' }}"
                                             placeholder="Update your first name">
                                     </div>
                                     <div class="col">
                                         <label for="userlastName">Last Name</label>
-                                        <input type="text" name="userlastName" id="userlastName" class="form-control"
+                                        <input type="text" name="userlastName" id="userlastName"
+                                            class="form-control"
                                             value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userlastname') : '' }}"
                                             placeholder="Update your last name">
                                     </div>
@@ -111,7 +113,8 @@
                                     </div>
                                     <div class="col">
                                         <label for="userGender">Gender</label>
-                                        <select class="form-select" aria-label="Select gender" name="userGender" id="userGender">
+                                        <select class="form-select" aria-label="Select gender" name="userGender"
+                                            id="userGender">
                                             <option value="0"
                                                 {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 0 ? 'selected' : '' }}>
                                                 Male</option>
@@ -128,15 +131,14 @@
                                     <div class="col">
                                         <label for="userPhone">Enter a phone number</label>
                                         <input type="tel" id="userPhone" name="userPhone" class="form-control"
-                                        value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
-                                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                                        placeholder="Update your phone number">
+                                            value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
+                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number">
                                     </div>
                                     <div class="col">
                                         <label for="userAddress">Enter your birthday</label>
-                                        <input type="date" name="userAddress" id="userAddress" class="form-control"
-                                        value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}"
-                                        >
+                                        <input type="date" name="userAddress" id="userAddress"
+                                            class="form-control"
+                                            value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}">
                                     </div>
 
                                     <div class="col">
@@ -147,24 +149,28 @@
                                     </div>
                                     <div class="col">
                                         <label for="select-province">Select Province</label>
-                                        <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
+                                        <select class="form-select" id="select-province" aria-label="Select City"
+                                            name="userCity" required>
                                             <option disabled selected>Select City</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-district">Select District</label>
-                                        <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict" required>
+                                        <select class="form-select" id="select-district"
+                                            aria-label="Select Districts" name="userDistrict" required>
                                             <option disabled selected>Select Districts</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-ward">Select Ward</label>
-                                        <select class="form-select" id="select-ward" aria-label="Select Wards" name="userWards" required>
+                                        <select class="form-select" id="select-ward" aria-label="Select Wards"
+                                            name="userWards" required>
                                             <option disabled selected>Select Wards</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary float-end my-5" id="saveChangesBtn">Save
+                                <button type="submit" class="btn btn-primary float-end my-5"
+                                    id="saveChangesBtn">Save
                                     changes</button>
                                 {{-- <button type="submit" class="btn btn-primary confirm-change">Save changes</button> --}}
                                 <div class="modal fade" id="nameAlert" data-bs-backdrop="static"
@@ -277,45 +283,53 @@
                     </table>
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
-                tabindex="0">
-                <div class="tab-title text-danger">
-                    Delete Your Account
-                </div>
-                <div class="input-password">
-                    <form action="#" id="userFormDelete">
-                        <div class="col">
-                            <label for="userPassDelete">Enter your password</label>
-                            <input type="password" name="userPassDelete" id="userPassDelete"
-                                placeholder="Enter your password">
-                            <label for="userPassConfirm">Confirm your password</label>
-                            <input type="password" id="userPassConfirm" placeholder="Enter your password">
-                        </div>
-                        <button type="submit" id="deleteAccountBtn" class="btn btn-danger">Delete Account</button>
-                    </form>
-                    <div class="modal fade" id="notMatchPassAlert" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Passwords do not match. Please enter the same password in both fields.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                    </button>
+            @if (Session::has('id'))
+                <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
+                    tabindex="0">
+                    <div class="tab-title text-danger">
+                        Delete Your Account
+                    </div>
+                    <div class="input-password">
+                        @if (Session::has('error'))
+                            {{ Session::get('error') }}
+                        @endif
+                        <form action="{{ route('deleteAccount', ['id' => session()->get('id') ?? Auth::id()]) }}"
+                            id="userFormDelete" enctype="multipart/form-data" method="POST">
+                            @csrf
+                            <div class="col">
+                                <label for="userPassDelete">Enter your password</label>
+                                <input type="password" name="userPassDelete" id="userPassDelete"
+                                    placeholder="Enter your password">
+                                <label for="userPassConfirm">Confirm your password</label>
+                                <input type="password" id="userPassConfirm" placeholder="Enter your password">
+                            </div>
+                            <button type="submit" id="deleteAccountBtn" class="btn btn-danger">Delete
+                                Account</button>
+                        </form>
+                        <div class="modal fade" id="notMatchPassAlert" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Passwords do not match. Please enter the same password in both fields.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
     <script src="validate-input.js" charset="utf-8"></script>
@@ -348,7 +362,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
     <script>
-       document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             const avatarInput = document.getElementById("avatarInput");
             const changeAvatarBtn = document.getElementById("change-avatar-btn");
 
@@ -362,89 +376,92 @@
         });
     </script>
     <script>
-    const selectProvince = document.getElementById("select-province");
-    const selectDistrict = document.getElementById("select-district");
-    const selectWards = document.getElementById("select-ward");
-    selectDistrict.disabled = true;
-    selectWards.disabled = true;
+        const selectProvince = document.getElementById("select-province");
+        const selectDistrict = document.getElementById("select-district");
+        const selectWards = document.getElementById("select-ward");
+        selectDistrict.disabled = true;
+        selectWards.disabled = true;
 
-    //Get province
-    fetch("https://provinces.open-api.vn/api/?depth=3")
-        .then((response) => response.json())
-        .then((data) => {
-            // Process the data and update your application's state
-            data.map((d) => {
-                const option = document.createElement("option"); // Create a new option element
-                option.value = d.code; // Add value for the option, d.code is the code of each city
-                option.textContent = d.name; // Set the text content of the option, d.name is city name from api
-                selectProvince.appendChild(option); // Append the option to the select element
-            });
+        //Get province
+        fetch("https://provinces.open-api.vn/api/?depth=3")
+            .then((response) => response.json())
+            .then((data) => {
+                // Process the data and update your application's state
+                data.map((d) => {
+                    const option = document.createElement("option"); // Create a new option element
+                    option.value = d.code; // Add value for the option, d.code is the code of each city
+                    option.textContent = d
+                        .name; // Set the text content of the option, d.name is city name from api
+                    selectProvince.appendChild(option); // Append the option to the select element
+                });
 
-            //Happens when user select their city
-            selectProvince.addEventListener("change", function () {
-                //Get province code
-                const getSelectProvince = selectProvince.value;
+                //Happens when user select their city
+                selectProvince.addEventListener("change", function() {
+                    //Get province code
+                    const getSelectProvince = selectProvince.value;
 
-                selectDistrict.disabled = false;
+                    selectDistrict.disabled = false;
 
-                //Reset the district option
-                selectDistrict.innerHTML =
-                    "<option selected disabled></option>";
-                selectWards.innerHTML =
-                    "<option selected disabled></option>";
+                    //Reset the district option
+                    selectDistrict.innerHTML =
+                        "<option selected disabled></option>";
+                    selectWards.innerHTML =
+                        "<option selected disabled></option>";
 
-                //Get city details district. Find the specific city by it value set at beginning
-                const selectedCityData = data.find(
-                    (city) => city.code === parseInt(getSelectProvince)
-                );
+                    //Get city details district. Find the specific city by it value set at beginning
+                    const selectedCityData = data.find(
+                        (city) => city.code === parseInt(getSelectProvince)
+                    );
 
-                if (selectedCityData) {
-                    //Create district data of that province
-                    selectedCityData.districts.map((district) => {
-                        const option = document.createElement("option");
-                        option.value = district.code; //Set district value as its code for further purposes
-                        option.textContent = district.name;
-                        selectDistrict.appendChild(option);
-                    });
+                    if (selectedCityData) {
+                        //Create district data of that province
+                        selectedCityData.districts.map((district) => {
+                            const option = document.createElement("option");
+                            option.value = district
+                                .code; //Set district value as its code for further purposes
+                            option.textContent = district.name;
+                            selectDistrict.appendChild(option);
+                        });
 
-                    //If user selected their district, the wards will came appear
-                    selectDistrict.addEventListener("change", function () {
-                        //Get district code
-                        const getSelectDistrict = selectDistrict.value;
-                        selectWards.disabled = false;
+                        //If user selected their district, the wards will came appear
+                        selectDistrict.addEventListener("change", function() {
+                            //Get district code
+                            const getSelectDistrict = selectDistrict.value;
+                            selectWards.disabled = false;
 
-                        //Reset the ward option
-                        selectWards.innerHTML =
-                            "<option selected disabled></option>";
+                            //Reset the ward option
+                            selectWards.innerHTML =
+                                "<option selected disabled></option>";
 
-                        //Find specific district data
-                        const selectedDistrictData =
-                            selectedCityData.districts.find(
-                                (district) =>
+                            //Find specific district data
+                            const selectedDistrictData =
+                                selectedCityData.districts.find(
+                                    (district) =>
                                     district.code ===
                                     parseInt(getSelectDistrict)
-                            );
+                                );
 
-                        //Create ward data of that district
-                        if (selectedDistrictData) {
-                            selectedDistrictData.wards.map((wards) => {
-                                const option =
-                                    document.createElement("option");
-                                option.value = wards.code;
-                                option.textContent = wards.name;
-                                selectWards.appendChild(option);
-                            });
-                        }
-                    });
-                }
+                            //Create ward data of that district
+                            if (selectedDistrictData) {
+                                selectedDistrictData.wards.map((wards) => {
+                                    const option =
+                                        document.createElement("option");
+                                    option.value = wards.code;
+                                    option.textContent = wards.name;
+                                    selectWards.appendChild(option);
+                                });
+                            }
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error(
+                    "Error fetching data - Please reload the page:",
+                    error
+                );
             });
-        })
-        .catch((error) => {
-            console.error(
-                "Error fetching data - Please reload the page:",
-                error
-            );
-        });
-
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
