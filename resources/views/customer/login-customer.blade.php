@@ -74,6 +74,9 @@
                         {{ Session::get('error') }}
                         @else{{ Session::get('success') }}
                     @endif
+                    @if (Session::has('fail'))
+                                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                            @endif
                     <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
                         enctype="multipart/form-data" id="login">
 

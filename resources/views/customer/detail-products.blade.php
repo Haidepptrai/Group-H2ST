@@ -121,20 +121,20 @@
                 <div class="product-description">
                     <p>{{ $products->prodescription }}</p>
                 </div>
-                <div>
-                    <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
-                        method="POST">
-                        @csrf
-                        <div class="cart">
-                            <button class="btn-minus" id="previous" type="button">-</button>
-                            <input type="text" class="quantity-input" min="1"
-                                max="{{ $products->quantity }}" id='quantity' name="getQuantity" readonly>
-                            <button class="btn-plus" id="next" type="button">+</button>
-                        </div>
-                        <button class="btn btn-secondary text-light text center" id="addToCart">Add to
-                            cart</button>
-                    </form>
-                </div>
+                    <div>
+                        <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
+                            method="POST">
+                            @csrf
+                            <div class="cart">
+                                <button class="btn-minus" id="previous" type="button">-</button>
+                                <input type="text" class="quantity-input" min="1"
+                                    max="{{ $products->quantity }}" id='quantity' name="getQuantity" readonly>
+                                <button class="btn-plus" id="next" type="button">+</button>
+                            </div>
+                            <button class="btn btn-secondary text-light text center" id="addToCart">Add to
+                                cart</button>
+                        </form>
+                    </div>
                 <div class="addition-information">
                     <div class="category">
                         <p><strong>Category: {{ $products->catname }}</strong></p>
@@ -156,9 +156,10 @@
             </div>
         </div>
         <div class="user-feedback">
-                <h3>Give your feedback about this product</h3>
-@if (Session() -> get('id') || Auth::id())
-                <form id="feedback-form" action="{{ route('userFeedback', ['id' => session()->get('id') ?? Auth::id()]) }}" method="POST"
+            <h3>Give your feedback about this product</h3>
+            @if (Session()->get('id') || Auth::id())
+                <form id="feedback-form"
+                    action="{{ route('userFeedback', ['id' => session()->get('id') ?? Auth::id()]) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="{{ Auth::id() }}">
@@ -186,50 +187,50 @@
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    @else
+                @else
                     <div class="alert alert-warning" role="alert">
                         You have to login before recommend a product!
                     </div>
                 </form>
-                @endif
-                <script>
-                    // Form submission and validation
-                    document.getElementById('feedback-form').addEventListener('submit', function(event) {
-                        event.preventDefault(); // Prevent the default form submission
+            @endif
+            <script>
+                // Form submission and validation
+                document.getElementById('feedback-form').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent the default form submission
 
-                        // Perform client-side validation
-                        var vote = document.getElementById('vote').value;
-                        var rating = document.querySelector('input[name="rating"]:checked');
+                    // Perform client-side validation
+                    var vote = document.getElementById('vote').value;
+                    var rating = document.querySelector('input[name="rating"]:checked');
 
-                        if (!vote || !rating) {
-                            // Show the validation error modal
-                            var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
-                            ratingModal.show();
-                        } else {
-                            // Submit the form
-                            this.submit();
-                        }
-                    });
-                </script>
+                    if (!vote || !rating) {
+                        // Show the validation error modal
+                        var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
+                        ratingModal.show();
+                    } else {
+                        // Submit the form
+                        this.submit();
+                    }
+                });
+            </script>
 
-                <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="ratingModalLabel">Alert</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Please select a rating before submitting.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                            </div>
+            <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ratingModalLabel">Alert</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Please select a rating before submitting.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
         <h3 style="margin-top: 2rem;">Previous User Feedback</h3>
         <div class="view-user-feedback">
@@ -318,138 +319,26 @@
             <h1>Maybe you will love this</h1>
             <div class="product-list-container">
                 <div class="product-list mb-3">
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
+                    @foreach ($relatedProducts as $relatedProduct)
+                        <a href="" class="product-item border border-2 rounded">
+                            <div class="card border-light">
+                                <img src="{{ asset('pro_img/' . $relatedProduct->proimage) }}" class="card-img-top"
+                                    alt="..." loading="lazy">
+                                <div class="card-body">
+                                    <p class="product-name text-center">{{ $relatedProduct->proname }}</p>
+                                    <p class="product-price text-center">{{ $relatedProduct->proprice }}</p>
+                                    <p class="text-center product-rating">
+                                        <i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                            class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                            class="bi bi-star"></i>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="" class="product-item border border-2 rounded">
-                        <div class="card border-light">
-                            <img src="{{ asset('pro_img/' . $products->proimage) }}" class="card-img-top"
-                                alt="..." loading="lazy">
-                            <div class="card-body">
-                                <p class="product-name text-center">{{ $products->proname }}</p>
-                                <p class="product-price text-center">{{ $products->proprice }}</p>
-                                <p class="text-center product-rating">
-                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                        class="bi bi-star"></i><i class="bi bi-star"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-
-
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
-
     </main>
     </div>
 </body>

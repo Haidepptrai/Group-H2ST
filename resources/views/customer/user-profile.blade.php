@@ -283,12 +283,12 @@
                     </table>
                 </div>
             </div>
-            @if (Session::has('id'))
-                <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
-                    tabindex="0">
-                    <div class="tab-title text-danger">
-                        Delete Your Account
-                    </div>
+            <div class="tab-pane fade" id="v-pills-delete" role="tabpanel" aria-labelledby="v-pills-delete-tab"
+                tabindex="0">
+                <div class="tab-title text-danger">
+                    Delete Your Account
+                </div>
+                @if (Session::has('id'))
                     <div class="input-password">
                         @if (Session::has('error'))
                             {{ Session::get('error') }}
@@ -328,8 +328,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
+                @else(session('user'))
+                    <form action="{{ route('deleteAccount', ['id' => session()->get('id') ?? Auth::id()]) }}"
+                        id="userFormDelete" enctype="multipart/form-data" method="POST">
+                        @csrf
+                        <button type="submit" id="deleteAccountBtn" class="btn btn-danger">Delete
+                            Account</button>
+                    </form>
+                @endif
+            </div>
         </div>
     </div>
     <script src="validate-input.js" charset="utf-8"></script>

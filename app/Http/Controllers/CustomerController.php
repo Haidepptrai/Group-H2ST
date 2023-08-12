@@ -112,7 +112,7 @@ class CustomerController extends Controller
         Session::pull('userbirthday');
         Session::pull('useremail');
         Auth::logout();
-        session()->flush();
+        session()->flush();// remove all session data
         return redirect('customer/login-customer');
     }
 
@@ -378,19 +378,41 @@ class CustomerController extends Controller
     {
         return view('customer.cart');
     }
-    public function addToCart($id)
+    public function addToCart($id, Request $request)
     {
-        $product = Product::where('proid', $id)->first();
-        $cart = session()->get('cart');
-        $cart[$id] = [
-            "proid" => $product->proid,
-            "proname" => $product->proname,
-            "proprice" => $product->proprice,
-            "proimage" => $product->proimage
-        ];
-        session()->put('cart', $cart);
+        $new_quantity = $request->input('quantity');
 
-        return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
+        if (auth()->check() || User::get()) {
+
+            $product = Product::where('proid', $id)->first();
+            if (!$product) {
+                return redirect()->back();
+            }
+            $price = $product->proprice;
+            $discount = $product->discount;
+            $discount_price = $price - ($price * $discount / 100);
+            $cart = session()->get('cart');
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity']++;
+            }
+            else{
+                $cart[$id] = [
+                    "proid" => $product->proid,
+                    "proname" => $product->proname,
+                    "proprice" => $discount_price,
+                    "proimage" => $product->proimage,
+                    "quantity" => 1
+                ];
+            }
+            if($new_quantity){
+                $cart[$id]['quantity'] = $new_quantity;
+            }
+            session()->put('cart', $cart);
+
+            return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
+        } else {
+            return redirect()->route('login')->with('error', 'You need to be logged in to add products to the cart.');
+        }
     }
 
     public function removeFromCart($id)
@@ -399,16 +421,8 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function inputUser(Request $request)
+    public function inputUser()
     {
-        $cart = session()->get('cart');
-        $ids = $request->input('proid');
-        foreach ($ids as $id){
-            if (isset($cart[$id])) {
-                $cart[$id]['quantity'] = $request->input('quantity');
-                session()->put('cart', $cart);
-            }
-        }
         return view('customer.input-user');
     }
 
@@ -419,20 +433,27 @@ class CustomerController extends Controller
 
     public function detailProducts($id)
     {
+        // Fetch details of the main product
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
             ->where('proid', $id)
             ->select('products.*', 'categories.catname')
             ->first();
 
-        $feedbacks = DB::table('productfeedbacks')
-            ->join('products', 'productfeedbacks.proid', '=', 'products.proid')
-            ->join('users', 'productfeedbacks.id', '=', 'users.id')
-            ->where('productfeedbacks.proid', $id)
-            ->select('productfeedbacks.*', 'products.proname', 'users.username', 'users.userimage')
+        // Fetch related products (you need to define how to determine related products)
+        $relatedProducts = DB::table('products')
+            ->where('catid', $products->catid)
+            ->where('proid', '!=', $id) // Exclude the current product
+            ->limit(5) // Limit the number of related products
             ->get();
 
-        return view('customer.detail-products', compact('products', 'feedbacks'));
+        $feedbacks = DB::table('productfeedbacks')
+            ->join('users', 'productfeedbacks.id', '=', 'users.id')
+            ->where('productfeedbacks.proid', $id)
+            ->select('productfeedbacks.*', 'users.username', 'users.userimage')
+            ->get();
+
+        return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks'));
     }
 
 
@@ -484,7 +505,10 @@ class CustomerController extends Controller
         $user->save();
         return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully. Login again to update your avatar');
     }
-
+    public function confirmDeleteAccount()
+    {
+        return view('customer.confirm-delete-account');
+    }
     public function deleteAccount(Request $request, $id)
     {
         $user = User::find($id);
@@ -492,14 +516,19 @@ class CustomerController extends Controller
         if (!$user) {
             return 'User not found';
         }
-
-        if (Hash::check($request->userPassDelete, $user->userpassword)) {
+        $isGoogleUser = $user->id;
+        if (Hash::check($request->userPassDelete, $user->userpassword) || $isGoogleUser) {
+            ProductFeedback::where('id', $id)->delete();
             $user->delete();
-            $user->destroy();
             Auth::logout();
+
+            if ($isGoogleUser) {
+                return redirect('customer/login-customer');
+            }
+
             return redirect('customer/login-customer');
         } else {
-            return redirect()->route('userProfile', $id)->with('error', 'Password is incorrect');
+            return redirect()->route('userProfile', $id)->with('earror', 'Password is incorrect');
         }
     }
 

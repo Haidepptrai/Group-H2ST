@@ -108,8 +108,7 @@
                                     $i = 1;
                                 @endphp
                                 @foreach (session('cart') as $id => $details)
-                                    <input type="hidden" value="{{  $details['proid']  }}" name="proid[]">
-                                    <tr class="cart">
+                                    <tr class="cart" rowId="{{ $id }}">
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>{{ $details['proname'] }}</td>
                                         <td><img src="../pro_img/{{ $details['proimage'] }}" alt=""
@@ -120,8 +119,12 @@
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
                                                     <button type="button" class="btn-minus">-</button>
-                                                    <input type="number" class="quantity-input" value="1"
-                                                        min="1" id='quantity' name="quantity" readonly>
+                                                    {{-- <input type="number" class="quantity-input" value="{{ $details['quantity'] }}"
+                                                        min="1" id='quantity' name="quantity" readonly
+                                                        onchange="changeQuantity(this.value, {{ $details['proid'] }})"> --}}
+                                                    <input type="number" value="{{ $details['quantity'] }}"
+                                                        id='quantity' min="1"
+                                                        onchange="changeQuantity(this.value, {{ $details['proid'] }})">
                                                     <button type="button" class="btn-plus">+</button>
                                                 </div>
                                             </div>
@@ -135,22 +138,48 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="6" class="text-center text-danger">Cart is empty</td>
+                                    <td colspan="6" class="text-center text-danger h3">Cart is empty</td>
                                 </tr>
                             @endif
                         </tbody>
                     </table>
                 </div>
                 <div class="float-end">
+                    @if (session('cart'))
                     Totals: <span id="total-price"></span>
                     <br>
                     <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
+                    @endif
                 </div>
             </form>
         </div>
 </body>
 <script src="../customer/convertToDollar.js"></script>
-<script src="../customer/shopping-cart/product-quantity.js"></script>
+{{-- <script src="../customer/shopping-cart/product-quantity.js"></script> --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Khi người dùng thay đổi giá trị của quantity
+        function changeQuantity(value, productId) {
+            // Gửi yêu cầu Ajax đến server để cập nhật giá trị quantity
+            $.ajax({
+                url: 'add-to-cart/' + productId,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // CSRF token để bảo vệ form
+                    quantity: value,
+                },
+                success: function(response) {
+                    // Xử lý kết quả thành công
+                    console.log(response);
+                    // Cập nhật giá trị quantity trong session của Laravel (nếu cần thiết)
+                },
+                error: function(xhr) {
+                    // Xử lý lỗi
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    </script>
 <footer>
     <div class="foot-container text-center">
         <a class="navbar-brand " href="{{ route('home') }}">H2ST Furniture</a>

@@ -62,7 +62,6 @@
                                     name='user'></box-icon></a>
                         </div>
                     @endif
-
                     <div class="shopping-cart"><a href="#" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">

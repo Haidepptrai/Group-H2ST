@@ -25,25 +25,53 @@
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">H2ST Furniture</a>
+                <a class="navbar-brand" href="{{ route('customerListProducts') }}">H2ST Furniture</a>
                 <div class="collapse navbar-collapse" id="navbarToggler">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('home') }}"
+                                draggable="false">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
+                            <a class="nav-link" href="{{ route('customerListProducts') }}" draggable="false">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('aboutUs') }}" draggable="false">About Us</a>
                         </li>
                     </ul>
-                    <div class="user-ava"><a href="#"><box-icon name='user'></box-icon></a></div>
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
-                    <form class="d-flex" role="search" action="search">
+                    @if (session('user') || Session()->has('id'))
+                        <div class="dropdown user-profile">
+                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url('../customer/user-profile') }}"><i
+                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                                    name='user'></box-icon></a>
+                        </div>
+                    @endif
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
+                                name='cart'></box-icon></a>
+                    </div>
+                    <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
-                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …" value=""
-                                name="searchValue" title="Search for:" />
+                            <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
+                                name="query" title="Search for:" />
                         </label>
                         <input type="submit" class="search-submit" value="Search" />
                     </form>
