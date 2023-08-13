@@ -81,7 +81,7 @@
         <div class="information">
             <h1>Fill your information for shipment</h1>
             <br>
-            <form action="{{ url('customer/confirm-order-page') }}" method="post">
+            <form action="{{ url('customer/confirm-order-page') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="userEmail" class="form-label">Email address</label>
@@ -93,13 +93,18 @@
                 </div>
                 <div class="mb-3">
                     <label for="userName" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="userName" id="userName"
+                    <input type="text" class="form-control" id="userName" name="userName"
                     value="@if(session('user')){{ session('user')->getName() }}@else{{ Session::get('userfirstname') }} {{ Session::get('userlastname') }}@endif" required>
                 </div>
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
                     <input type="text" class="form-control" id="userPhone" name="userPhone"
                     value="@if(session('user'))@if (method_exists(session('user'), 'getPhone')){{ session('user')->getPhone() }}@endif @else{{ Session::get('userphone') }}@endif" required>
+                </div>
+                <div class="mb-3">
+                    <label for="userAddress" class="form-label">Your Address</label>
+                    <input type="text" class="form-control" id="userAddress" name="userAddress"
+                    value="@if(session('user'))@if (method_exists(session('user'), 'getAddress')){{ session('user')->getAddress() }}@endif @else{{ Session::get('useraddress') }}@endif" required>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>

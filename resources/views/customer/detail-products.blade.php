@@ -15,6 +15,9 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../customer/product-detail/product-detail.css">
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!-- bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -115,26 +118,27 @@
                 </div>
                 <script src="../../customer/product-detail/star-fill.js"></script>
                 <div class="product-price-display">
-                    <p id="sale-price" class="product-price"></p>
-                    <p id="origin-price" class="product-price">{{ $products->proprice }}$</p>
+                    <input type="hidden" id="discount-value" value="{{ $products->discount }}">
+                    <p id="sale-price" class="product-price text-success h5"></p>
+                    <p id="origin-price" class="product-price text-danger h6">{{ $products->proprice }}$</p>
                 </div>
                 <div class="product-description">
                     <p>{{ $products->prodescription }}</p>
                 </div>
-                    <div>
-                        <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
-                            method="POST">
-                            @csrf
-                            <div class="cart">
-                                <button class="btn-minus" id="previous" type="button">-</button>
-                                <input type="text" class="quantity-input" min="1"
-                                    max="{{ $products->quantity }}" id='quantity' name="getQuantity" readonly>
-                                <button class="btn-plus" id="next" type="button">+</button>
-                            </div>
-                            <button class="btn btn-secondary text-light text center" id="addToCart">Add to
-                                cart</button>
-                        </form>
-                    </div>
+                <div>
+                    <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
+                        method="POST">
+                        @csrf
+                        <div class="cart">
+                            <button class="btn-minus" id="previous" type="button">-</button>
+                            <input type="text" class="quantity-input" min="1"
+                                max="{{ $products->quantity }}" id='quantity' name="getQuantity" readonly>
+                            <button class="btn-plus" id="next" type="button">+</button>
+                        </div>
+                        <button class="btn btn-secondary text-light text center" id="addToCart">Add to
+                            cart</button>
+                    </form>
+                </div>
                 <div class="addition-information">
                     <div class="category">
                         <p><strong>Category: {{ $products->catname }}</strong></p>
@@ -393,6 +397,7 @@ ratingForm.addEventListener('submit', function (event) {
 });
 
 -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <footer>
     <div class="foot-container text-center">

@@ -15,6 +15,7 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../customer/products-list/product-list.css">
     {{-- Bootstrap 5 icon --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
         integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <title>Product List</title> <!--Set this product list of. i.e Chair list, Table list, etc.-->
@@ -161,15 +162,21 @@
                                         <p class="stars"><i class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                 class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                 class="bi bi-star"></i></p>
-                                        <p class="product-price">{{ $product->proprice }}$</p>
+                                        @php
+                                            $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
+                                        @endphp
+                                        <p class="product-price text-success h4">{{ number_format($salePrice, 2) }}$
+                                        </p>
+                                        <p class="product-price text-danger h6 text-decoration-line-through">
+                                            {{ $product->proprice }}$</p>
                                     </div>
                                 </a>
                             </div>
                         @endif
                     @endforeach
 
-                    @if (isset($search))
-                        @foreach ($search as $result)
+                    @if (isset($products) && !$products->isEmpty())
+                        @foreach ($products as $result)
                             @php
                                 $displayProduct = $result->status == 1 && $result->category->status == 1;
                             @endphp
@@ -187,18 +194,34 @@
                                             <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                     class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                     class="bi bi-star"></i></p>
-                                            <p class="product-price">{{ $result->proprice }}$</p>
+                                            @php
+                                                $salePrice = $result->proprice - ($result->proprice * $result->discount) / 100;
+                                            @endphp
+                                            <p class="product-price text-success h5">
+                                                {{ number_format($salePrice, 2) }}$</p>
+                                            <p class="product-price text-danger h6 text-decoration-line-through">
+                                                {{ $result->proprice }}$</p>
                                         </div>
                                     </a>
                                 </div>
                             @endif
                         @endforeach
                     @else
-                    <div class="">
-                        <p>No product found!</p>
-                    </div>
+                        <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+                            <div class="text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"
+                                    fill="currentColor" class="bi bi-emoji-frown display-4 text-muted mb-3"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 1a7 7 0 0 0-7 7c0 3.198 2.209 5.935 5.188 6.628a1 1 0 0 0 .624 0C13.791 13.935 16 11.198 16 8a7 7 0 0 0-7-7zm-.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm2-1.5a.5.5 0 0 0-1 0V10a1 1 0 0 0-1-1 1 1 0 0 0-1 1v.5a2 2 0 0 0 2 2 2 2 0 0 0 2-2z" />
+                                </svg>
+                                <p class="h5">Oops! No products match your search criteria.</p>
+                                <p class="mb-4">Feel free to explore other categories or refine your search.</p>
+                                <a href="{{ route('customerListProducts') }}" class="btn btn-primary btn-lg">Explore
+                                    Categories</a>
+                            </div>
+                        </div>
                     @endif
-
                 </div>
                 <div class="category-list">
                     <h5>Categories</h5>

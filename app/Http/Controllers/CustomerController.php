@@ -112,7 +112,7 @@ class CustomerController extends Controller
         Session::pull('userbirthday');
         Session::pull('useremail');
         Auth::logout();
-        session()->flush();// remove all session data
+        session()->flush(); // remove all session data
         return redirect('customer/login-customer');
     }
 
@@ -318,8 +318,10 @@ class CustomerController extends Controller
 
     public function listProducts(Request $request, $page = 1)
     {
+        // Get category ID from the request
         $categoryId = $request->input('catid');
 
+        // Start building the query
         $query = Product::with('category')
             ->when($categoryId, function ($query, $categoryId) {
                 return $query->where('catid', $categoryId);
@@ -328,6 +330,7 @@ class CustomerController extends Controller
                 return $query->where('status', 1);
             });
 
+        // Apply price filters
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         if (!empty($minPrice) && is_numeric($minPrice)) {
@@ -337,35 +340,40 @@ class CustomerController extends Controller
             $query->where('proprice', '<=', $maxPrice);
         }
 
+        // Apply sorting
         $sort = $request->input('sort');
         $order = $request->input('order', 'asc');
-
         switch ($sort) {
             case 'name':
-                $query->orderBy('proname', $order, $sort);
+                $query->orderBy('proname', $order);
                 break;
             case 'price':
-                $query->orderBy('proprice', $order, $sort);
+                $query->orderBy('proprice', $order);
                 break;
             case 'popularity':
             default:
-                $query->orderBy('bestseller', $order, $sort);
+                $query->orderBy('bestseller', $order);
                 break;
         }
 
+        // Pagination settings
         $perPage = 12;
         $searchQuery = $request->input('query');
-        if (isset($searchQuery)) {
+        if ($searchQuery) {
+            // Search query present, fetch products with search criteria
             $products = $query->where('proname', 'LIKE', "%$searchQuery%")->paginate($perPage);
             $categories = Category::where('status', 1)->get();
             $products->appends($request->all());
-            return view('customer.list-products', compact('products', 'categories', 'searchQuery'));
+            $message = $products->isEmpty() ? "Products not found!" : null;
+            return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery'));
         } else {
+            // No search query, fetch products without search criteria
             $products = $query->paginate($perPage);
             $categories = Category::where('status', 1)->get();
             return view('customer.list-products', compact('products', 'categories'));
         }
     }
+
 
 
     public function aboutUs()
@@ -392,19 +400,19 @@ class CustomerController extends Controller
             $discount = $product->discount;
             $discount_price = $price - ($price * $discount / 100);
             $cart = session()->get('cart');
-            if (isset($cart[$id])) {
+            if (isset($cart[$id]) &&  $cart[$id]['quantity'] <  $cart[$id]['inventory'] ) {
                 $cart[$id]['quantity']++;
-            }
-            else{
+            } else {
                 $cart[$id] = [
                     "proid" => $product->proid,
                     "proname" => $product->proname,
                     "proprice" => $discount_price,
                     "proimage" => $product->proimage,
+                    "inventory" => $product->quantity,
                     "quantity" => 1
                 ];
             }
-            if($new_quantity){
+            if ($new_quantity) {
                 $cart[$id]['quantity'] = $new_quantity;
             }
             session()->put('cart', $cart);
@@ -426,13 +434,22 @@ class CustomerController extends Controller
         return view('customer.input-user');
     }
 
-    public function comfirmOrderPage()
+    public function comfirmOrderPage(Request $request)
     {
-        return view('customer.confirm-order-page');
+        $email = $request->input('userEmail');
+        $name = $request->input('userName');
+        $phone = $request->input('userPhone');
+        $address = $request->input('userAddress');
+        $city = $request->input('userCity');
+        $district = $request->input('userDistrict');
+        $ward = $request->input('userWard');
+
+        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward'));
     }
 
     public function detailProducts($id)
     {
+
         // Fetch details of the main product
         $products = DB::table('products')
             ->join('categories', 'products.catid', '=', 'categories.catid')
@@ -443,8 +460,8 @@ class CustomerController extends Controller
         // Fetch related products (you need to define how to determine related products)
         $relatedProducts = DB::table('products')
             ->where('catid', $products->catid)
-            ->where('proid', '!=', $id) // Exclude the current product
-            ->limit(5) // Limit the number of related products
+            ->where('proid', '!=', $id)
+            ->limit(5)
             ->get();
 
         $feedbacks = DB::table('productfeedbacks')
@@ -452,6 +469,7 @@ class CustomerController extends Controller
             ->where('productfeedbacks.proid', $id)
             ->select('productfeedbacks.*', 'users.username', 'users.userimage')
             ->get();
+
 
         return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks'));
     }

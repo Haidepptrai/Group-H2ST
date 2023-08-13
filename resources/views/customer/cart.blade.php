@@ -118,14 +118,10 @@
                                         <td class="view-quantity">
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
-                                                    <button type="button" class="btn-minus">-</button>
-                                                    {{-- <input type="number" class="quantity-input" value="{{ $details['quantity'] }}"
-                                                        min="1" id='quantity' name="quantity" readonly
-                                                        onchange="changeQuantity(this.value, {{ $details['proid'] }})"> --}}
+                                                    <button type="button" class="btn-minus" onclick="decreaseQuantity({{ $details['proid'] }}, {{ $i }})">-</button>
                                                     <input type="number" value="{{ $details['quantity'] }}"
-                                                        id='quantity' min="1"
-                                                        onchange="changeQuantity(this.value, {{ $details['proid'] }})">
-                                                    <button type="button" class="btn-plus">+</button>
+                                                        id='quantity_{{ $i }}' min="1" max="{{ $details['inventory'] }}" readonly>
+                                                    <button type="button" class="btn-plus" onclick="increaseQuantity({{ $details['proid'] }}, {{ $i }})">+</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -158,25 +154,38 @@
 {{-- <script src="../customer/shopping-cart/product-quantity.js"></script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Khi người dùng thay đổi giá trị của quantity
-        function changeQuantity(value, productId) {
-            // Gửi yêu cầu Ajax đến server để cập nhật giá trị quantity
+        function increaseQuantity(productId, id) {
+            var quantityInput = document.getElementById('quantity_'+ id);
+            var currentValue = parseInt(quantityInput.value);
+            var maxValue = parseInt(quantityInput.max);
+
+            if (currentValue < maxValue) {
+                quantityInput.value = currentValue + 1;
+            }
             $.ajax({
                 url: 'add-to-cart/' + productId,
                 type: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}', // CSRF token để bảo vệ form
-                    quantity: value,
+                    _token: '{{ csrf_token() }}',
+                    quantity: quantityInput.value,
                 },
-                success: function(response) {
-                    // Xử lý kết quả thành công
-                    console.log(response);
-                    // Cập nhật giá trị quantity trong session của Laravel (nếu cần thiết)
+            });
+        }
+        function decreaseQuantity(productId, id) {
+            var quantityInput = document.getElementById('quantity_'+ id);
+            var currentValue = parseInt(quantityInput.value);
+            var minValue = parseInt(quantityInput.min);
+
+            if (currentValue > minValue) {
+                quantityInput.value = currentValue - 1;
+            }
+            $.ajax({
+                url: 'add-to-cart/' + productId,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    quantity: quantityInput.value,
                 },
-                error: function(xhr) {
-                    // Xử lý lỗi
-                    console.log(xhr.responseText);
-                }
             });
         }
     </script>

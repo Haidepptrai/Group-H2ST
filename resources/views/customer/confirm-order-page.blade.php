@@ -85,7 +85,7 @@
                 <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
                 Back to order
             </a>
-            <div class="title">
+            <div class="title text-center text-primary my-5">
                 <h1>Confirm order</h1>
             </div>
 
@@ -108,10 +108,10 @@
                                     <input type="text" name='productID' value="c" hidden>
                                     <td>{{ $details['proname'] }}</td>
                                     <td ><img
-                                            src="../../pro_img/{{ $details['proimage'] }}"
+                                            src="../pro_img/{{ $details['proimage'] }}"
                                             class="rounded" width="100" height="100">
                                     </td>
-                                    <td class="product-price">{{ $details['proprice'] }}</td>
+                                    <td class="product-price text-success">{{ $details['proprice'] }}$</td>
                                     <td class="view-quantity">
                                         {{ $details['quantity'] }}
                                     </td>
@@ -126,32 +126,47 @@
                         <div class="mb-3 ms-3">
                             <label for="userEmail" class="form-label fw-bold">Email</label>
                             <input type="text" readonly class="form-control-plaintext" id="userEmail"
-                                value="email@example.com" name="userEmail">
+                                value="{{ $email }}" name="userEmail">
                         </div>
                         <div class="mb-3 ms-3">
                             <label for="userName" class="form-label fw-bold">Name</label>
-                            <input type="text" readonly class="form-control-plaintext" id="userName" value="User name"
-                                name="userName">
+                            <input type="text" readonly class="form-control-plaintext" id="userName"
+                                value="{{ $name }}" name="userName">
                         </div>
                         <div class="mb-3 ms-3">
                             <label for="userPhone" class="form-label fw-bold">Phone Number</label>
-                            <input type="text" readonly class="form-control-plaintext" id="userPhone" value="090000000"
-                                name="userPhone">
+                            <input type="text" readonly class="form-control-plaintext" id="userPhone"
+                                value="{{ $phone }}" name="userPhone">
                         </div>
                         <div class="mb-3 ms-3">
                             <label for="userAddress" class="form-label fw-bold">Address</label>
                             <input type="text" readonly class="form-control-plaintext" id="userAddress"
-                                value="20 Cong Hoa street" name="userAddress">
+                                value="{{ $address }}" name="userAddress">
                         </div>
+                        {{-- có thể thêm vào hoặc ko :)) --}}
+                        {{-- <div class="mb-3 ms-3">
+                            <label for="userWard" class="form-label fw-bold">Your Ward</label>
+                            <input type="text" readonly class="form-control-plaintext" id="userWard"
+                                value="{{ $ward }}" name="userWard">
+                        </div>
+                        <div class="mb-3 ms-3">
+                            <label for="userDistrict" class="form-label fw-bold">Your District</label>
+                            <input type="text" readonly class="form-control-plaintext" id="userDistrict"
+                                value="{{ $district }}" name="userDistrict">
+                        </div>
+                        <div class="mb-3 ms-3">
+                            <label for="userCity" class="form-label fw-bold">Your City</label>
+                            <input type="text" readonly class="form-control-plaintext" id="userCity"
+                                value="{{ $city }}" name="userCity">
+                        </div> --}}
                     </div>
                 </form>
             </div>
 
             <div class="float-end mx-5">
-                <input class="btn btn-primary position-relative top-0 start-50 translate-middle" type="submit"
-                    value="Confirm">
-                <div class="total">
-                    Totals: <span id="total-price"></span>
+                <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment orders </button>
+                <div class="total ">
+                    Totals: <span id="total-price" class="text-success"></span>
                 </div>
             </div>
 
@@ -175,6 +190,38 @@
         currency: "USD",
     });
     totalPriceElement.innerHTML = formattedPrice;
+</script>
+<script>// function để chuyễn mã vùng thành tên
+    async function getRegionName(citycode, districtcode, wardcode) {
+    try {
+        const response = await fetch(`https://provinces.open-api.vn/api/?depth=3`);
+        const data = await response.json();
+
+        const city = data.find(item => item.code === parseInt(citycode));
+        if (!city) {
+        throw new Error('Invalid city code');
+        }
+
+        const district = city.districts.find(item => item.code === parseInt(districtcode));
+        if (!district) {
+        throw new Error('Invalid district code');
+        }
+
+        const ward = district.wards.find(item => item.code === parseInt(wardcode));
+        if (!ward) {
+        throw new Error('Invalid ward code');
+        }
+
+        return {
+        city: city.name,
+        district: district.name,
+        ward: ward.name
+        };
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
 </script>
 
 <footer>
