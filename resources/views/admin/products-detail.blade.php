@@ -112,6 +112,21 @@
                         </div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#supplier">
+                            <i class="bi bi-box2 menu-icon"></i>
+                            <span class="menu-title">Suppliers</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="supplier">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-list') }}">Suppliers
+                                        List</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-add') }}">Add
+                                    Suppliers</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#form-elements">
                             <i class="bi bi-lamp menu-icon"></i>
                             <span class="menu-title">Products</span>
@@ -189,7 +204,7 @@
                                                         style="max-width: 90%; max-height: 90%; object-fit: cover;">
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <p><strong>Description:</strong> {{ $product->prodescription }}</p> 
+                                                    <p><strong>Description:</strong> {{ $product->prodescription }}</p>
                                                     <p><strong>Details:</strong> {{ $product->prodetails }}</p>
                                                     <p><strong>Price:</strong> ${{ $product->proprice }}</p>
                                                     <p><strong>Discount:</strong> {{ $product->discount }}%</p>

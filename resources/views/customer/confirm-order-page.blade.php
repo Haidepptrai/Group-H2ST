@@ -143,8 +143,7 @@
                             <input type="text" readonly class="form-control-plaintext" id="userAddress"
                                 value="{{ $address }}" name="userAddress">
                         </div>
-                        {{-- có thể thêm vào hoặc ko :)) --}}
-                        {{-- <div class="mb-3 ms-3">
+                        <div class="mb-3 ms-3">
                             <label for="userWard" class="form-label fw-bold">Your Ward</label>
                             <input type="text" readonly class="form-control-plaintext" id="userWard"
                                 value="{{ $ward }}" name="userWard">
@@ -158,7 +157,7 @@
                             <label for="userCity" class="form-label fw-bold">Your City</label>
                             <input type="text" readonly class="form-control-plaintext" id="userCity"
                                 value="{{ $city }}" name="userCity">
-                        </div> --}}
+                        </div>
                     </div>
                 </form>
             </div>
@@ -190,38 +189,6 @@
         currency: "USD",
     });
     totalPriceElement.innerHTML = formattedPrice;
-</script>
-<script>// function để chuyễn mã vùng thành tên
-    async function getRegionName(citycode, districtcode, wardcode) {
-    try {
-        const response = await fetch(`https://provinces.open-api.vn/api/?depth=3`);
-        const data = await response.json();
-
-        const city = data.find(item => item.code === parseInt(citycode));
-        if (!city) {
-        throw new Error('Invalid city code');
-        }
-
-        const district = city.districts.find(item => item.code === parseInt(districtcode));
-        if (!district) {
-        throw new Error('Invalid district code');
-        }
-
-        const ward = district.wards.find(item => item.code === parseInt(wardcode));
-        if (!ward) {
-        throw new Error('Invalid ward code');
-        }
-
-        return {
-        city: city.name,
-        district: district.name,
-        ward: ward.name
-        };
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
-    }
-}
 </script>
 
 <footer>
