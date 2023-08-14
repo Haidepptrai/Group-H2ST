@@ -54,7 +54,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('../customer/user-profile') }}"><i
                                             class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
@@ -142,7 +142,7 @@
             // Process the data and update your application's state
             data.map((d) => {
                 const option = document.createElement('option'); // Create a new option element
-                option.value = d.code; // Add value for the option, d.code is the code of each city
+                option.value = d.name; // Add value for the option, d.code is the code of each city
                 option.textContent = d.name; // Set the text content of the option, d.name is city name from api
                 selectProvince.appendChild(option); // Append the option to the select element
             })
@@ -151,7 +151,6 @@
             selectProvince.addEventListener("change", function () {
                 //Get province code
                 const getSelectProvince = selectProvince.value;
-
                 selectDistrict.disabled = false;
 
                 //Reset the district option
@@ -159,13 +158,13 @@
                 selectWards.innerHTML = '<option selected disabled>Select District</option>';
 
                 //Get city details district. Find the specific city by it value set at beginning
-                const selectedCityData = data.find(city => city.code === parseInt(getSelectProvince));
+                const selectedCityData = data.find(city => city.name === getSelectProvince);
 
                 if (selectedCityData) {
                     //Create district data of that province
                     selectedCityData.districts.map((district) => {
                         const option = document.createElement('option');
-                        option.value = district.code; //Set district value as its code for further purposes
+                        option.value = district.name; //Set district value as its code for further purposes
                         option.textContent = district.name;
                         selectDistrict.appendChild(option);
                     })
@@ -180,7 +179,7 @@
                         selectWards.innerHTML = '<option selected disabled>Select Ward</option>';
 
                         //Find specific district data
-                        const selectedDistrictData = selectedCityData.districts.find(district => district.code === parseInt(getSelectDistrict));
+                        const selectedDistrictData = selectedCityData.districts.find(district => district.name === getSelectDistrict);
 
                         //Create ward data of that district
                         if (selectedDistrictData) {

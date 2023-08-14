@@ -58,7 +58,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
                                             class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
@@ -68,7 +68,7 @@
                         <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="{{ route('cart') }}"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
@@ -106,6 +106,7 @@
                             @if (session('cart'))
                                 @php
                                     $i = 1;
+                                    $total = 0;
                                 @endphp
                                 @foreach (session('cart') as $id => $details)
                                     <tr class="cart" rowId="{{ $id }}">
@@ -131,6 +132,10 @@
                                                     class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
                                         </td>
                                     </tr>
+                                    @php
+                                        $proPrice = $details['proprice'] * $details['quantity'];
+                                        $total += $proPrice;
+                                    @endphp
                                 @endforeach
                             @else
                                 <tr>
@@ -142,7 +147,7 @@
                 </div>
                 <div class="float-end">
                     @if (session('cart'))
-                    Totals: <span id="total-price"></span>
+                    Totals: {{ $total }}
                     <br>
                     <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
                     @endif

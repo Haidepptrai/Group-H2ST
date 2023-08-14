@@ -9,10 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     {{-- Bootstrap 5 icon --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
-        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <link rel="stylesheet" href="../customer/about-us/about-us.css">
     <title>Home Page H2ST</title>
 </head>
@@ -45,9 +44,9 @@
                                     width="40" height="40">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                <li><a class="dropdown-item" href="{{ route('userProfile') }}"><i class="bi bi-person-lines-fill "></i> My
                                         profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
@@ -57,7 +56,7 @@
                         <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="#"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="{{ route('cart') }}"><box-icon name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
@@ -189,7 +188,7 @@
                         <img src="{{ asset('pro_img/' . $product->proimage) }}" alt="{{ $product->proname }}">
                     </div>
                     <div class="product-info">
-                        <a href="#" class="product-name"> {{ $product->proname }}</a>
+                        <a href="{{ url('customer/detail-products/' . $product->proid) }}" class="product-name"> {{ $product->proname }}</a>
                         <p class="product-price">{{ $product->proprice }}$</p>
                     </div>
                 </div>
@@ -201,7 +200,7 @@
 </body>
 <footer>
     <div class="foot-container">
-        <a class="navbar-brand" href="#">H2ST Furniture</a>
+        <a class="navbar-brand" href="{{ route('home') }}">H2ST Furniture</a>
         <div class="nav-container">
             <div class="sub-nav">
                 <div class="sub-title">

@@ -16,7 +16,7 @@
         <header>
             <nav>
                 <div class="logo">
-                    <p>My logo</p>
+                    <p>H2ST Furniture Shop</p>
                 </div>
             </nav>
         </header>

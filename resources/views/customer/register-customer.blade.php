@@ -21,7 +21,7 @@
         <header>
             <nav>
                 <div class="logo">
-                    <p>My logo</p>
+                    <p>H2ST Furniture Shop</p>
                 </div>
             </nav>
         </header>
@@ -63,7 +63,7 @@
                         </div>
                         <label for="userPassword">Enter your password</label><br>
                         <input type="password" class="userInput" id="userPassword" name="userPassword"
-                            placeholder="Password">
+                            placeholder="Password" pattern="[a-zA-Z0-9_]{3,20}"  title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
                         <label for="userAddress">Address</label><br>
                         <input type="text" class="userInput" id="useraddress" name="userAddress"
                             placeholder="Your address"><br>

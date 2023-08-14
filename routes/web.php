@@ -117,6 +117,7 @@ Route::middleware(['customAuth'])->group(function () {
     Route::get('customer/remove-from-cart/{id}', [CustomerController::class, 'removeFromCart']);
     Route::post('customer/confirm-order-page', [CustomerController::class, 'comfirmOrderPage']);
     Route::post('customer/input-user', [CustomerController::class, 'inputUser'])->name('inputUser');
+    Route::post('customer/add-order',[CustomerController::class, 'addOrder']);
 });
 
 // login with facebook

@@ -50,9 +50,10 @@
                                     width="40" height="40">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill "></i> My
+                                <li><a class="dropdown-item" href=" {{ route('userProfile') }}"><i class="bi bi-person-lines-fill "></i> My
                                         profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i>My order</a>
+                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i>My
+                                        order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
@@ -63,7 +64,7 @@
                                     name='user'></box-icon></a>
                         </div>
                     @endif
-                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
@@ -144,63 +145,33 @@
 
             <div class="product-display">
                 <div class="product-list">
-                    @foreach ($products as $product)
-                        @php
-                            $displayProduct = $product->status == 1 && $product->category->status == 1;
-                        @endphp
-                        @if ($displayProduct)
-                            <div class="product-item btn-group">
-                                <a href="{{ url('customer/detail-products/' . $product->proid) }}"
-                                    class="btn btn-outline-secondary border border-5 rounded-4 product"
-                                    draggable="false">
-                                    <div class="product-image">
-                                        <img src="{{ asset('pro_img/' . $product->proimage) }}"
-                                            alt="{{ $product->proname }}" class="rounded-2">
-                                    </div>
-                                    <div class="product-info">
-                                        <p class="product-name">{{ $product->proname }}</p>
-                                        <p class="stars"><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                                class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                                class="bi bi-star"></i></p>
-                                        @php
-                                            $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
-                                        @endphp
-                                        <p class="product-price text-success h4">{{ number_format($salePrice, 2) }}$
-                                        </p>
-                                        <p class="product-price text-danger h6 text-decoration-line-through">
-                                            {{ $product->proprice }}$</p>
-                                    </div>
-                                </a>
-                            </div>
-                        @endif
-                    @endforeach
-
-                    @if (isset($products) && !$products->isEmpty())
-                        @foreach ($products as $result)
+                    @if (!$products->isEmpty())
+                        @foreach ($products as $product)
                             @php
-                                $displayProduct = $result->status == 1 && $result->category->status == 1;
+                                $displayProduct = $product->status == 1 && $product->category->status == 1;
                             @endphp
                             @if ($displayProduct)
                                 <div class="product-item btn-group">
-                                    <a href="{{ url('customer/detail-products/' . $result->proid) }}"
-                                        class="btn btn-outline-secondary border border-2 rounded-4 product"
+                                    <a href="{{ url('customer/detail-products/' . $product->proid) }}"
+                                        class="btn btn-outline-secondary border border-5 rounded-4 product"
                                         draggable="false">
                                         <div class="product-image">
-                                            <img src="{{ asset('pro_img/' . $result->proimage) }}"
-                                                alt="{{ $result->proname }}" class="rounded-2">
+                                            <img src="{{ asset('pro_img/' . $product->proimage) }}"
+                                                alt="{{ $product->proname }}" class="rounded-2" loading="lazy">
                                         </div>
                                         <div class="product-info">
-                                            <p class="product-name">{{ $result->proname }}</p>
-                                            <p><i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                            <p class="product-name">{{ $product->proname }}</p>
+                                            <p class="stars"><i class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                     class="bi bi-star"></i><i class="bi bi-star"></i><i
                                                     class="bi bi-star"></i></p>
                                             @php
-                                                $salePrice = $result->proprice - ($result->proprice * $result->discount) / 100;
+                                                $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
                                             @endphp
-                                            <p class="product-price text-success h5">
-                                                {{ number_format($salePrice, 2) }}$</p>
+                                            <p class="product-price text-success h4">
+                                                {{ number_format($salePrice, 2) }}$
+                                            </p>
                                             <p class="product-price text-danger h6 text-decoration-line-through">
-                                                {{ $result->proprice }}$</p>
+                                                {{ $product->proprice }}$</p>
                                         </div>
                                     </a>
                                 </div>

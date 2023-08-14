@@ -113,10 +113,11 @@
                     </a>
                     <div class="collapse" id="supplier">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-list') }}">Suppliers
+                            <li class="nav-item"><a class="nav-link"
+                                    href="{{ url('admin/suppliers-list') }}">Suppliers
                                     List</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-add') }}">Add
-                                Suppliers</a></li>
+                                    Suppliers</a></li>
                         </ul>
                     </div>
                 </li>
@@ -128,7 +129,8 @@
                     </a>
                     <div class="collapse" id="Products">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="{{ url('admin/products-list') }}">Products
+                            <li class="nav-item"><a class="nav-link"
+                                    href="{{ url('admin/products-list') }}">Products
                                     List</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('admin/products-add') }}">Add
                                     Product</a></li>
@@ -218,12 +220,13 @@
                 <h2>Sales Report</h2>
                 <canvas id="salesChart" width="400" height="150"></canvas>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 var labels = ["Jan", "Feb", "Mar", "Apr", "May"];
                 var sales = [100, 200, 150, 300, 250];
                 var ctx = document.getElementById('salesChart').getContext('2d');
                 var myChart = new Chart(ctx, {
-                    type: 'line',
+                    type: 'line', // Set the chart type here
                     data: {
                         labels: labels,
                         datasets: [{
@@ -232,7 +235,6 @@
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderWidth: 1,
-                            type: 'line'
                         }]
                     },
                     options: {

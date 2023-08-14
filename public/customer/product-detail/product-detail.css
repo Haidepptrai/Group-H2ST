@@ -319,6 +319,20 @@ footer {
     gap: 2rem;
 }
 
+::-webkit-scrollbar-thumb {
+    background-color: #3498db;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #2980b9;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+
 @media (max-width: 991px) {
     .navbar {
       width: 100%;

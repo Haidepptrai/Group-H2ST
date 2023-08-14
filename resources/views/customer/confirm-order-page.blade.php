@@ -90,7 +90,7 @@
             </div>
 
             <div class="confirm-information">
-                <form class="confirm-send">
+                <form class="confirm-send" action="" method="POST">
                     {{-- <div class="overflow-auto border border-2" style="height: 700px;"></div> --}}
                     <table class="table product-confirm">
                         <thead>
@@ -123,6 +123,9 @@
                     <div class="line"></div>
                     <div class="customer-infor">
                         <h4>Customer Information</h4>
+                        <input type="hidden" class="form-control" id="userId" name="userId"
+                        value="@if(session('user')){{ Auth::id() }}@else{{ Session::get('id') }}@endif"
+                        aria-describedby="emailHelp" required>
                         <div class="mb-3 ms-3">
                             <label for="userEmail" class="form-label fw-bold">Email</label>
                             <input type="text" readonly class="form-control-plaintext" id="userEmail"
@@ -161,14 +164,12 @@
                     </div>
                 </form>
             </div>
-
             <div class="float-end mx-5">
                 <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment orders </button>
                 <div class="total ">
-                    Totals: <span id="total-price" class="text-success"></span>
+                    Totals: <span id="total-price" class="text-success" name="total"></span>
                 </div>
             </div>
-
         </div>
     </div>
 </body>

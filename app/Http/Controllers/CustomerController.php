@@ -11,6 +11,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Productfeedback;
 use App\Models\Orderproduct;
+use App\Models\Orderdetail;
 use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -97,6 +98,8 @@ class CustomerController extends Controller
             } else {
                 return redirect('customer/login-customer')->with('error', 'Invalid Password');
             }
+        }else{
+            return redirect('customer/login-customer')->with('error', 'User not found!');
         }
     }
 
@@ -255,8 +258,6 @@ class CustomerController extends Controller
         return redirect('customer/login-customer')->with('success', 'Password reset successfully, you can login now!');
     }
 
-
-
     //Login with Google
     public function redirectToGoogle()
     {
@@ -269,7 +270,6 @@ class CustomerController extends Controller
         $this->_registerOrLoginUser($user);
         return redirect()->route('home');
     }
-
 
     //Login with Facebook
     public function redirectToFacebook()
@@ -374,8 +374,6 @@ class CustomerController extends Controller
         }
     }
 
-
-
     public function aboutUs()
     {
         $products = Product::where('date', '>=', date('Y-m-d H:i:s', strtotime('-7 days')))->orderBy('date', 'desc')->limit(3)->get();
@@ -445,6 +443,25 @@ class CustomerController extends Controller
         $ward = $request->input('userWard');
 
         return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward'));
+    }
+
+    public function addOrder(Request $request){
+
+        $userId = $request->input('userId');
+        $userEmail = $request->input('userEmail');
+        $userName = $request->input('userName');
+        $userPhone = $request->input('userPhone');
+        $userAddress = $request->input('userAddress');
+        $userWard = $request->input('userWard');
+        $userDistrict = $request->input('userDistrict');
+        $userCity = $request->input('userCity');
+
+        $cart = Session::get('cart');
+        $user = new User();
+        $order = new Orderproduct();
+        $orderDetail = new Orderdetail();
+
+        $order->userid = $userId;
     }
 
     public function detailProducts($id)
@@ -574,7 +591,6 @@ class CustomerController extends Controller
             return redirect()->back()->with('error', 'Old password does not match');
         }
     }
-
 
     public function userfeeback(Request $request, $id)
     {

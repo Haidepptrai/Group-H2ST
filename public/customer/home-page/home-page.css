@@ -41,7 +41,7 @@ html {
 .navbar {
   --bs-navbar-padding-x: 1.5rem;
   --bs-navbar-padding-y: 2rem;
-  --bs-navbar-brand-margin-end: 2%;
+  --bs-navbar-brand-margin-end: 5.31rem;
   width: 97%;
 }
 
@@ -252,6 +252,8 @@ p.state {
   height: 33rem;
   object-fit: cover;
   object-position: 0% 0%;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .product-container {
@@ -263,8 +265,8 @@ p.state {
 
 .product-list {
   display: flex;
-  justify-self: center;
-  gap: 5rem;
+  justify-content: center;
+  gap: 17rem;
 }
 
 .product-title {
@@ -407,6 +409,10 @@ footer {
   .product-list-image {
     height: 25rem;
   }
+
+  .product-list{
+    gap: 12rem;
+  }
 }
 
 @media (max-width: 1051px) {
@@ -422,6 +428,10 @@ footer {
   .product-card-item img{
     height: 30rem;
   }
+
+  .product-list{
+    gap: 7rem;
+  }
 }
 
 
@@ -432,6 +442,10 @@ footer {
 
   .navbar-nav{
     gap: 1.25rem;
+  }
+
+  .navbar-brand{
+    margin-right: 1%;
   }
 
   .user-profile{
@@ -446,14 +460,33 @@ footer {
 
 }
 
+::-webkit-scrollbar-thumb {
+  background-color: #3498db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2980b9;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
 @media (max-width: 964px) {
   .product-list-image {
     height: 15rem;
+    object-position: 50% 0%;
   }
 }
 
 
 @media (max-width: 768px) {
+  .product-list{
+    gap: 2rem;
+  }
+
   .top-product-card {
     flex-direction: column;
     padding-bottom: 7rem;
@@ -522,6 +555,11 @@ footer {
 @media (max-width: 426px) {
   html {
     font-size: 14px;
+  }
+
+  p.state{
+    top: 1.75rem;
+    left: 1.75rem;
   }
 }
 

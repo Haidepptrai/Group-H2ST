@@ -123,11 +123,6 @@
                                                 Female</option>
                                         </select>
                                     </div>
-                                    <!-- <div class="col">
-                                        <label for="userPass">Enter your password</label>
-                                        <input type="password" name="userPass" id="userPass"
-                                            value=" @if (session('user')) {{ Session::get('userpassword') }} @endif @if (Session()->has('id')) {{ Session::get('userpassword') }} @endif ">
-                                    </div> -->
                                     <div class="col">
                                         <label for="userPhone">Enter a phone number</label>
                                         <input type="tel" id="userPhone" name="userPhone" class="form-control"

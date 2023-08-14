@@ -233,7 +233,7 @@ footer {
 
 @media (max-width: 1024px){
     html{
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .services{
@@ -252,6 +252,18 @@ footer {
         right: 5rem;
     }
 }
+
+@media (max-width: 991px){
+    .navbar-brand{
+        --bs-navbar-brand-margin-end: 2%;
+        gap: 0.88rem !important;
+    }
+
+    .navbar-expand-lg .navbar-collapse{
+        margin-top: 1rem;
+    }
+}
+
 
 @media (max-width: 768px){
     .services{
@@ -275,20 +287,6 @@ footer {
     }
 }
 
-@media (max-width: 425px) {
-    .website-introduction{
-        margin: 3rem;
-    }
-
-    .lastest-product-list{
-        margin: 0;
-    }
-
-    .percent{
-        right: 3rem;
-    }
-}
-
 @media (max-width: 568px) {
     .foot-container{
         padding: 3rem;
@@ -298,3 +296,26 @@ footer {
         flex-direction: column;
     }
 }
+
+@media (max-width: 425px) {
+    .website-introduction{
+        margin: 3rem;
+    }
+
+    .lastest-product-list{
+        margin: 0;
+    }
+
+    .services {
+        margin: 5rem 4.5rem;
+    }
+
+    .percent{
+        right: 3rem;
+    }
+
+    .banner-with-introduction img{
+        object-position: 45% 55%;
+    }
+}
+

@@ -64,9 +64,9 @@ class AdminController extends Controller
 
         // Report - Category Sales
         $categorySalesData = DB::table('products')
-            ->join('orderdetail', 'products.proid', '=', 'orderdetail.proid')
+            ->join('orderdetails', 'products.proid', '=', 'orderdetails.proid')
             ->join('categories', 'products.catid', '=', 'categories.catid')
-            ->select('categories.catname', DB::raw('sum(orderdetail.quantity) as total_sales'))
+            ->select('categories.catname', DB::raw('sum(orderdetails.quantity) as total_sales'))
             ->groupBy('categories.catname')
             ->get();
 
