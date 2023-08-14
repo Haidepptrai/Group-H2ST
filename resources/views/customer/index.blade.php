@@ -10,8 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+        </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <link rel="stylesheet" href="../customer/home-page/home-page.css">
@@ -44,29 +44,29 @@
                         </li>
                     </ul>
                     @if (session('user') || Session()->has('id'))
-                        <div class="dropdown user-profile">
-                            <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                @if (session('user'))
-                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                        width="40" height="40">
-                                @endif
-                                @if (Session()->has('id'))
-                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
-                                        alt="Avatar" width="40" height="40">
-                                @endif
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
-                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
-                            </ul>
-                        </div>
+                    <div class="dropdown user-profile">
+                        <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
+                            @if (session('user'))
+                            <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                width="40" height="40">
+                            @endif
+                            @if (Session()->has('id'))
+                            <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle " alt="Avatar"
+                                width="40" height="40">
+                            @endif
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
+                                        class="bi bi-person-lines-fill "></i> My profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
+                                        class="bi bi-box-arrow-in-left"></i>Log out</a></li>
+                        </ul>
+                    </div>
                     @else
-                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
-                                    name='user'></box-icon></a></div>
+                    <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
+                                name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
@@ -127,24 +127,23 @@
             <div class="top-product-card">
                 <!-- hot/new products -->
                 @isset($new_products)
-                    @foreach ($new_products as $product)
-                        @php
-                            $displayProduct = $product->status == 1 && $product->category->status == 1;
-                        @endphp
-                        @if ($displayProduct)
-                            <div class="product-card-item">
-                                <p class="state">New Products</p>
-                                <div class="product-image">
-                                    <img src="{{ asset('pro_img/' . $product->proimage) }}"
-                                        alt="{{ $product->proname }}">
-                                </div>
-                                <div class="product-info">
-                                    <a href="#" class="product-name" draggable="false">{{ $product->proname }}</a>
-                                    <p class="product-price">${{ $product->proprice }}</p>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
+                @foreach ($new_products as $product)
+                @php
+                $displayProduct = $product->status == 1 && $product->category->status == 1;
+                @endphp
+                @if ($displayProduct)
+                <div class="product-card-item">
+                    <p class="state">New Products</p>
+                    <div class="product-image">
+                        <img src="{{ asset('pro_img/' . $product->proimage) }}" alt="{{ $product->proname }}">
+                    </div>
+                    <div class="product-info">
+                        <a href="#" class="product-name" draggable="false">{{ $product->proname }}</a>
+                        <p class="product-price">${{ $product->proprice }}</p>
+                    </div>
+                </div>
+                @endif
+                @endforeach
                 @endisset
             </div>
             <div class="banner">
@@ -161,23 +160,22 @@
             </div>
             <div class="product-container">
                 @foreach ($featuredProducts as $fp)
-                    @php
-                        $displayProduct = $fp->status == 1 && $fp->category->status == 1;
-                    @endphp
-                    @if ($displayProduct)
-                        <div class="product-list">
-                            <div class="product-title">
-                                <h1>{{ $fp->category->catname }}</h1>
-                                <p>{{ $fp->prodetails }}</p>
-                                <a href="#" class="addition-link" draggable="false">View more<box-icon
-                                        name='chevron-right' color="#373737"></box-icon></a>
-                            </div>
-                            <div class="product-image">
-                                <img src="{{ asset('pro_img/' . $fp->proimage) }}" alt=""
-                                    class="product-list-image">
-                            </div>
-                        </div>
-                    @endif
+                @php
+                $displayProduct = $fp->status == 1 && $fp->category->status == 1;
+                @endphp
+                @if ($displayProduct)
+                <div class="product-list">
+                    <div class="product-title">
+                        <h1>{{ $fp->category->catname }}</h1>
+                        <p>{{ $fp->prodetails }}</p>
+                        <a href="#" class="addition-link" draggable="false">View more<box-icon name='chevron-right'
+                                color="#373737"></box-icon></a>
+                    </div>
+                    <div class="product-image">
+                        <img src="{{ asset('pro_img/' . $fp->proimage) }}" alt="" class="product-list-image">
+                    </div>
+                </div>
+                @endif
                 @endforeach
             </div>
             <div class="order-now">
@@ -193,12 +191,10 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M56.8333 30.9998C56.8333 45.2598 45.26 56.8331 31 56.8331C16.74 56.8331 5.16666 45.2598 5.16666 30.9998C5.16666 16.7398 16.74 5.1665 31 5.1665C45.26 5.1665 56.8333 16.7398 56.8333 30.9998Z"
-                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             <path
                                 d="M40.5842 39.215L32.5758 34.4359C31.1808 33.6092 30.0442 31.62 30.0442 29.9925V19.4009"
-                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>Shop online</p>
                     <p class="service-description">Seamless Shopping, Delivered to Your Doorstep - Experience the
                         Convenience of Online Shopping with Us. </p>
@@ -214,10 +210,10 @@
                                 d="M23.25 56.8332H38.75C49.135 56.8332 50.995 52.674 51.5375 47.6107L53.475 32.1107C54.1725 25.8073 52.3641 20.6665 41.3333 20.6665H20.6667C9.63583 20.6665 7.8275 25.8073 8.52499 32.1107L10.4625 47.6107C11.005 52.674 12.865 56.8332 23.25 56.8332Z"
                                 stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                                 stroke-linejoin="round" />
-                            <path d="M40.03 31.0002H40.0532" stroke="#1A1A1A" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M21.9441 31.0002H21.9674" stroke="#1A1A1A" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M40.03 31.0002H40.0532" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M21.9441 31.0002H21.9674" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                         Free shipping</p>
                     <p class="service-description">Free Shipping Worldwide - Shop with Confidence and Enjoy Hassle-Free
@@ -228,14 +224,13 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.16667 21.9712H56.8333" stroke="#1A1A1A" stroke-width="1.5"
                                 stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15.5 42.6377H20.6667" stroke="#1A1A1A" stroke-width="1.5"
-                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M27.125 42.6377H37.4583" stroke="#1A1A1A" stroke-width="1.5"
-                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15.5 42.6377H20.6667" stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M27.125 42.6377H37.4583" stroke="#1A1A1A" stroke-width="1.5" stroke-miterlimit="10"
+                                stroke-linecap="round" stroke-linejoin="round" />
                             <path
                                 d="M16.6367 9.05469H45.3375C54.5341 9.05469 56.8333 11.328 56.8333 20.3955V41.6047C56.8333 50.6722 54.5342 52.9455 45.3633 52.9455H16.6367C7.46584 52.9714 5.16667 50.698 5.16667 41.6305V20.3955C5.16667 11.328 7.46584 9.05469 16.6367 9.05469Z"
-                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Return policy</p>
                     <p class="service-description">Easy Returns and Hassle-Free Refunds - Shop with Confidence knowing
@@ -246,14 +241,12 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M22.4023 37.0189C22.4023 40.3514 24.9598 43.0381 28.1373 43.0381H34.6215C37.3857 43.0381 39.6332 40.6873 39.6332 37.7939C39.6332 34.6423 38.264 33.5314 36.2232 32.8081L25.8123 29.1914C23.7715 28.4681 22.4023 27.3573 22.4023 24.2056C22.4023 21.3123 24.6498 18.9614 27.414 18.9614H33.8982C37.0757 18.9614 39.6332 21.6481 39.6332 24.9806"
-                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M31 15.5V46.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
                                 stroke-linejoin="round" />
                             <path
                                 d="M31 56.8331C45.2674 56.8331 56.8333 45.2672 56.8333 30.9998C56.8333 16.7325 45.2674 5.1665 31 5.1665C16.7327 5.1665 5.16669 16.7325 5.16669 30.9998C5.16669 45.2672 16.7327 56.8331 31 56.8331Z"
-                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Payment</p>
                     <p class="service-description">Secure and Convenient Payment Options - Experience seamless
@@ -265,8 +258,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="carousel-caption">
-                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M17.8854 4.928L12.5814 13.04C14.176 13.5947 15.4934 14.6 16.5334 16.056C17.5734 17.4427 18.0934 19.1413 18.0934 21.152C18.0934 23.648 17.2267 25.7973 15.4934 27.6C13.76 29.3333 11.6454 30.2 9.14938 30.2C6.65338 30.2 4.50404 29.3333 2.70138 27.6C0.968042 25.7973 0.101375 23.648 0.101375 21.152C0.101375 19.8347 0.309375 18.656 0.725375 17.616C1.21071 16.576 1.86938 15.4667 2.70138 14.288L11.7494 0.871994L17.8854 4.928ZM40.6614 4.928L35.3574 13.04C36.952 13.5947 38.2694 14.6 39.3094 16.056C40.3494 17.4427 40.8694 19.1413 40.8694 21.152C40.8694 23.648 40.0027 25.7973 38.2694 27.6C36.536 29.3333 34.4214 30.2 31.9254 30.2C29.4294 30.2 27.28 29.3333 25.4774 27.6C23.744 25.7973 22.8774 23.648 22.8774 21.152C22.8774 19.8347 23.0854 18.656 23.5014 17.616C23.9867 16.576 24.6454 15.4667 25.4774 14.288L34.5254 0.871994L40.6614 4.928Z"
                                 fill="#2E2E2E" />
@@ -283,8 +275,7 @@
                 </div>
                 <div class="carousel-item">
                     <div class="carousel-caption">
-                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M17.8854 4.928L12.5814 13.04C14.176 13.5947 15.4934 14.6 16.5334 16.056C17.5734 17.4427 18.0934 19.1413 18.0934 21.152C18.0934 23.648 17.2267 25.7973 15.4934 27.6C13.76 29.3333 11.6454 30.2 9.14938 30.2C6.65338 30.2 4.50404 29.3333 2.70138 27.6C0.968042 25.7973 0.101375 23.648 0.101375 21.152C0.101375 19.8347 0.309375 18.656 0.725375 17.616C1.21071 16.576 1.86938 15.4667 2.70138 14.288L11.7494 0.871994L17.8854 4.928ZM40.6614 4.928L35.3574 13.04C36.952 13.5947 38.2694 14.6 39.3094 16.056C40.3494 17.4427 40.8694 19.1413 40.8694 21.152C40.8694 23.648 40.0027 25.7973 38.2694 27.6C36.536 29.3333 34.4214 30.2 31.9254 30.2C29.4294 30.2 27.28 29.3333 25.4774 27.6C23.744 25.7973 22.8774 23.648 22.8774 21.152C22.8774 19.8347 23.0854 18.656 23.5014 17.616C23.9867 16.576 24.6454 15.4667 25.4774 14.288L34.5254 0.871994L40.6614 4.928Z"
                                 fill="#2E2E2E" />
@@ -299,8 +290,7 @@
                 </div>
                 <div class="carousel-item">
                     <div class="carousel-caption">
-                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg width="41" height="31" viewBox="0 0 41 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M17.8854 4.928L12.5814 13.04C14.176 13.5947 15.4934 14.6 16.5334 16.056C17.5734 17.4427 18.0934 19.1413 18.0934 21.152C18.0934 23.648 17.2267 25.7973 15.4934 27.6C13.76 29.3333 11.6454 30.2 9.14938 30.2C6.65338 30.2 4.50404 29.3333 2.70138 27.6C0.968042 25.7973 0.101375 23.648 0.101375 21.152C0.101375 19.8347 0.309375 18.656 0.725375 17.616C1.21071 16.576 1.86938 15.4667 2.70138 14.288L11.7494 0.871994L17.8854 4.928ZM40.6614 4.928L35.3574 13.04C36.952 13.5947 38.2694 14.6 39.3094 16.056C40.3494 17.4427 40.8694 19.1413 40.8694 21.152C40.8694 23.648 40.0027 25.7973 38.2694 27.6C36.536 29.3333 34.4214 30.2 31.9254 30.2C29.4294 30.2 27.28 29.3333 25.4774 27.6C23.744 25.7973 22.8774 23.648 22.8774 21.152C22.8774 19.8347 23.0854 18.656 23.5014 17.616C23.9867 16.576 24.6454 15.4667 25.4774 14.288L34.5254 0.871994L40.6614 4.928Z"
                                 fill="#2E2E2E" />
