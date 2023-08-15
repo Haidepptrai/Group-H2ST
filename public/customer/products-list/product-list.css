@@ -13,7 +13,7 @@ html {
     --bs-navbar-padding-x: 1.5rem !important;
     --bs-navbar-padding-y: 2rem !important;
     --bs-navbar-brand-margin-end: 5.31rem !important;
-    width: 97%;
+    width: 100%;
 }
 
 .navbar-nav {
@@ -219,10 +219,12 @@ a.btn.btn-sm.btn-outline-secondary {
 .category-list>ul>li a {
     color: #564E4E;
     font-weight: 400;
+    border: 0;
 }
 
 .btn-outline-light {
     border: 0;
+    --bs-btn-hover-bg: #a9b3be !important;
 }
 
 .btn-outline-light:hover {

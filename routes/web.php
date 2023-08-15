@@ -108,7 +108,7 @@ Route::get('customer/user-profile', [CustomerController::class, 'userProfile'])-
 Route::post('customer/delete-account/{id}', [CustomerController::class, 'deleteAccount'])->name('deleteAccount');
 Route::post('customer/update-profile/{id}', [CustomerController::class, 'updateUserProfile'])->name('updateUserProfile');
 Route::post('customer/update-avatar/{id}', [CustomerController::class, 'updateUserAvatar'])->name('updateUserAvatar');
-Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userfeeback'])->name('userFeedback');
+Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userFeedback'])->name('userFeedback');
 
 //Check login for user
 Route::middleware(['customAuth'])->group(function () {

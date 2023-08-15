@@ -9,11 +9,11 @@ html {
     font-size: 16px;
 }
 
-.navbar {
+#topNav {
     --bs-navbar-padding-x: 1.5rem;
     --bs-navbar-padding-y: 2rem;
     --bs-navbar-brand-margin-end: 5.31rem;
-    width: 97%;
+    width: 100%;
 }
 
 .navbar-nav {
@@ -334,7 +334,7 @@ footer {
   }
 
 @media (max-width: 991px) {
-    .navbar {
+    .topNav {
       width: 100%;
     }
 

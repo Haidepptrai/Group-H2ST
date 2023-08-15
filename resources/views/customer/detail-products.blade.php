@@ -26,7 +26,7 @@
 
 <body>
     <div class="page-container">
-        <nav class="navbar navbar-expand-lg bg-transparent">
+        <nav class="navbar navbar-expand-lg bg-transparent" id="topNav">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav"
                     aria-controls="Click to open nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,10 +169,6 @@
                     <input type="hidden" name="id" value="{{ Auth::id() }}">
                     <input type="hidden" name="proid" value="{{ $products->proid }}">
                     <div class="mb-3">
-                        <label for="vote" class="form-label">Vote</label>
-                        <input type="number" class="form-control" name="vote" id="vote" required>
-                    </div>
-                    <div class="mb-3">
                         <label for="detail" class="form-label">Detail</label>
                         <textarea class="form-control" id="detail" name="detail" rows="3" required></textarea>
                     </div>
@@ -187,36 +183,31 @@
                         <input type="radio" id="star2" name="rating" value="2" required />
                         <label for="star2" title="2 stars">2</label>
                         <input type="radio" id="star1" name="rating" value="1" required />
-                        <label for="star1" title="1 star">1</label>
+                        <label for="star1" title="1 stars">1</label>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                @else
-                    <div class="alert alert-warning" role="alert">
-                        You have to login before recommend a product!
-                    </div>
                 </form>
+
+                <script>
+                    // Form submission and validation
+                    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+                        event.preventDefault(); // Prevent the default form submission
+
+                        // Perform client-side validation
+                        var rating = document.querySelector('input[name="rating"]:checked');
+
+                        if (!rating) {
+                            // Show the validation error modal
+                            var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
+                            ratingModal.show();
+                        } else {
+                            // Submit the form
+                            this.submit();
+                        }
+                    });
+                </script>
             @endif
-            <script>
-                // Form submission and validation
-                document.getElementById('feedback-form').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent the default form submission
-
-                    // Perform client-side validation
-                    var vote = document.getElementById('vote').value;
-                    var rating = document.querySelector('input[name="rating"]:checked');
-
-                    if (!vote || !rating) {
-                        // Show the validation error modal
-                        var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
-                        ratingModal.show();
-                    } else {
-                        // Submit the form
-                        this.submit();
-                    }
-                });
-            </script>
-
             <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
                 tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -245,10 +236,9 @@
                             <h6 class="card-title">Name: {{ $feedback->username }}</h6><br>
                             <h7 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h7><br>
                             <div class="already-rating mb-3">
-                                @for ($i = 5; $i >= 1; $i--)
-                                    <label for="star{{ $i }}"
-                                        title="{{ $i }} stars">{{ $i }}</label>
-                                @endfor
+                            @for ($i = 5; $i >= 1; $i--)
+                        <label for="star{{ $i }}" title="{{ $i }} stars" style="color: {{ $i <= $feedback->vote ? 'gold' : 'gray' }};"></label>
+                    @endfor
                             </div>
                             <p class="card-text">{{ $feedback->detail }}</p>
                         </div>
@@ -257,66 +247,6 @@
             @else
                 <p>No feedbacks found.</p>
             @endif
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">User Name</h5>
-                    <h5 class="card-subtitle mb-2 text-body-secondary">Rating</h5>
-                    <div class="already-rating mb-3">
-                        <label for="star5" title="5 stars">5</label>
-                        <label for="star4" title="4 stars">4</label>
-                        <label for="star3" title="3 stars">3</label>
-                        <label for="star2" title="2 stars">2</label>
-                        <label for="star1" title="1 star">1</label>
-                    </div>
-                    <p class="card-text">Leave user thought here.</p>
-
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">User Name</h5>
-                    <h5 class="card-subtitle mb-2 text-body-secondary">Rating</h5>
-                    <div class="already-rating mb-3">
-                        <label for="star5" title="5 stars">5</label>
-                        <label for="star4" title="4 stars">4</label>
-                        <label for="star3" title="3 stars">3</label>
-                        <label for="star2" title="2 stars">2</label>
-                        <label for="star1" title="1 star">1</label>
-                    </div>
-                    <p class="card-text">Leave user thought here.</p>
-
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">User Name</h5>
-                    <h5 class="card-subtitle mb-2 text-body-secondary">Rating</h5>
-                    <div class="already-rating mb-3">
-                        <label for="star5" title="5 stars">5</label>
-                        <label for="star4" title="4 stars">4</label>
-                        <label for="star3" title="3 stars">3</label>
-                        <label for="star2" title="2 stars">2</label>
-                        <label for="star1" title="1 star">1</label>
-                    </div>
-                    <p class="card-text">Leave user thought here.</p>
-
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">User Name</h5>
-                    <h5 class="card-subtitle mb-2 text-body-secondary">Rating</h5>
-                    <div class="already-rating mb-3">
-                        <label for="star5" title="5 stars">5</label>
-                        <label for="star4" title="4 stars">4</label>
-                        <label for="star3" title="3 stars">3</label>
-                        <label for="star2" title="2 stars">2</label>
-                        <label for="star1" title="1 star">1</label>
-                    </div>
-                    <p class="card-text">Leave user thought here.</p>
-
-                </div>
-            </div>
         </div>
 
         <div class="recommend-product">

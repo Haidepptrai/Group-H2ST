@@ -98,7 +98,7 @@ class CustomerController extends Controller
             } else {
                 return redirect('customer/login-customer')->with('error', 'Invalid Password');
             }
-        }else{
+        } else {
             return redirect('customer/login-customer')->with('error', 'User not found!');
         }
     }
@@ -387,6 +387,7 @@ class CustomerController extends Controller
     public function addToCart($id, Request $request)
     {
         $new_quantity = $request->input('quantity');
+        $total = $request->input('totalCost');
 
         if (auth()->check() || User::get()) {
 
@@ -398,7 +399,7 @@ class CustomerController extends Controller
             $discount = $product->discount;
             $discount_price = $price - ($price * $discount / 100);
             $cart = session()->get('cart');
-            if (isset($cart[$id]) &&  $cart[$id]['quantity'] <  $cart[$id]['inventory'] ) {
+            if (isset($cart[$id]) &&  $cart[$id]['quantity'] <  $cart[$id]['inventory']) {
                 $cart[$id]['quantity']++;
             } else {
                 $cart[$id] = [
@@ -414,7 +415,7 @@ class CustomerController extends Controller
                 $cart[$id]['quantity'] = $new_quantity;
             }
             session()->put('cart', $cart);
-
+            session()->put('total', $total);
             return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
         } else {
             return redirect()->route('login')->with('error', 'You need to be logged in to add products to the cart.');
@@ -445,19 +446,35 @@ class CustomerController extends Controller
         return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward'));
     }
 
-    public function addOrder(Request $request){
+    public function addOrder(Request $request)
+    {
 
         $userId = $request->input('userId');
         $userEmail = $request->input('userEmail');
         $userName = $request->input('userName');
+        $nameArray = explode(" ", $userName);
+        $firstName = $nameArray[0];
+        $lastName = end($nameArray);
         $userPhone = $request->input('userPhone');
         $userAddress = $request->input('userAddress');
         $userWard = $request->input('userWard');
         $userDistrict = $request->input('userDistrict');
         $userCity = $request->input('userCity');
 
+        $user =User::find($userId);
+        $user->useremail = $userEmail;
+        $user->userfirstname = $firstName;
+        $user->userlastname = $lastName;
+        $user->userphone = $userPhone;
+        $user->useraddress = $userAddress;
+        $user->userward = $userWard;
+        $user->userdistrict = $userDistrict;
+        $user->usercity = $userCity;
+        $user->save();
+
+        
+        $total = Session::get('total');
         $cart = Session::get('cart');
-        $user = new User();
         $order = new Orderproduct();
         $orderDetail = new Orderdetail();
 
@@ -592,23 +609,20 @@ class CustomerController extends Controller
         }
     }
 
-    public function userfeeback(Request $request, $id)
+    // Controller function
+    public function userFeedback(Request $request, $id)
     {
-        // Validate the form data
         $validatedData = $request->validate([
-            'vote' => 'required',
             'detail' => 'required',
             'proid' => 'required',
             'rating' => 'required',
         ]);
 
         $feedback = new ProductFeedback();
-        $feedback->vote = $validatedData['vote'];
         $feedback->detail = $validatedData['detail'];
+        $feedback->vote = $validatedData['rating'];
         $feedback->date = now();
-
         $feedback->id = $id;
-
         $feedback->proid = $validatedData['proid'];
 
         $feedback->save();

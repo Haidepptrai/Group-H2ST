@@ -115,7 +115,7 @@
                                         <td><img src="../pro_img/{{ $details['proimage'] }}" alt=""
                                                 class="rounded" width="100" height="100">
                                         </td>
-                                        <td class="product-price">{{ $details['proprice'] }}</td>
+                                        <td class="product-price text-success" id="price_{{ $i }}">{{ $details['proprice'] }}</td>
                                         <td class="view-quantity">
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
@@ -127,9 +127,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button type="submit" class="btn-remove"><a
-                                                    href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
-                                                    class="text-danger"><i class="bi bi-trash-fill"></a></i></button>
+                                            <a href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
+                                                    class="text-danger"><i class="bi bi-trash-fill"></a></i>
                                         </td>
                                     </tr>
                                     @php
@@ -137,6 +136,7 @@
                                         $total += $proPrice;
                                     @endphp
                                 @endforeach
+                                <input type="hidden" id="lenght" value="{{ count(session('cart')) }}">
                             @else
                                 <tr>
                                     <td colspan="6" class="text-center text-danger h3">Cart is empty</td>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="float-end">
                     @if (session('cart'))
-                    Totals: {{ $total }}
+                    Totals: <span class="text-success">$</span><span class="text-success" id="total-cart">{{ $total }}</span>
                     <br>
                     <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
                     @endif
@@ -160,6 +160,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function increaseQuantity(productId, id) {
+            findTotal()
             var quantityInput = document.getElementById('quantity_'+ id);
             var currentValue = parseInt(quantityInput.value);
             var maxValue = parseInt(quantityInput.max);
@@ -173,10 +174,12 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     quantity: quantityInput.value,
+                    totalCost: findTotal(),
                 },
             });
         }
         function decreaseQuantity(productId, id) {
+            findTotal()
             var quantityInput = document.getElementById('quantity_'+ id);
             var currentValue = parseInt(quantityInput.value);
             var minValue = parseInt(quantityInput.min);
@@ -190,9 +193,29 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     quantity: quantityInput.value,
+                    totalCost: findTotal(),
                 },
             });
         }
+
+        function findTotal(){
+            var total = 0;
+            var id = 2;
+            var check = parseInt(document.getElementById('lenght').value) + 1;
+
+            while(id <= check){
+                var price = parseFloat(document.getElementById('price_'+ id).innerText.replace('$', ''));
+                var quantity = parseInt(document.getElementById('quantity_'+ id).value);
+                proPrice = price * quantity
+                total += proPrice;
+                id++;
+            }
+
+            var viewTotal = document.getElementById("total-cart");
+            viewTotal.innerHTML = total.toFixed(2);
+            return total;
+        }
+
     </script>
 <footer>
     <div class="foot-container text-center">

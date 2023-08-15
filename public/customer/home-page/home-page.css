@@ -42,7 +42,7 @@ html {
   --bs-navbar-padding-x: 1.5rem;
   --bs-navbar-padding-y: 2rem;
   --bs-navbar-brand-margin-end: 5.31rem;
-  width: 97%;
+  width: 100%;
 }
 
 .navbar-nav {
@@ -111,7 +111,7 @@ input.search-submit {
 
 .head-description {
   color: #fff;
-  font-size: 1.4375rem;
+  font-size: 1.25rem;
   font-weight: 300;
 }
 
@@ -152,7 +152,7 @@ input.search-submit {
   text-align: center;
   margin: auto;
   margin-top: 2.5rem;
-  font-size: 1.4375rem;
+  font-size: 1.25rem;
   font-weight: 400;
 }
 
@@ -180,6 +180,10 @@ input.search-submit {
 
 .product-info {
   margin-top: 1.69rem;
+}
+
+.product-info a, .product-info p{
+  font-size: 1.25rem;
 }
 
 .product-name {
@@ -328,24 +332,29 @@ p.state {
   gap: 0.5rem;
   align-items: center;
   color: #353535;
-  font-size: 1.8125rem;
+  font-size: 1.5rem;
   font-weight: 600;
 }
 
 .service-description {
   color: #ABABAB;
-  font-size: 1.4375rem;
+  font-size: 1.25rem;
   font-weight: 400;
 }
 
-#carouselExampleFade>.carousel-inner>.carousel-item {
+#carouselUserQuote>.carousel-inner>.carousel-item {
   background-color: #373737;
   height: 45vh;
 }
 
-#carouselExampleFade>.carousel-inner {
+#carouselUserQuote>.carousel-inner {
   padding-bottom: 0;
   height: 45vh;
+}
+
+#pageCarousel>button {
+  height: 10%;
+  margin: auto;
 }
 
 .customer-feedback {
@@ -411,7 +420,7 @@ footer {
   }
 
   .product-list{
-    gap: 12rem;
+    gap: 7rem;
   }
 }
 
@@ -436,10 +445,6 @@ footer {
 
 
 @media (max-width: 991px) {
-  .navbar {
-    width: 100%;
-  }
-
   .navbar-nav{
     gap: 1.25rem;
   }

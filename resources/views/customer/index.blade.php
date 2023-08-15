@@ -81,7 +81,7 @@
                 </div>
             </div>
         </nav>
-        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div id="pageCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="../customer/home-page/./carousel/carousel01.jpg" class="d-block w-100" alt="...">
@@ -102,12 +102,12 @@
                             name='chevron-right' color="#fff"></box-icon></a>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            <button class="carousel-control-prev" type="button" data-bs-target="#pageCarousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            <button class="carousel-control-next" type="button" data-bs-target="#pageCarousel"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
@@ -262,7 +262,7 @@
                 </div>
             </div>
         </main>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" style="height: 45vh;">
+        <div id="carouselUserQuote" class="carousel slide carousel-fade" style="height: 45vh;">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="carousel-caption">
@@ -315,12 +315,12 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselUserQuote"
                 data-bs-slide="prevv">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselUserQuote"
                 data-bs-slide="nextt">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
