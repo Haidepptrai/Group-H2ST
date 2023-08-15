@@ -79,7 +79,12 @@
                 </div>
             </div>
         </nav>
-
+        @if (Session::has('error'))
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+        @endif
+        @if (Session::has('success'))
+        <div class="alert alert-success">{{ Session::get('success') }}</div>
+        @endif
         <div class="cart-info">
             <a class="icon-link" href="#">
                 <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
@@ -88,9 +93,9 @@
             <div class="title text-center text-primary my-5">
                 <h1>Confirm order</h1>
             </div>
-
             <div class="confirm-information">
-                <form class="confirm-send" action="" method="POST">
+                <form class="confirm-send" action="{{ url('customer/add-order') }}" method="POST">
+                    @csrf
                     {{-- <div class="overflow-auto border border-2" style="height: 700px;"></div> --}}
                     <table class="table product-confirm">
                         <thead>
@@ -162,13 +167,13 @@
                                 value="{{ $city }}" name="userCity">
                         </div>
                     </div>
+                    <div class="float-end mx-5">
+                        <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment orders </button>
+                        <div class="total ">
+                            Totals: <span id="total-price" class="text-success" name="total"></span>
+                        </div>
+                    </div>
                 </form>
-            </div>
-            <div class="float-end mx-5">
-                <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment orders </button>
-                <div class="total ">
-                    Totals: <span id="total-price" class="text-success" name="total"></span>
-                </div>
             </div>
         </div>
     </div>

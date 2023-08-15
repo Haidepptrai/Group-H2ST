@@ -109,12 +109,22 @@
                 <div class="product-name">
                     <p>{{ $products->proname }}</p>
                 </div>
+                @if (Session::has('averageRating'))
+                    <div class="alert alert-success">{{ Session::get('averageRating') }}</div>
+                @endif
                 <div class="star-rating">
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
+                    @php
+                        $averageRating = session() -> has('averageRating');
+                        // <!-- $averageRating = Session::get('averageRating'); -->
+                        dd($averageRating);
+                    @endphp
+                    @if (isset($averageRating))
+                        <div class="star-rating">
+                            @for ($i = 5; $i >= 1; $i--)
+                                    <span class="fa fa-star" style="color: {{ $i >= $averageRating ? 'gold' : 'gray' }};"></span>
+                            @endfor
+                        </div>
+                    @endif
                 </div>
                 <script src="../../customer/product-detail/star-fill.js"></script>
                 <div class="product-price-display">
@@ -236,9 +246,10 @@
                             <h6 class="card-title">Name: {{ $feedback->username }}</h6><br>
                             <h7 class="card-subtitle mb-2 text-body-secondary">Rating: {{ $feedback->vote }}</h7><br>
                             <div class="already-rating mb-3">
-                            @for ($i = 5; $i >= 1; $i--)
-                        <label for="star{{ $i }}" title="{{ $i }} stars" style="color: {{ $i <= $feedback->vote ? 'gold' : 'gray' }};"></label>
-                    @endfor
+                                @for ($i = 5; $i >= 1; $i--)
+                                    <label for="star{{ $i }}" title="{{ $i }} stars"
+                                        style="color: {{ $i <= $feedback->vote ? 'gold' : 'gray' }};"></label>
+                                @endfor
                             </div>
                             <p class="card-text">{{ $feedback->detail }}</p>
                         </div>

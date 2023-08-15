@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Exception;
 
 use Illuminate\Support\Carbon;
 
@@ -448,7 +449,6 @@ class CustomerController extends Controller
 
     public function addOrder(Request $request)
     {
-
         $userId = $request->input('userId');
         $userEmail = $request->input('userEmail');
         $userName = $request->input('userName');
@@ -461,7 +461,7 @@ class CustomerController extends Controller
         $userDistrict = $request->input('userDistrict');
         $userCity = $request->input('userCity');
 
-        $user =User::find($userId);
+        $user = User::find($userId);
         $user->useremail = $userEmail;
         $user->userfirstname = $firstName;
         $user->userlastname = $lastName;
@@ -472,13 +472,26 @@ class CustomerController extends Controller
         $user->usercity = $userCity;
         $user->save();
 
-        
         $total = Session::get('total');
-        $cart = Session::get('cart');
-        $order = new Orderproduct();
-        $orderDetail = new Orderdetail();
-
+        $order = new Orderproduct;
         $order->userid = $userId;
+        $order->status = 1;
+        $order->totalcost = $total;
+        $order->save();
+
+        $orderid = $order->getKey();
+        $cart = Session::get('cart');
+        foreach ($cart as $item) {
+            $orderDetail = new OrderDetail;
+
+            $orderDetail->orderid = $orderid;
+            $orderDetail->proid = $item['proid'];
+            $orderDetail->quantity = $item['quantity'];
+
+            $orderDetail->save();
+        }
+        Session::forget('cart');
+        return view('customer.index');
     }
 
     public function detailProducts($id)
@@ -507,7 +520,6 @@ class CustomerController extends Controller
 
         return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks'));
     }
-
 
     public function userProfile()
     {
@@ -618,15 +630,30 @@ class CustomerController extends Controller
             'rating' => 'required',
         ]);
 
-        $feedback = new ProductFeedback();
-        $feedback->detail = $validatedData['detail'];
-        $feedback->vote = $validatedData['rating'];
-        $feedback->date = now();
-        $feedback->id = $id;
-        $feedback->proid = $validatedData['proid'];
+        $feedback = ProductFeedback::find($id);
 
-        $feedback->save();
+        if ($feedback) {
+            // Update existing feedback
+            $feedback->detail = $validatedData['detail'];
+            $feedback->vote = $validatedData['rating'];
+            $feedback->date = now();
+            $feedback->proid = $validatedData['proid'];
+            $feedback->save();
+        } else {
+            // Create new feedback
+            $newFeedback = new ProductFeedback();
+            $newFeedback->id = $id;
+            $newFeedback->detail = $validatedData['detail'];
+            $newFeedback->vote = $validatedData['rating'];
+            $newFeedback->date = now();
+            $newFeedback->proid = $validatedData['proid'];
+            $newFeedback->save();
+        }
 
-        return redirect()->back();
+        // Calculate average vote for each proid
+        $averageRating = ProductFeedback::where('proid', $validatedData['proid'])->avg('vote');
+        
+
+        return redirect()->back()->with('averageRating', $averageRating);
     }
 }
