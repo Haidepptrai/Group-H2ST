@@ -43,8 +43,8 @@ class AdminController extends Controller
             ->select(
                 'categories.catid',
                 'categories.catname as category_name',
-                DB::raw('SUM(products.quantity) as product_count'),
-                DB::raw('GROUP_CONCAT(products.proname, " - Quantity: ", products.quantity SEPARATOR ", ") as product_details')
+                DB::raw('SUM(products.proquantity) as product_count'),
+                DB::raw('GROUP_CONCAT(products.proname, " - Quantity: ", products.proquantity SEPARATOR ", ") as product_details')
             )
             ->leftJoin('products', 'categories.catid', '=', 'products.catid')
             ->groupBy('categories.catid', 'categories.catname')
@@ -77,21 +77,6 @@ class AdminController extends Controller
             ->orderBy('orderdate', 'desc')
             ->get();
 
-        // Sales report - Monthly and Yearly
-        $monthlyYearlySalesData = DB::table('orderproducts')
-            ->select(
-                DB::raw('YEAR(orderdate) as year'),
-                DB::raw('MONTH(orderdate) as month'),
-                DB::raw('SUM(totalcost) as total_sales')
-            )
-            ->groupBy('year', 'month')
-            ->get();
-
-        // Prepare the data for the chart - Monthly and Yearly
-        $monthlyYearlyLabels = $monthlyYearlySalesData->map(function ($item) {
-            return Carbon::createFromDate($item->year, $item->month)->format('M Y');
-        });
-        $monthlyYearlySales = $monthlyYearlySalesData->pluck('total_sales');
 
         return view('admin.index', compact(
             'totalUsers',
@@ -103,9 +88,7 @@ class AdminController extends Controller
             'popularProducts',
             'userDemographics',
             'categorySalesData',
-            'orders',
-            'monthlyYearlyLabels',
-            'monthlyYearlySales'
+            'orders'
         ));
     }
 
@@ -312,10 +295,10 @@ class AdminController extends Controller
         $pro->proprice = $request->proprice;
         $pro->status = $request->status;
         $pro->discount = $request->discount;
-        $pro->quantity = $request->quantity;
+        $pro->proquantity = $request->quantity;
         $pro->bestseller = $request->bestseller;
         $pro->catid = $request->catid;
-        $pro->suppid = $request->supplierid;
+        $pro->supid = $request->suppid;
 
         $pro->save();
 
@@ -359,7 +342,7 @@ class AdminController extends Controller
             'proimage' => $img,
             'proprice' => $request->proprice,
             'discount' => $request->discount,
-            'quantity' => $request->quantity,
+            'proquantity' => $request->quantity,
             'catid' => $request->catid,
             'supid' => $request->suppid
         ]);
@@ -488,7 +471,10 @@ class AdminController extends Controller
     // Order
     public function ordersList()
     {
-        $order = Orderproduct::get();
+        $order = DB::table('orderproducts')
+            ->join('users', 'orderproducts.userid', '=', 'users.id')
+            ->select('orderproducts.*','users.*')
+            ->get();
         return view('admin.orders-list', compact('order'));
     }
     public function ordersDelete($id)
@@ -507,5 +493,13 @@ class AdminController extends Controller
             'status' => $request->status
         ]);
         return redirect()->back()->with('success', 'Order updated successfully!');
+    }
+    public function ordersDetail($id){
+        $orderDetail = DB::table('orderdetails')
+            ->join('products', 'products.proid', '=', 'orderdetails.proid')
+            ->select('products.*','orderdetails.*')
+            ->where('orderid', $id)
+            ->get();
+        return view('admin.orders-detail', compact('orderDetail'));
     }
 }

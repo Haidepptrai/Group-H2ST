@@ -279,7 +279,7 @@
                                                             @endif
                                                         </td>
                                                         <td>{{ date('Y-m-d', strtotime($p->date)) }}</td>
-                                                        <td>{{ $p->quantity }}</td>
+                                                        <td>{{ $p->proquantity }}</td>
                                                         <td>
                                                             <a href="{{ url('admin/products-edit/' . $p->proid) }}"><i
                                                                     class="bi bi-pencil-square"></i></a> | <a

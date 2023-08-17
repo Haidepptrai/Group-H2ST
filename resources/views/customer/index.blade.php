@@ -56,10 +56,13 @@
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
-                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
+                                @if (Session::has('id'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Session::get('id')) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @elseif (session('user'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Auth::id()) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i>Log out</a></li>
                             </ul>

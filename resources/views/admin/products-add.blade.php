@@ -296,7 +296,7 @@
                                             <div class="md-3">
                                                 <label for="discount" class="form-label">Discount:</label>
                                                 <input name="discount" id="discount" rows="5"
-                                                    class="form-control" required></input>
+                                                    class="form-control" required>
                                                 <div class="invalid-feedback">
                                                     Please enter some product discount.
                                                 </div>
@@ -317,7 +317,7 @@
                                             <div class="md-3">
                                                 <label for="quantity" class="form-label">Quantity:</label>
                                                 <input name="quantity" id="quantity" rows="5"
-                                                    class="form-control" required></input>
+                                                    class="form-control" required>
                                                 <div class="invalid-feedback">
                                                     Please enter some product quantity.
                                                 </div>

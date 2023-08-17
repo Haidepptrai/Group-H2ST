@@ -109,22 +109,27 @@
                 <div class="product-name">
                     <p>{{ $products->proname }}</p>
                 </div>
-                @if (Session::has('averageRating'))
-                    <div class="alert alert-success">{{ Session::get('averageRating') }}</div>
-                @endif
                 <div class="star-rating">
                     @php
-                        $averageRating = session() -> has('averageRating');
-                        // <!-- $averageRating = Session::get('averageRating'); -->
-                        dd($averageRating);
+                        $fullStars = floor($roundedAverageVote);
+                        $decimalPart = $roundedAverageVote - $fullStars;
+                        $remainingStars = 5 - $fullStars - ($decimalPart >= 0.1 ? 1 : 0);
                     @endphp
-                    @if (isset($averageRating))
-                        <div class="star-rating">
-                            @for ($i = 5; $i >= 1; $i--)
-                                    <span class="fa fa-star" style="color: {{ $i >= $averageRating ? 'gold' : 'gray' }};"></span>
-                            @endfor
-                        </div>
+
+                    @for ($i = 1; $i <= $fullStars; $i++)
+                        <span class="fa fa-star" style="color: gold;"></span>
+                    @endfor
+
+                    @if ($decimalPart >= 0.1 && $decimalPart <= 0.4)
+                        <span class="fa fa-star-half" style="color: gold;"></span>
+                    @else
+                        @if ($decimalPart >= 0.6 && $decimalPart <= 0.9)
+                            <span class="bi bi-star" style="color: gold;"></span>
+                        @endif
                     @endif
+                    @for ($i = 1; $i <= $remainingStars; $i++)
+                        <span class="fa fa-star" style="color: gray;"></span>
+                    @endfor
                 </div>
                 <script src="../../customer/product-detail/star-fill.js"></script>
                 <div class="product-price-display">
@@ -142,7 +147,7 @@
                         <div class="cart">
                             <button class="btn-minus" id="previous" type="button">-</button>
                             <input type="text" class="quantity-input" min="1"
-                                max="{{ $products->quantity }}" id='quantity' name="getQuantity" readonly>
+                                max="{{ $products->proquantity }}" id='quantity' name="getQuantity" readonly>
                             <button class="btn-plus" id="next" type="button">+</button>
                         </div>
                         <button class="btn btn-secondary text-light text center" id="addToCart">Add to

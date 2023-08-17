@@ -278,7 +278,7 @@
                                             <div class="md-3">
                                                 <label for="quantity" class="form-label">Quantity:</label>
                                                 <input name="quantity" id="quantity" rows="5"
-                                                    class="form-control" value="{{ $pro->quantity }}">
+                                                    class="form-control" value="{{ $pro->proquantity }}">
                                                 <div class="invalid-feedback">
                                                     Please enter some product quantity.
                                                 </div>

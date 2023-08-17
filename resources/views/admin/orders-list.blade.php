@@ -204,20 +204,29 @@
                                                 <tr>
                                                     <th> Order ID </th>
                                                     <th> User ID </th>
+                                                    <th> User Name</th>
                                                     <th> Order date</th>
                                                     <th> Status </th>
                                                     <th> Total cost</th>
                                                     <th> Action </th>
+                                                    <th> View order</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($order as $o)
                                                     <tr>
                                                         <td>{{ $o->orderid }}</td>
-                                                        <td>{{ $o->id }}</td>
+                                                        <td>{{ $o->userid }}</td>
+                                                        <td>{{ $o->userfirstname }}{{ $o->userlastname }}</td>
                                                         <td>{{ $o->orderdate }}</td>
-                                                        <td>{{ $o->status }}</td>
-                                                        <td>{{ $o->totalcost }}</td>
+                                                        @if ( $o->status == 1)
+                                                            <td> Wait For Confirm</td>
+                                                        @elseif ($o->status == 2)
+                                                            <td> Delivery </td>
+                                                        @elseif ($o->status == 3)
+                                                            <td> Received</td>
+                                                        @endif
+                                                        <td>${{ $o->totalcost }}</td>
                                                         <td>
                                                             <a href="{{ url('admin/orders-edit/' . $o->orderid) }}"><i
                                                                     class="bi bi-pencil-square"></i></a>
@@ -226,6 +235,11 @@
                                                                 class="delete-order"
                                                                 data-url="{{ url('admin/orders-delete/' . $o->orderid) }}"><i
                                                                     class="bi bi-trash text-danger"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group"><a
+                                                                    href="{{ url('admin/orders-detail/' . $o->orderid)}}"
+                                                                    class="btn btn-sm btn-outline-secondary">Details</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

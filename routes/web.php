@@ -86,6 +86,7 @@ Route::get('admin/orders-list', [AdminController::class, 'ordersList'])->middlew
 Route::get('admin/orders-delete/{id}', [AdminController::class, 'ordersDelete'])->middleware('isLoggedIn');
 Route::get('admin/orders-edit/{id}', [AdminController::class, 'ordersEdit'])->middleware('isLoggedIn');
 Route::post('admin/orders-update', [AdminController::class, 'ordersUpdate'])->middleware('isLoggedIn');
+Route::get('admin/orders-detail/{id}', [AdminController::class, 'ordersDetail'])->middleware('isLoggedIn');
 
 // Customer view
 Route::get('customer/index', [CustomerController::class, 'index'])->name('home');
@@ -104,10 +105,11 @@ Route::get('customer/list-products', [CustomerController::class, 'listProducts']
 Route::get('customer/detail-products/{id}', [CustomerController::class, 'detailProducts'])->name('customerDetailProducts');
 Route::get('customer/about', [CustomerController::class, 'aboutUs'])->name('aboutUs');
 
-Route::get('customer/user-profile', [CustomerController::class, 'userProfile'])->name('userProfile');
+Route::get('customer/user-profile/{id}', [CustomerController::class, 'userProfile'])->name('userProfile');
 Route::post('customer/delete-account/{id}', [CustomerController::class, 'deleteAccount'])->name('deleteAccount');
 Route::post('customer/update-profile/{id}', [CustomerController::class, 'updateUserProfile'])->name('updateUserProfile');
 Route::post('customer/update-avatar/{id}', [CustomerController::class, 'updateUserAvatar'])->name('updateUserAvatar');
+Route::post('customer/change-password/{id}', [CustomerController::class, 'changePassword'])->name('changePassword');
 Route::post('customer/submit-feedback/{id}', [CustomerController::class, 'userFeedback'])->name('userFeedback');
 
 //Check login for user
@@ -119,6 +121,8 @@ Route::middleware(['customAuth'])->group(function () {
     Route::post('customer/input-user', [CustomerController::class, 'inputUser'])->name('inputUser');
     Route::post('customer/add-order',[CustomerController::class, 'addOrder']);
 });
+
+
 
 // login with facebook
 Route::get('customer/login-customer/facebook', [CustomerController::class, 'redirectToFacebook'])->name('login.facebook');

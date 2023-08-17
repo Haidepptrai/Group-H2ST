@@ -26,7 +26,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap 5 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -191,84 +193,102 @@
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">Products Detail</h3>
-                                    @section('content')
-                                        <div class="container">
-                                            <h1>{{ $product->proname }}</h1>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-4"
-                                                    style="border: solid 1px black; border-radius: 50px 20px; display: flex; justify-content: center; align-items: center;">
-                                                    <img src="{{ asset('pro_img/' . $product->proimage) }}"
-                                                        alt="{{ $product->proname }}" class="img-fluid-3"
-                                                        style="max-width: 90%; max-height: 90%; object-fit: cover;">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p><strong>Description:</strong> {{ $product->prodescription }}</p>
-                                                    <p><strong>Details:</strong> {{ $product->prodetails }}</p>
-                                                    <p><strong>Price:</strong> ${{ $product->proprice }}</p>
-                                                    <p><strong>Discount:</strong> {{ $product->discount }}%</p>
-                                                    <p><strong>Quantity:</strong> {{ $product->proquantity }}</p>
-                                                    <p><strong>Category:</strong> {{ $product->catname }}</p>
-                                                    <p><strong>Status:</strong>
-                                                        @if ($product->status == 1)
-                                                            <span style="color: green;">Show</span>
-                                                        @else
-                                                            <span style="color: red;">Not Show</span>
-                                                        @endif
-                                                    </p>
-                                                    <p><strong>Hot Sales:</strong>
-                                                        @if ($product->bestseller == 1)
-                                                            <span style="color: green;">Best Sell</span>
-                                                        @else
-                                                            <span style="color: red;">Normal</span>
-                                                        @endif
-                                                    </p>
-                                                    <p><strong>Date Added:</strong>
-                                                        {{ date('Y-m-d', strtotime($product->date)) }}</p>
-                                                </div>
-                                            </div>
-                                        </div><br><br>
-                                        <a href="{{ url('admin/products-edit/' . $product->proid) }}"
-                                            class="btn btn-secondary">Edit</a>
-                                        <a href="{{ url('admin/products-list') }}" class="btn btn-secondary">Back</a>
+                                    <h3 class="card-title">Orders List</h3>
+                                    @if (Session::has('success'))
+                                        <div class="alert alert-success" role="alert">{{ Session::get('success') }}
+                                        </div>
+                                    @endif
+                                    <div class="overflow-auto" style="height: 700px;">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th> Order ID </th>
+                                                    <th> Product ID</th>
+                                                    <th> Product Name</th>
+                                                    <th> Product Image </th>
+                                                    <th> Price </th>
+                                                    <th> Quantity</th>
+                                                    <th> Total </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($orderDetail as $od)
+                                                    <tr>
+                                                        <td>{{ $od->orderid }}</td>
+                                                        <td>{{ $od->proid }}</td>
+                                                        <td>{{ $od->proname }}</td>
+                                                        <td>{{ $od->proimage }}</td>
+                                                        <td>{{ $od->proprice }}</td>
+                                                        <td>{{ $od->quantity }}</td>
+                                                        <td>${{ $od->quantity * $od->proprice }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- main-panel ends -->
                 </div>
-                <!-- page-body-wrapper ends -->
+                <!-- main-panel ends -->
             </div>
-            <!-- container-scroller -->
-            <!-- plugins:js -->
-            <script src="../../admin/vendors/js/vendor.bundle.base.js"></script>
-            <!-- endinject -->
-            <!-- Plugin js for this page -->
-            <script src="../../admin/vendors/chart.js/Chart.min.js"></script>
-            <script src="../../admin/vendors/datatables.net/jquery.dataTables.js"></script>
-            <script src="../../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-            <script src="../../admin/js/dataTables.select.min.js"></script>
+            <!-- page-body-wrapper ends -->
+        </div>
+        <!-- container-scroller -->
+        <script>
+            // Get all elements with class 'delete-user'
+            const deleteLinks = document.querySelectorAll('.delete-order');
+            // Attach event listener to each link
+            deleteLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    // Get the URL from the 'data-url' attribute of the link
+                    const url = this.getAttribute('data-url');
+                    // Show the SweetAlert2 confirmation dialog
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You will not be able to recover this product!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = url;
+                        }
+                    });
+                });
+            });
+        </script>
+        <!-- plugins:js -->
+        <script src="../../admin/vendors/js/vendor.bundle.base.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page -->
+        <script src="../../admin/vendors/chart.js/Chart.min.js"></script>
+        <script src="../../admin/vendors/datatables.net/jquery.dataTables.js"></script>
+        <script src="../../admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="../../admin/js/dataTables.select.min.js"></script>
 
-            <!-- End plugin js for this page -->
-            <!-- inject:js -->
-            <script src="../../admin/js/off-canvas.js"></script>
-            <script src="../../admin/js/hoverable-collapse.js"></script>
-            <script src="../../admin/js/template.js"></script>
-            <script src="../../admin/js/settings.js"></script>
-            <script src="../../admin/js/todolist.js"></script>
-            <!-- endinject -->
-            <!-- Custom js for this page-->
-            <script src="../../admin/js/dashboard.js"></script>
-            <script src="../../admin/js/Chart.roundedBarCharts.js"></script>
-            <!-- End custom js for this page-->
-            <footer>
-                <div class="footer mt-5">
-                    <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
-                    <p class="text-center">Help: 0123 456 789</p>
-                </div>
-            </footer>
-    </body>
+        <!-- End plugin js for this page -->
+        <!-- inject:js -->
+        <script src="../../admin/js/off-canvas.js"></script>
+        <script src="../../admin/js/hoverable-collapse.js"></script>
+        <script src="../../admin/js/template.js"></script>
+        <script src="../../admin/js/settings.js"></script>
+        <script src="../../admin/js/todolist.js"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <script src="../../admin/js/dashboard.js"></script>
+        <script src="../../admin/js/Chart.roundedBarCharts.js"></script>
+        <!-- End custom js for this page-->
+        <footer>
+            <div class="footer mt-5">
+                <p class="text-center">&copy; 2023 H2ST. All rights reserved.</p>
+                <p class="text-center">Help: 0123 456 789</p>
+            </div>
+        </footer>
+</body>
 
-    </html>
+</html>

@@ -204,12 +204,20 @@
                                                 <div class="form-group">
                                                     <label for="UserID">User ID</label>
                                                     <input type="text" class="form-control" id="UserID"
-                                                        name="UserID" readonly value="{{ $order->id }}">
+                                                        name="UserID" readonly value="{{ $order->userid }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="UserID">User Name</label>
+                                                    <input type="text" class="form-control" id="UserID"
+                                                        name="UserID" readonly value="{{ $order->userid }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
-                                                    <input type="text" class="form-control" id="status"
-                                                        name="status" required value="{{ $order->status }}">
+                                                    <select name="status" id="status" class="form-control">
+                                                        <option value="1">Wait For Confirm</option>
+                                                        <option value="2">Delivery</option>
+                                                        <option value="3">Received</option>
+                                                    </select>
                                                 </div>
                                                 <button type="submit" class="btn btn-success mr-2">Update</button>
                                                 <a href="{{ url('admin/orders-list') }}"

@@ -366,12 +366,16 @@ class CustomerController extends Controller
             $categories = Category::where('status', 1)->get();
             $products->appends($request->all());
             $message = $products->isEmpty() ? "Products not found!" : null;
-            return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery'));
+            $provote =Productfeedback::where('proid') -> avg('vote');
+            $roundedAverageVote = round($provote, 1);
+            return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery', 'roundedAverageVote'));
         } else {
             // No search query, fetch products without search criteria
             $products = $query->paginate($perPage);
             $categories = Category::where('status', 1)->get();
-            return view('customer.list-products', compact('products', 'categories'));
+            $provote =Productfeedback::where('proid') -> avg('vote');
+            $roundedAverageVote = round($provote, 1);
+            return view('customer.list-products', compact('products', 'categories', 'roundedAverageVote'));
         }
     }
 
@@ -517,15 +521,24 @@ class CustomerController extends Controller
             ->select('productfeedbacks.*', 'users.username', 'users.userimage')
             ->get();
 
+        $averageVote = DB::table('productfeedbacks')
+            ->where('proid', $id)
+            ->avg('vote');
+            $roundedAverageVote = round($averageVote, 1);
 
-        return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks'));
+        return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks', 'roundedAverageVote'));
     }
 
-    public function userProfile()
+    public function userProfile($id)
     {
-        $user = User::where('id')->first();
-
-        return view('customer.user-profile', compact('user'));
+        $order = DB::table('orderproducts')
+                    ->where('userid', $id)
+                    ->get();
+        $orderDetail = DB::table('orderproducts')
+                    ->join('orderdetails','orderdetails.orderid', '=', 'orderproducts.orderid')
+                    ->join('products','products.proid', '=', 'orderdetails.proid')
+                    ->where('orderproducts.userid', $id);
+        return view('customer.user-profile', compact('order'));
     }
 
     public function updateUserProfile(Request $request, $id)
@@ -596,25 +609,23 @@ class CustomerController extends Controller
         }
     }
 
-    public function changePassword()
+    public function changePassword(Request $request, $id)
     {
-        return view('customer.change-password');
-    }
+        $user = User::find($id);
 
-    public function updatePassword(Request $request)
-    {
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found');
+        }
+
         $request->validate([
-            'old_password' => 'required|min:6|max:20',
-            'new_password' => 'required|min:6|max:20',
-            'confirm_password' => 'required|same:new_password',
+            'oldPassword' => 'required|min:6|max:20',
+            'newPassword' => 'required|min:6|max:20',
+            'newPassConfirm' => 'required|same:newPassword',
         ]);
 
-        $user = Auth::user();
-
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->$request->update([
-                'password' => bcrypt($request->new_password),
-            ]);
+        if (Hash::check($request->oldPassword, $user->userpassword)) {
+            $user->userpassword = bcrypt($request->newPassword);
+            $user->save();
             return redirect()->back()->with('success', 'Password changed successfully');
         } else {
             return redirect()->back()->with('error', 'Old password does not match');
@@ -650,10 +661,6 @@ class CustomerController extends Controller
             $newFeedback->save();
         }
 
-        // Calculate average vote for each proid
-        $averageRating = ProductFeedback::where('proid', $validatedData['proid'])->avg('vote');
-        
-
-        return redirect()->back()->with('averageRating', $averageRating);
+        return redirect() -> back();
     }
 }

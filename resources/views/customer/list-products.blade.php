@@ -50,7 +50,8 @@
                                     width="40" height="40">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href=" {{ route('userProfile') }}"><i class="bi bi-person-lines-fill "></i> My
+                                <li><a class="dropdown-item" href=""><i
+                                            class="bi bi-person-lines-fill "></i> My
                                         profile</a></li>
                                 <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i>My
                                         order</a>
@@ -161,9 +162,29 @@
                                         </div>
                                         <div class="product-info">
                                             <p class="product-name">{{ $product->proname }}</p>
-                                            <p class="stars"><i class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                                    class="bi bi-star"></i><i class="bi bi-star"></i><i
-                                                    class="bi bi-star"></i></p>
+                                            <p class="stars">
+                                            <div class="star-rating">
+                                                @php
+                                                    $fullStars = floor($roundedAverageVote);
+                                                    $decimalPart = $roundedAverageVote - $fullStars;
+                                                    $remainingStars = 5 - $fullStars - ($decimalPart >= 0.5 ? 1 : 0);
+                                                @endphp
+
+                                                @for ($i = 1; $i <= $fullStars; $i++)
+                                                    <span class="bi bi-star" style="color: gold;"></span>
+                                                @endfor
+
+                                                @if ($decimalPart >= 0.1 && $decimalPart <= 0.5)
+                                                    <span class="bi bi-star-half" style="color: gold;"></span>
+                                                @elseif ($decimalPart >= 0.6 && $decimalPart <= 0.9)
+                                                    <span class="bi bi-star" style="color: gold;"></span>
+                                                @endif
+
+                                                @for ($i = 1; $i <= $remainingStars; $i++)
+                                                    <span class="bi bi-star" style="color: gray;"></span>
+                                                @endfor
+                                            </div>
+                                            </p>
                                             @php
                                                 $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
                                             @endphp

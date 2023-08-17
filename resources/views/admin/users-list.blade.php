@@ -232,7 +232,11 @@
                                                         <td>{{ $u->userlastname }}</td>
                                                         <td>{{ $u->userbirthday }}</td>
                                                         <td>{{ $u->useraddress }}</td>
-                                                        <td>{{ $u->usergender }}</td>
+                                                        @if ($u->usergender == 0)
+                                                        <td> Male </td>
+                                                        @elseif ($u->usergender == 1)
+                                                        <td> Female </td>
+                                                        @endif
                                                         <td>{{ $u->userphone }}</td>
                                                         <td>
                                                             <a href="{{ url('admin/users-delete/' . $u->id) }}"
