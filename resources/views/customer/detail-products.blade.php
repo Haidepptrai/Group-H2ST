@@ -144,12 +144,6 @@
                     <form class="add-to-cart" action="{{ url('customer/add-to-cart/' . $products->proid) }}"
                         method="POST">
                         @csrf
-                        <div class="cart">
-                            <button class="btn-minus" id="previous" type="button">-</button>
-                            <input type="text" class="quantity-input" min="1"
-                                max="{{ $products->proquantity }}" id='quantity' name="getQuantity" readonly>
-                            <button class="btn-plus" id="next" type="button">+</button>
-                        </div>
                         <button class="btn btn-secondary text-light text center" id="addToCart">Add to
                             cart</button>
                     </form>
