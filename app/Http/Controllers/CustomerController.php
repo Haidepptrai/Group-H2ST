@@ -321,8 +321,6 @@ class CustomerController extends Controller
     {
         // Get category ID from the request
         $categoryId = $request->input('catid');
-
-        // Start building the query
         $query = Product::with('category')
             ->when($categoryId, function ($query, $categoryId) {
                 return $query->where('catid', $categoryId);
@@ -330,8 +328,6 @@ class CustomerController extends Controller
             ->whereHas('category', function ($query) {
                 return $query->where('status', 1);
             });
-
-        // Apply price filters
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         if (!empty($minPrice) && is_numeric($minPrice)) {
@@ -340,7 +336,6 @@ class CustomerController extends Controller
         if (!empty($maxPrice) && is_numeric($maxPrice)) {
             $query->where('proprice', '<=', $maxPrice);
         }
-
         // Apply sorting
         $sort = $request->input('sort');
         $order = $request->input('order', 'asc');
@@ -356,12 +351,10 @@ class CustomerController extends Controller
                 $query->orderBy('bestseller', $order);
                 break;
         }
-
         // Pagination settings
         $perPage = 12;
         $searchQuery = $request->input('query');
         if ($searchQuery) {
-            // Search query present, fetch products with search criteria
             $products = $query->where('proname', 'LIKE', "%$searchQuery%")->paginate($perPage);
             $categories = Category::where('status', 1)->get();
             $products->appends($request->all());
@@ -370,10 +363,9 @@ class CustomerController extends Controller
             $roundedAverageVote = round($provote, 1);
             return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery', 'roundedAverageVote'));
         } else {
-            // No search query, fetch products without search criteria
-            $products = $query->paginate($perPage);
+            $products = $query->paginate($perPage)->appends($request->except('page'));
             $categories = Category::where('status', 1)->get();
-            $provote =Productfeedback::where('proid') -> avg('vote');
+            $provote = Productfeedback::where('proid')->avg('vote');
             $roundedAverageVote = round($provote, 1);
             return view('customer.list-products', compact('products', 'categories', 'roundedAverageVote'));
         }
@@ -389,6 +381,7 @@ class CustomerController extends Controller
     {
         return view('customer.cart');
     }
+
     public function addToCart($id, Request $request)
     {
         $new_quantity = $request->input('quantity');
@@ -419,8 +412,18 @@ class CustomerController extends Controller
             if ($new_quantity) {
                 $cart[$id]['quantity'] = $new_quantity;
             }
+            if($total){
+                session()->put('total', $total);
+            }else{
+                $firsttotal = $discount_price;
+                if(session()->get('firsttotal')){
+                    $firsttotal = $firsttotal + $discount_price;
+                }
+                session()->put('firsttotal', $firsttotal);
+                $newtotal = session()->get('firsttotal');
+                session()->put('total', $newtotal);
+            }
             session()->put('cart', $cart);
-            session()->put('total', $total);
             return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
         } else {
             return redirect()->route('login')->with('error', 'You need to be logged in to add products to the cart.');
@@ -491,12 +494,11 @@ class CustomerController extends Controller
             $orderDetail->orderid = $orderid;
             $orderDetail->proid = $item['proid'];
             $orderDetail->quantity = $item['quantity'];
-
             $orderDetail->save();
         }
         Session::forget('cart');
         Session::forget('total');
-        return view('customer.list-products');
+        return redirect('customer/list-products');
     }
 
     public function detailProducts($id)
@@ -556,6 +558,9 @@ class CustomerController extends Controller
         $user->usergender = $request->input('userGender');
         $user->useraddress = $request->input('userAddress');
         $user->userphone = $request->input('userPhone');
+        $user->usercity = $request->input('userCity');
+        $user->userdistrict = $request->input('userDistrict');
+        $user->userward= $request->input('userWards');
 
         $user->save();
 

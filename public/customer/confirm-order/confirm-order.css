@@ -167,6 +167,16 @@ td.view-quantity {
 
 #total-price {
     font-weight: 550;
+    border: 0;
+}
+
+#total-price:focus{
+    outline: none !important;
+}
+
+#total-price::placeholder{
+    --bs-text-opacity: 1;
+    color: rgba(25,135,84)!important;
 }
 
 .table > thead,

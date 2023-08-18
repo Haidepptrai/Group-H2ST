@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -57,12 +57,6 @@ class AdminController extends Controller
             ->limit(5)
             ->get();
 
-        // Analysis - User Demographics
-        $userDemographics = DB::table('users')
-            ->select(DB::raw('count(*) as user_count, usergender'))
-            ->groupBy('usergender')
-            ->get();
-
         // Report - Category Sales
         $categorySalesData = DB::table('products')
             ->join('orderdetails', 'products.proid', '=', 'orderdetails.proid')
@@ -87,7 +81,6 @@ class AdminController extends Controller
             'sales',
             'categories',
             'popularProducts',
-            'userDemographics',
             'categorySalesData',
             'orders'
         ));
@@ -113,7 +106,7 @@ class AdminController extends Controller
                 DB::table('admins')
                     ->where('adminid', $request->input('adminid'))
                     ->update([
-                        'adminpassword' => $request->input('adminpassword'),
+                        'adminpassword' => Hash::make($request->input('adminpassword')),
                         'adminfullname' => $request->input('adminfullname'),
                         'adminemail' => $request->input('adminemail'),
                         'adminimage' => $adminimage
@@ -124,6 +117,7 @@ class AdminController extends Controller
             }
         }
     }
+
     public function login()
     {
         return view('admin.login');
@@ -133,7 +127,7 @@ class AdminController extends Controller
     {
         $admin = Admin::where('adminusername', '=', $request->username)->first();
         if ($admin) {
-            if ($admin->adminpassword == $request->password) {
+            if (Hash::check($request->password, $admin->adminpassword)) {
                 $request->session()->put('adminid', $admin->adminid);
                 $request->session()->put('adminfullname', $admin->adminfullname);
                 $request->session()->put('adminlevel', $admin->level);
@@ -146,6 +140,7 @@ class AdminController extends Controller
             return back()->with('fail', 'Username does not exist!');
         }
     }
+
 
     public function logout()
     {
@@ -175,14 +170,15 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Category added successfully!');
     }
+
     public function categoriesEdit($id)
     {
         $cate = Category::where('catid', '=', $id)->first();
         return view('admin.categories-edit', compact('cate'));
     }
 
-    public function categoriesUpdate(Request $request)
-    {
+        public function categoriesUpdate(Request $request)
+        {
         Category::where('catid', '=', $request->CategoryID)->update([
             'catname' => $request->catname
         ]);
@@ -412,7 +408,7 @@ class AdminController extends Controller
         }
         DB::table('admins')->insert([
             'adminusername' => $request->input('adminusername'),
-            'adminpassword' => $request->input('adminpassword'),
+            'adminpassword' => Hash::make($request->input('adminpassword')),
             'adminfullname' => $request->input('adminfullname'),
             'adminemail' => $request->input('adminemail'),
             'adminimage' => $adminimage,
@@ -442,7 +438,7 @@ class AdminController extends Controller
             ->where('adminid', $request->input('adminid'))
             ->update([
                 'adminusername' => $request->input('adminusername'),
-                'adminpassword' => $request->input('adminpassword'),
+                'adminpassword' => Hash::make($request->input('adminpassword')),
                 'adminfullname' => $request->input('adminfullname'),
                 'adminemail' => $request->input('adminemail'),
                 'adminimage' => $adminimage,

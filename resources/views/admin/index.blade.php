@@ -295,7 +295,7 @@
                     </tbody>
                 </table>
             </div>
-            <hr><br><br>
+            <hr><br>
 
             <!-- Analytics and Insights -->
             <div class="row">
@@ -307,17 +307,6 @@
                             <ul class="list-group">
                                 @foreach ($popularProducts as $product)
                                     <li class="list-group-item">{{ $product->proname }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h3 class="my-3">User Demographics</h3>
-                            <ul class="list-group">
-                                @foreach ($userDemographics as $userDemographic)
-                                    <li class="list-group-item">
-                                        {{ $userDemographic->usergender == 1 ? 'Male' : ($userDemographic->usergender == 0 ? 'Female' : '') }}
-                                        {{ $userDemographic->user_count }} users
-                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -355,9 +344,12 @@
                             datasets: [{
                                 data: @json($categorySalesData->pluck('total_sales')),
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.8)',
+                                    'rgba(238, 103, 38, 0.8)',
                                     'rgba(54, 162, 235, 0.8)',
-                                    'rgba(255, 206, 86, 0.8)',
+                                    'rgba(36, 40, 145, 0.8)',
+                                    'rgba(7, 165, 38, 0.8)',
+                                    'rgba(59, 0, 72, 1)',
+                                    'rgba(25, 106, 186, 0.8)',
                                     // Add more colors for additional categories if needed
                                 ],
                                 borderColor: 'rgba(255, 255, 255, 1)',
@@ -396,7 +388,8 @@
                             }
                         }
                     });
-                </script><hr><br><br>
+                </script>
+                <hr><br><br>
 
                 <!-- Order Processing -->
                 <div class="container">

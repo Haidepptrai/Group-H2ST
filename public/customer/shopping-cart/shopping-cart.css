@@ -41,8 +41,7 @@ html {
 .navbar {
     --bs-navbar-padding-x: 1.5rem;
     --bs-navbar-padding-y: 2rem;
-    --bs-navbar-brand-margin-end: 5.31rem;
-    width: 97%;
+    width: 100%;
 }
 
 .navbar-nav {
@@ -145,6 +144,11 @@ td.view-quantity {
     gap: 1rem;
 }
 
+.select-quantity>input{
+    width: 50%;
+    text-align: center;
+}
+
 .view-quantity {
     width: 8%;
 }
@@ -187,7 +191,7 @@ footer {
 
 .foot-container {
     background-color: #353535;
-    padding: 3rem 0rem 0rem 3rem;
+    padding: 3rem;
 }
 
 .foot-container a {
@@ -220,4 +224,57 @@ footer {
     color: #ABABAB;
     font-size: 1rem;
     font-weight: 400;
+}
+
+footer {
+    margin-top: 10rem;
+  }
+
+  .foot-container {
+    background-color: #353535;
+    padding: 3rem;
+  }
+
+  .foot-container a {
+    color: #E9E9E9;
+    text-align: center;
+    font-size: 1.9375rem;
+    font-weight: 700;
+  }
+
+  .nav-container {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .sub-nav {
+    flex-basis: 50%;
+    padding: 1rem;
+    display: flex;
+    gap: 0.25rem;
+    flex-direction: column;
+  }
+
+  .sub-title {
+    color: #E9E9E9;
+    font-size: 1.625rem;
+    font-weight: 700;
+  }
+
+  .sub-description {
+    color: #ABABAB;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        margin-top: 1rem;
+        gap: 1.25rem;
+        --bs-nav-link-color: black;
+    }
+
+    .navbar-brand{
+        --bs-navbar-brand-margin-end: 0rem !important;
+    }
 }

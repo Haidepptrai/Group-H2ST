@@ -339,6 +339,7 @@ footer {
     }
 
     .navbar-nav{
+      margin-top: 1rem !important;
       gap: 1.25rem;
     }
 

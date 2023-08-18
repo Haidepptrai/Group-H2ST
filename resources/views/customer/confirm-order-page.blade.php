@@ -169,8 +169,8 @@
                     </div>
                     <div class="float-end mx-5">
                         <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment </button>
-                        <div class="total ">
-                            Totals: <span id="total-price" class="text-success" name="total"></span>
+                        <div class="total">
+                            Totals:  <input id="total-price" class="text-success" name="total" value="" readonly>
                         </div>
                     </div>
                 </form>
@@ -194,7 +194,7 @@
         style: "currency",
         currency: "USD",
     });
-    totalPriceElement.innerHTML = formattedPrice;
+    totalPriceElement.value = formattedPrice;
 </script>
 
 <footer>

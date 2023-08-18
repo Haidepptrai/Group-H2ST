@@ -54,17 +54,20 @@
                                         width="40" height="40">
                                 @endif
                                 @if (Session()->has('id'))
-                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                    <img src="../../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
                                         alt="Avatar" width="40" height="40">
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('../customer/user-profile') }}"><i
-                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
+                                @if (Session::has('id'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Session::get('id')) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @elseif (session('user'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Auth::id()) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                                            class="bi bi-box-arrow-in-left"></i>Log out</a></li>
                             </ul>
                         </div>
                     @else
@@ -96,7 +99,7 @@
                 aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('customerListProducts') }}">Shop</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sofa large</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $products->proname }}</li>
                 </ol>
             </nav>
         </div>
@@ -113,19 +116,16 @@
                     @php
                         $fullStars = floor($roundedAverageVote);
                         $decimalPart = $roundedAverageVote - $fullStars;
-                        $remainingStars = 5 - $fullStars - ($decimalPart >= 0.1 ? 1 : 0);
+                        $remainingStars = 5 - $fullStars - $decimalPart;
                     @endphp
-
                     @for ($i = 1; $i <= $fullStars; $i++)
                         <span class="fa fa-star" style="color: gold;"></span>
                     @endfor
 
                     @if ($decimalPart >= 0.1 && $decimalPart <= 0.4)
                         <span class="fa fa-star-half" style="color: gold;"></span>
-                    @else
-                        @if ($decimalPart >= 0.6 && $decimalPart <= 0.9)
-                            <span class="bi bi-star" style="color: gold;"></span>
-                        @endif
+                    @elseif ($decimalPart >= 0.6 && $decimalPart <= 0.9)
+                        <span class="bi bi-star" style="color: gold;"></span>
                     @endif
                     @for ($i = 1; $i <= $remainingStars; $i++)
                         <span class="fa fa-star" style="color: gray;"></span>
@@ -197,7 +197,6 @@
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-
                 <script>
                     // Form submission and validation
                     document.getElementById('feedback-form').addEventListener('submit', function(event) {
@@ -290,53 +289,6 @@
 <script src="../../customer/product-detail/sale-apply.js"></script>
 <script src="../convertToDollar.js"></script>
 <script src="../../customer/product-detail/rating-check.js"></script>
-<!--
-    JavaScript mau cho rating star nha:D
-    const ratingForm = document.getElementById('ratingForm');
-const nameInput = document.getElementById('nameInput');
-const thoughtInput = document.getElementById('thoughtInput');
-
-ratingForm.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  // Get the selected rating value
-  const ratingInputs = document.getElementsByName('rating');
-  let selectedRating = 0;
-  for (let i = 0; i < ratingInputs.length; i++) {
-    if (ratingInputs[i].checked) {
-      selectedRating = ratingInputs[i].value;
-      break;
-    }
-  }
-
-  // Create a data object to send to Laravel
-  const formData = {
-    name: nameInput.value,
-    thought: thoughtInput.value,
-    rating: selectedRating
-  };
-
-  // Send the data to Laravel using fetch or any other method you prefer
-  // For example, using fetch:
-  fetch('/submit-rating', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Handle the response from Laravel if needed
-    console.log(data);
-  })
-  .catch(error => {
-    // Handle any errors that occurred during the request
-    console.error('Error:', error);
-  });
-});
-
--->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <footer>

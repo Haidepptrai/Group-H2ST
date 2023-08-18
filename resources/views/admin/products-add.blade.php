@@ -140,10 +140,11 @@
                         </a>
                         <div class="collapse" id="supplier">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-list') }}">Suppliers
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ url('admin/suppliers-list') }}">Suppliers
                                         List</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-add') }}">Add
-                                    Suppliers</a></li>
+                                        Suppliers</a></li>
                             </ul>
                         </div>
                     </li>
@@ -228,7 +229,7 @@
                                                 <div class="invalid-feedback">
                                                     Please enter a product name.
                                                 </div>
-                                            </div>
+                                            </div><br>
 
                                             <div class="md-3">
                                                 <label for="catid" class="form-label">Category:</label>
@@ -246,11 +247,11 @@
                                             <div class="md-3">
                                                 <label for="proimage" class="form-label">Image:</label>
                                                 <input type="file" id="proimage" name="proimage"
-                                                    class="form-control">
+                                                    class="form-control" required>
                                                 <div class="invalid-feedback">
                                                     Please choose an image file.
                                                 </div>
-                                            </div>
+                                            </div><br>
 
                                             <div class="md-3">
                                                 <label for="prodescription" class="form-label">Product
@@ -259,7 +260,7 @@
                                                 <div class="invalid-feedback">
                                                     Please enter some product descriptions.
                                                 </div>
-                                            </div>
+                                            </div><br>
 
                                             <div class="md-3">
                                                 <label for="prodetails" class="form-label">Product details:</label>
@@ -267,7 +268,7 @@
                                                 <div class="invalid-feedback">
                                                     Please enter some product details.
                                                 </div>
-                                            </div>
+                                            </div><br>
 
                                             <div class="md-3">
                                                 <label for="proprice" class="form-label">Price:</label>
@@ -300,7 +301,7 @@
                                                 <div class="invalid-feedback">
                                                     Please enter some product discount.
                                                 </div>
-                                            </div>
+                                            </div><br>
 
                                             <div class="mb-3">
                                                 <label for="bestseller" class="form-label">Hot sales:</label>
@@ -321,7 +322,7 @@
                                                 <div class="invalid-feedback">
                                                     Please enter some product quantity.
                                                 </div>
-                                            </div>
+                                            </div><br>
                                             <div class="md-3">
                                                 <label for="suppid" class="form-label">Supplier:</label>
                                                 <select id="suppid" name="suppid" class="form-select" required>
@@ -370,14 +371,32 @@
         <script src="../admin/js/dashboard.js"></script>
         <script src="../admin/js/Chart.roundedBarCharts.js"></script>
         <!-- End custom js for this page-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
         <script>
-            CKEDITOR.replace('prodescription',{
-                autoParagraph: false
+            function sanitizeHTML(input) {
+                var sanitized = DOMPurify.sanitize(input, {
+                    ALLOWED_TAGS: [
+                        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'u',
+                        's', 'mark', 'del', 'ins', 'sub', 'sup', 'a', 'img', 'table', 'thead', 'tbody',
+                        'tr', 'th', 'td', 'div', 'br', 'hr', 'span', 'code', 'var'
+                    ],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'style'],
+                });
+                return sanitized;
+            }
+
+            CKEDITOR.replace('prodescription', {
+                autoParagraph: false,
+                onBeforeGetData: function(evt) {
+                    evt.data.dataValue = sanitizeHTML(evt.editor.getData());
+                }
             });
-        </script>
-        <script>
-            CKEDITOR.replace('prodetails',{
-                autoParagraph: false
+
+            CKEDITOR.replace('prodetails', {
+                autoParagraph: false,
+                onBeforeGetData: function(evt) {
+                    evt.data.dataValue = sanitizeHTML(evt.editor.getData());
+                }
             });
         </script>
         <footer>
@@ -387,4 +406,5 @@
             </div>
         </footer>
 </body>
+
 </html>

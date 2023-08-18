@@ -58,7 +58,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('customer/user-profile') }}"><i
                                             class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
+                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My
+                                        order</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
                                             class="bi bi-box-arrow-in-left"></i> Log out</a></li>
@@ -68,7 +69,8 @@
                         <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
-                    <div class="shopping-cart"><a href="{{ route('cart') }}"><box-icon name='cart'></box-icon></a></div>
+                    <div class="shopping-cart"><a href="{{ route('cart') }}"><box-icon name='cart'></box-icon></a>
+                    </div>
                     <form class="d-flex" role="search" action="search">
                         <label>
                             <input type="search" class="search-field" autocomplete="off" placeholder="Search …"
@@ -90,7 +92,7 @@
             </div>
             <form action="{{ route('inputUser') }}" method="POST">
                 @csrf
-                <div class="overflow-auto border border-2" style="height: 700px;">
+                <div class="overflow-auto border border-2 mb-2" style="height: 700px;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -110,25 +112,32 @@
                                 @endphp
                                 @foreach (session('cart') as $id => $details)
                                     <tr class="cart" rowId="{{ $id }}">
+                                        @php
+                                        $proid = $details['proid'];
+                                        @endphp
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>{{ $details['proname'] }}</td>
                                         <td><img src="../pro_img/{{ $details['proimage'] }}" alt=""
                                                 class="rounded" width="100" height="100">
                                         </td>
-                                        <td class="product-price text-success" id="price_{{ $i }}">{{ $details['proprice'] }}</td>
+                                        <td class="product-price text-success" id="price_{{ $i }}">
+                                            {{ $details['proprice'] }}</td>
                                         <td class="view-quantity">
                                             <div class="adjust-quantity">
                                                 <div class="select-quantity">
-                                                    <button type="button" class="btn-minus" onclick="decreaseQuantity({{ $details['proid'] }}, {{ $i }})">-</button>
+                                                    <button type="button" class="btn-minus"
+                                                        onclick="decreaseQuantity({{ $details['proid'] }}, {{ $i }})">-</button>
                                                     <input type="number" value="{{ $details['quantity'] }}"
-                                                        id='quantity_{{ $i }}' min="1" max="{{ $details['inventory'] }}" readonly>
-                                                    <button type="button" class="btn-plus" onclick="increaseQuantity({{ $details['proid'] }}, {{ $i }})">+</button>
+                                                        id='quantity_{{ $i }}' min="1"
+                                                        max="{{ $details['inventory'] }}" readonly>
+                                                    <button type="button" class="btn-plus"
+                                                        onclick="increaseQuantity({{ $details['proid'] }}, {{ $i }})">+</button>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <a href="{{ url('customer/remove-from-cart/' . $details['proid']) }}"
-                                                    class="text-danger"><i class="bi bi-trash-fill"></a></i>
+                                                class="text-danger"><i class="bi bi-trash-fill"></a></i>
                                         </td>
                                     </tr>
                                     @php
@@ -147,9 +156,10 @@
                 </div>
                 <div class="float-end">
                     @if (session('cart'))
-                    Totals: <span class="text-success">$</span><span class="text-success" id="total-cart">{{ $total }}</span>
-                    <br>
-                    <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
+                        Totals: <span class="text-success">$</span><span class="text-success"
+                            id="total-cart">{{ $total }}</span>
+                        <br>
+                        <button type="submit" class="btn btn-primary text-light text center">Confirm</button>
                     @endif
                 </div>
             </form>
@@ -158,68 +168,65 @@
 <script src="../customer/convertToDollar.js"></script>
 {{-- <script src="../customer/shopping-cart/product-quantity.js"></script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function increaseQuantity(productId, id) {
-            findTotal()
-            var quantityInput = document.getElementById('quantity_'+ id);
-            var currentValue = parseInt(quantityInput.value);
-            var maxValue = parseInt(quantityInput.max);
+<script>
+    function increaseQuantity(productId, id) {
+        var quantityInput = document.getElementById('quantity_' + id);
+        var currentValue = parseInt(quantityInput.value);
+        var maxValue = parseInt(quantityInput.max);
 
-            if (currentValue < maxValue) {
-                quantityInput.value = currentValue + 1;
-            }
-            $.ajax({
-                url: 'add-to-cart/' + productId,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    quantity: quantityInput.value,
-                    totalCost: findTotal(),
-                },
-            });
+        if (currentValue < maxValue) {
+            quantityInput.value = currentValue + 1;
         }
-        function decreaseQuantity(productId, id) {
-            findTotal()
-            var quantityInput = document.getElementById('quantity_'+ id);
-            var currentValue = parseInt(quantityInput.value);
-            var minValue = parseInt(quantityInput.min);
+        $.ajax({
+            url: 'add-to-cart/' + productId,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                quantity: quantityInput.value,
+                totalCost: findTotal(),
+            },
+        });
+    }
 
-            if (currentValue > minValue) {
-                quantityInput.value = currentValue - 1;
-            }
-            $.ajax({
-                url: 'add-to-cart/' + productId,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    quantity: quantityInput.value,
-                    totalCost: findTotal(),
-                },
-            });
+    function decreaseQuantity(productId, id) {
+        var quantityInput = document.getElementById('quantity_' + id);
+        var currentValue = parseInt(quantityInput.value);
+        var minValue = parseInt(quantityInput.min);
+
+        if (currentValue > minValue) {
+            quantityInput.value = currentValue - 1;
         }
+        $.ajax({
+            url: 'add-to-cart/' + productId,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                quantity: quantityInput.value,
+                totalCost: findTotal(),
+            },
+        });
+    }
+    function findTotal() {
+        var total = 0;
+        var id = 2;
+        var check = parseInt(document.getElementById('lenght').value) + 1;
 
-        function findTotal(){
-            var total = 0;
-            var id = 2;
-            var check = parseInt(document.getElementById('lenght').value) + 1;
-
-            while(id <= check){
-                var price = parseFloat(document.getElementById('price_'+ id).innerText.replace('$', ''));
-                var quantity = parseInt(document.getElementById('quantity_'+ id).value);
-                proPrice = price * quantity
-                total += proPrice;
-                id++;
-            }
-
-            var viewTotal = document.getElementById("total-cart");
-            viewTotal.innerHTML = total.toFixed(2);
-            return total;
+        while (id <= check) {
+            var price = parseFloat(document.getElementById('price_' + id).innerText.replace('$', ''));
+            var quantity = parseInt(document.getElementById('quantity_' + id).value);
+            proPrice = price * quantity
+            total += proPrice;
+            id++;
         }
 
-    </script>
+        var viewTotal = document.getElementById("total-cart");
+        viewTotal.innerHTML = total.toFixed(2);
+        return total;
+    }
+</script>
 <footer>
     <div class="foot-container text-center">
-        <a class="navbar-brand " href="{{ route('home') }}">H2ST Furniture</a>
+        <a class="navbar-brand" href=" {{ route('home') }}">H2ST Furniture</a>
         <div class="text-center">
             <div class="sub-nav">
                 <div class="sub-title">

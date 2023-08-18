@@ -43,27 +43,35 @@
                             <a class="nav-link" href="{{ route('aboutUs') }}" draggable="false">About Us</a>
                         </li>
                     </ul>
-                    @if (session('user'))
+                    @if (session('user') || Session()->has('id'))
                         <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                    width="40" height="40">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
+                                @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href=""><i
-                                            class="bi bi-person-lines-fill "></i> My
-                                        profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i>My
-                                        order</a>
-                                </li>
+                                @if (Session::has('id'))
+                                    <li><a class="dropdown-item"
+                                            href="{{ url('customer/user-profile/' . Session::get('id')) }}"><i
+                                                class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @elseif (session('user'))
+                                    <li><a class="dropdown-item"
+                                            href="{{ url('customer/user-profile/' . Auth::id()) }}"><i
+                                                class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                                            class="bi bi-box-arrow-in-left"></i>Log out</a></li>
                             </ul>
                         </div>
                     @else
                         <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
-                                    name='user'></box-icon></a>
-                        </div>
+                                    name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
@@ -163,11 +171,11 @@
                                         <div class="product-info">
                                             <p class="product-name">{{ $product->proname }}</p>
                                             <p class="stars">
-                                            <div class="star-rating">
+                                            <!-- <div class="star-rating">
                                                 @php
                                                     $fullStars = floor($roundedAverageVote);
                                                     $decimalPart = $roundedAverageVote - $fullStars;
-                                                    $remainingStars = 5 - $fullStars - ($decimalPart >= 0.5 ? 1 : 0);
+                                                    $remainingStars = 5 - $fullStars - $decimalPart;
                                                 @endphp
 
                                                 @for ($i = 1; $i <= $fullStars; $i++)
@@ -183,7 +191,7 @@
                                                 @for ($i = 1; $i <= $remainingStars; $i++)
                                                     <span class="bi bi-star" style="color: gray;"></span>
                                                 @endfor
-                                            </div>
+                                            </div> -->
                                             </p>
                                             @php
                                                 $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
@@ -229,45 +237,45 @@
                 </div>
             </div>
 
-    </div>
-    <div class="pagination translate-middle">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                @if (isset($search))
-                    <li class="page-item{{ $search->previousPageUrl() ? '' : ' disabled' }}">
-                        <a class="page-link"
-                            href="{{ $search->appends(['query' => $searchQuery])->previousPageUrl() }}"><i
-                                class="bi bi-arrow-bar-left"></i></a>
-                    </li>
-                    @for ($i = 1; $i <= $search->lastPage(); $i++)
-                        <li class="page-item{{ $i == $search->currentPage() ? ' active' : '' }}">
-                            <a class="page-link"
-                                href="{{ $search->appends(['query' => $searchQuery])->url($i) }}">{{ $i }}</a>
-                        </li>
-                    @endfor
-                    <li class="page-item{{ $search->nextPageUrl() ? '' : ' disabled' }}">
-                        <a class="page-link"
-                            href="{{ $search->appends(['query' => $searchQuery])->nextPageUrl() }}"><i
-                                class="bi bi-arrow-bar-right"></i></a>
-                    </li>
-                @else
-                    <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}">
-                        <a class="page-link" href="{{ $products->previousPageUrl() }}"><i
-                                class="bi bi-arrow-bar-left"></i></a>
-                    </li>
-                    @for ($i = 1; $i <= $products->lastPage(); $i++)
-                        <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}">
-                            <a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
-                        </li>
-                    @endfor
-                    <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}">
-                        <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
-                                class="bi bi-arrow-bar-right"></i></a>
-                    </li>
-                @endif
-            </ul>
-
-        </nav>
+            <div class="pagination">
+                <nav aria-label="Product list panigation">
+                    <ul class="pagination">
+                        @if (isset($search))
+                            <li class="page-item{{ $search->previousPageUrl() ? '' : ' disabled' }}">
+                                <a class="page-link"
+                                    href="{{ $search->appends(['query' => $searchQuery])->previousPageUrl() }}"><i
+                                        class="bi bi-arrow-bar-left"></i></a>
+                            </li>
+                            @for ($i = 1; $i <= $search->lastPage(); $i++)
+                                <li class="page-item{{ $i == $search->currentPage() ? ' active' : '' }}">
+                                    <a class="page-link"
+                                        href="{{ $search->appends(['query' => $searchQuery])->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                            <li class="page-item{{ $search->nextPageUrl() ? '' : ' disabled' }}">
+                                <a class="page-link"
+                                    href="{{ $search->appends(['query' => $searchQuery])->nextPageUrl() }}"><i
+                                        class="bi bi-arrow-bar-right"></i></a>
+                            </li>
+                        @else
+                            <li class="page-item{{ $products->previousPageUrl() ? '' : ' disabled' }}">
+                                <a class="page-link" href="{{ $products->previousPageUrl() }}"><i
+                                        class="bi bi-arrow-bar-left"></i></a>
+                            </li>
+                            @for ($i = 1; $i <= $products->lastPage(); $i++)
+                                <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}">
+                                    <a class="page-link"
+                                        href="{{ route('customerListProducts', array_merge(request()->except('page'), ['page' => $i])) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                            <li class="page-item{{ $products->nextPageUrl() ? '' : ' disabled' }}">
+                                <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
+                                        class="bi bi-arrow-bar-right"></i></a>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
     </div>
     </div>
 

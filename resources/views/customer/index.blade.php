@@ -268,7 +268,7 @@
         <div id="carouselUserQuote" class="carousel slide carousel-fade" style="height: 45vh;">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="carousel-caption">
+                    <div id="carousel-caption">
                         <svg width="41" height="31" viewBox="0 0 41 31" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path

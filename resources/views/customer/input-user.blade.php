@@ -40,7 +40,7 @@
                         </li>
                     </ul>
                     @if (session('user') || Session()->has('id'))
-                        <div class="dropdown user-profile">
+                        <div class="dropdown">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
                                 @if (session('user'))
                                     <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
@@ -52,18 +52,22 @@
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('../customer/user-profile') }}"><i
-                                            class="bi bi-person-lines-fill "></i> My profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
+                                @if (Session::has('id'))
+                                    <li><a class="dropdown-item"
+                                            href="{{ url('customer/user-profile/' . Session::get('id')) }}"><i
+                                                class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @elseif (session('user'))
+                                    <li><a class="dropdown-item"
+                                            href="{{ url('customer/user-profile/' . Auth::id()) }}"><i
+                                                class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                                            class="bi bi-box-arrow-in-left"></i>Log out</a></li>
                             </ul>
                         </div>
                     @else
                         <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
-                                    name='user'></box-icon></a>
-                        </div>
+                                    name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
                                 name='cart'></box-icon></a>
@@ -185,7 +189,7 @@
                         if (selectedDistrictData) {
                             selectedDistrictData.wards.map((wards) => {
                                 const option = document.createElement('option');
-                                option.value = wards.code;
+                                option.value = wards.name;
                                 option.textContent = wards.name;
                                 selectWards.appendChild(option);
                             })

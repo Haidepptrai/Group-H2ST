@@ -21,7 +21,7 @@
         <header>
             <nav>
                 <div class="logo">
-                    <p>H2ST Furniture Shop</p>
+                    <a href="{{route('home')}}">H2ST Furniture Shop</a>
                 </div>
             </nav>
         </header>
