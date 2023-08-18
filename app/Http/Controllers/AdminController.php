@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Productfeedback;
 use App\Models\Orderproduct;
+use App\Models\Orderdetail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -479,6 +480,7 @@ class AdminController extends Controller
     }
     public function ordersDelete($id)
     {
+        Orderdetail::where('orderid', '=', $id)->delete();
         Orderproduct::where('orderid', '=', $id)->delete();
         return redirect()->back()->with('success', 'Order deleted successfully!');
     }

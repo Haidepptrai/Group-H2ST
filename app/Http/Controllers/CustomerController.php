@@ -404,7 +404,7 @@ class CustomerController extends Controller
             $discount = $product->discount;
             $discount_price = $price - ($price * $discount / 100);
             $cart = session()->get('cart');
-            if (isset($cart[$id]) &&  $cart[$id]['quantity'] <  $cart[$id]['inventory']) {
+            if (isset($cart[$id]) &&  ($cart[$id]['quantity'] <  $cart[$id]['inventory'])) {
                 $cart[$id]['quantity']++;
             } else {
                 $cart[$id] = [
@@ -412,7 +412,7 @@ class CustomerController extends Controller
                     "proname" => $product->proname,
                     "proprice" => $discount_price,
                     "proimage" => $product->proimage,
-                    "inventory" => $product->quantity,
+                    "inventory" => $product->proquantity,
                     "quantity" => 1
                 ];
             }
@@ -495,7 +495,8 @@ class CustomerController extends Controller
             $orderDetail->save();
         }
         Session::forget('cart');
-        return view('customer.index');
+        Session::forget('total');
+        return view('customer.list-products');
     }
 
     public function detailProducts($id)
