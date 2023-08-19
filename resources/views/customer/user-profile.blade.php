@@ -328,6 +328,7 @@
                                     </tr>
                                     <tr class="order-details" style="display: none;">
                                         <td colspan="6">
+                                            @foreach ( as )
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
@@ -351,6 +352,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @endforeach
                                         </td>
                                     </tr>
                                 @endforeach

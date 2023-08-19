@@ -540,8 +540,9 @@ class CustomerController extends Controller
         $orderDetail = DB::table('orderproducts')
                     ->join('orderdetails','orderdetails.orderid', '=', 'orderproducts.orderid')
                     ->join('products','products.proid', '=', 'orderdetails.proid')
-                    ->where('orderproducts.userid', $id);
-        return view('customer.user-profile', compact('order'));
+                    ->where('orderproducts.userid', $id)
+                    ->select();
+        return view('customer.user-profile', compact('order','orderDetail'));
     }
 
     public function updateUserProfile(Request $request, $id)

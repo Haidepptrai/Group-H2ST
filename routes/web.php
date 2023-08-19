@@ -65,6 +65,11 @@ Route::get('/active_product/{id}', [AdminController::class, 'active_product']);
 Route::get('/normal_product/{id}', [AdminController::class, 'normal_product']);
 Route::get('/best_product/{id}', [AdminController::class, 'best_product']);
 
+// Update status for order
+Route::get('/confirm_order/{id}', [AdminController::class, 'confirm_order']);
+Route::get('/delivery_order/{id}', [AdminController::class, 'delivery_order']);
+Route::get('/received_order/{id}', [AdminController::class, 'received_order']);
+
 // User
 Route::get('admin/users-list', [AdminController::class, 'usersList'])->middleware('isLoggedIn');
 Route::get('admin/users-delete/{id}', [AdminController::class, 'usersDelete'])->middleware('isLoggedIn');

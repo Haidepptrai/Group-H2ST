@@ -29,6 +29,8 @@
     <!-- Bootstrap 5 css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -121,10 +123,11 @@
                         </a>
                         <div class="collapse" id="supplier">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-list') }}">Suppliers
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ url('admin/suppliers-list') }}">Suppliers
                                         List</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ url('admin/suppliers-add') }}">Add
-                                    Suppliers</a></li>
+                                        Suppliers</a></li>
                             </ul>
                         </div>
                     </li>
@@ -219,13 +222,24 @@
                                                         <td>{{ $o->userid }}</td>
                                                         <td>{{ $o->userfirstname }}{{ $o->userlastname }}</td>
                                                         <td>{{ $o->orderdate }}</td>
-                                                        @if ( $o->status == 1)
-                                                            <td> Wait For Confirm</td>
-                                                        @elseif ($o->status == 2)
-                                                            <td> Delivery </td>
-                                                        @elseif ($o->status == 3)
-                                                            <td> Received</td>
-                                                        @endif
+                                                        <td>
+                                                            @if ($o->status == 1)
+                                                                <a
+                                                                    href="{{ URL::to('/confirm_order/' . $o->orderid) }}"><span
+                                                                        class="bi bi-check-circle"
+                                                                        style="color: yellow; font-size: 30px"></span></a>
+                                                            @elseif($o->status == 2)
+                                                                <a
+                                                                    href="{{ URL::to('/delivery_order/' . $o->orderid) }}"><span
+                                                                        class="bi bi-truck"
+                                                                        style="color: blue; font-size: 30px"></span></a>
+                                                            @else
+                                                                <a
+                                                                    href="{{ URL::to('/received_order/' . $o->orderid) }}"><span
+                                                                        class="bi bi-bag-check-fill"
+                                                                        style="color: green; font-size: 30px"></span></a>
+                                                            @endif
+                                                        </td>
                                                         <td>${{ $o->totalcost }}</td>
                                                         <td>
                                                             <a href="{{ url('admin/orders-edit/' . $o->orderid) }}"><i
@@ -238,7 +252,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="btn-group"><a
-                                                                    href="{{ url('admin/orders-detail/' . $o->orderid)}}"
+                                                                    href="{{ url('admin/orders-detail/' . $o->orderid) }}"
                                                                     class="btn btn-sm btn-outline-secondary">Details</a>
                                                         </td>
                                                     </tr>

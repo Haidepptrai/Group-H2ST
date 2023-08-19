@@ -80,9 +80,6 @@
         </nav>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_settings-panel.html -->
-            <!-- partial -->
-            <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
@@ -211,14 +208,7 @@
                                                     <input type="text" class="form-control" id="UserID"
                                                         name="UserID" readonly value="{{ $order->userid }}">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="status">Status</label>
-                                                    <select name="status" id="status" class="form-control">
-                                                        <option value="1">Wait For Confirm</option>
-                                                        <option value="2">Delivery</option>
-                                                        <option value="3">Received</option>
-                                                    </select>
-                                                </div>
+
                                                 <button type="submit" class="btn btn-success mr-2">Update</button>
                                                 <a href="{{ url('admin/orders-list') }}"
                                                     class="btn btn-success">Back</a>
