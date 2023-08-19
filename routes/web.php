@@ -69,6 +69,7 @@ Route::get('/best_product/{id}', [AdminController::class, 'best_product']);
 Route::get('/confirm_order/{id}', [AdminController::class, 'confirm_order']);
 Route::get('/delivery_order/{id}', [AdminController::class, 'delivery_order']);
 Route::get('/received_order/{id}', [AdminController::class, 'received_order']);
+Route::get('/cancel_order/{id}', [AdminController::class, 'cancel_order']);
 
 // User
 Route::get('admin/users-list', [AdminController::class, 'usersList'])->middleware('isLoggedIn');

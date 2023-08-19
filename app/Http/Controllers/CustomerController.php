@@ -359,7 +359,7 @@ class CustomerController extends Controller
             $categories = Category::where('status', 1)->get();
             $products->appends($request->all());
             $message = $products->isEmpty() ? "Products not found!" : null;
-            $provote =Productfeedback::where('proid') -> avg('vote');
+            $provote = Productfeedback::where('proid')->avg('vote');
             $roundedAverageVote = round($provote, 1);
             return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery', 'roundedAverageVote'));
         } else {
@@ -412,11 +412,11 @@ class CustomerController extends Controller
             if ($new_quantity) {
                 $cart[$id]['quantity'] = $new_quantity;
             }
-            if($total){
+            if ($total) {
                 session()->put('total', $total);
-            }else{
+            } else {
                 $firsttotal = $discount_price;
-                if(session()->get('firsttotal')){
+                if (session()->get('firsttotal')) {
                     $firsttotal = $firsttotal + $discount_price;
                 }
                 session()->put('firsttotal', $firsttotal);
@@ -527,22 +527,34 @@ class CustomerController extends Controller
         $averageVote = DB::table('productfeedbacks')
             ->where('proid', $id)
             ->avg('vote');
-            $roundedAverageVote = round($averageVote, 1);
+        $roundedAverageVote = round($averageVote, 1);
 
         return view('customer.detail-products', compact('products', 'relatedProducts', 'feedbacks', 'roundedAverageVote'));
     }
 
-    public function userProfile($id)
+    public function userProfile($id, Request $request)
     {
+        $order_id = $request->input('orderId');
         $order = DB::table('orderproducts')
-                    ->where('userid', $id)
-                    ->get();
-        $orderDetail = DB::table('orderproducts')
-                    ->join('orderdetails','orderdetails.orderid', '=', 'orderproducts.orderid')
-                    ->join('products','products.proid', '=', 'orderdetails.proid')
-                    ->where('orderproducts.userid', $id)
-                    ->select();
-        return view('customer.user-profile', compact('order','orderDetail'));
+            ->where('userid', $id)
+            ->get();
+        if($order_id){
+            $orderDetail = DB::table('orderproducts')
+            ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+            ->join('products', 'orderdetails.proid', '=', 'products.proid')
+            ->where('userid', $id)
+            ->where('orderid', $order_id)
+            ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+            ->get();
+        }else{
+            $orderDetail = DB::table('orderproducts')
+            ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+            ->join('products', 'orderdetails.proid', '=', 'products.proid')
+            ->where('userid', $id)
+            ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+            ->get();
+        }
+        return view('customer.user-profile', compact('order', 'orderDetail'));
     }
 
     public function updateUserProfile(Request $request, $id)
@@ -561,7 +573,7 @@ class CustomerController extends Controller
         $user->userphone = $request->input('userPhone');
         $user->usercity = $request->input('userCity');
         $user->userdistrict = $request->input('userDistrict');
-        $user->userward= $request->input('userWards');
+        $user->userward = $request->input('userWards');
 
         $user->save();
 
@@ -668,6 +680,6 @@ class CustomerController extends Controller
             $newFeedback->save();
         }
 
-        return redirect() -> back();
+        return redirect()->back();
     }
 }

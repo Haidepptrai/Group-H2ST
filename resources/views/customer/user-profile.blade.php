@@ -296,7 +296,7 @@
                 </div>
                 <div class="order-info">
                     <table class="table table-bordered">
-                        <h6 class="text-info">Order ID:  details</h6>
+                        <h6 class="text-info">Order ID: details</h6>
                     </table>
                     <table class="table table-striped">
                         <thead>
@@ -312,50 +312,53 @@
                             @php
                                 $i = 1;
                             @endphp
-                                @foreach ($order as $o)
-                                    <tr class="order-row">
-                                        <th scope="row">{{ $i++ }}</th>
-                                        <td>{{ $o->orderid }}</td>
-                                        <td>{{ $o->orderdate }}</td>
-                                        @if ($o->status == 1)
+                            @foreach ($order as $o)
+                                <input type="text" value="{{ $o->userid }}" id="userid">
+                                <tr class="order-row">
+                                    <th scope="row">{{ $i++ }}</th>
+                                    <td id="orderid_{{ $i }}">{{ $o->orderid }}</td>
+                                    <td>{{ $o->orderdate }}</td>
+                                    @if ($o->status == 1)
                                         <td>Wait For Confirm</td>
-                                        @elseif ($o->status == 2)
+                                    @elseif ($o->status == 2)
                                         <td>Delivery</td>
-                                        @elseif ($o->status == 3)
+                                    @elseif ($o->status == 3)
                                         <td>Recived</td>
-                                        @endif
-                                        <td>{{ $o->totalcost }}$</td>
-                                    </tr>
-                                    <tr class="order-details" style="display: none;">
-                                        <td colspan="6">
-                                            @foreach ( as )
-                                            <table class="table table-bordered">
-                                                <thead>
+                                    @elseif ($o->status == 0)
+                                        <td>Canceled</td>
+                                    @endif
+                                    <td>{{ $o->totalcost }}$</td>
+                                </tr>
+                                <tr class="order-details" style="display: none;">
+                                    <td colspan="6">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">No</th>
+                                                    <th scope="col">Product Name</th>
+                                                    <th scope="col">Image</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $j = 1;
+                                                @endphp
+                                                @foreach ($orderDetail as $od)
                                                     <tr>
-                                                        <th scope="col">No</th>
-                                                        <th scope="col">Product Name</th>
-                                                        <th scope="col">Image</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Status</th>
+                                                        <th scope="row">{{ $j++ }}</th>
+                                                        <td>{{ $od->proname }}</td>
+                                                        <td><img src="" alt=""></td>
+                                                        <td>{{ $od->proprice }}</td>
+                                                        <td>{{ $od->quantity }}</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Jacob</td>
-                                                        <td><img src=""
-                                                                alt=""></td>
-                                                        <td>Jacob</td>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -475,7 +478,8 @@
                 data.map((d) => {
                     const option = document.createElement("option"); // Create a new option element
                     option.value = d.name; // Add value for the option, d.name is to specify each city
-                    option.textContent = d.name; // Set the text content of the option, d.name is city name from api
+                    option.textContent = d
+                    .name; // Set the text content of the option, d.name is city name from api
                     selectProvince.appendChild(option); // Append the option to the select element
                 });
 
@@ -501,7 +505,8 @@
                         //Create district data of that province
                         selectedCityData.districts.map((district) => {
                             const option = document.createElement("option");
-                            option.value = district.name; //Set district value as its code for further purposes
+                            option.value = district
+                            .name; //Set district value as its code for further purposes
                             option.textContent = district.name;
                             selectDistrict.appendChild(option);
                         });
@@ -560,6 +565,17 @@
                 var productDetails = $(this).next('.order-details');
                 $('.order-details').not(productDetails).slideUp('fast');
                 productDetails.slideToggle('fast');
+                var count = 
+                var userid = parseInt(document.getElementById('userid').value);
+                var orderid = parseInt(document.getElementById('orderid').textContent);
+                $.ajax({
+                    url: 'user-profile/' + userid,
+                    type: 'get',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        orderId: orderid,
+                    },
+                });
             });
         });
     </script>

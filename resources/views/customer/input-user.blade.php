@@ -14,6 +14,7 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../customer/input-user-info/input-user-info.css">
+    <script src="{{ asset('js/custom.js') }}"></script>
     <title>Your information</title>
 </head>
 
