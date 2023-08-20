@@ -7,8 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
@@ -196,28 +194,4 @@
     });
     totalPriceElement.value = formattedPrice;
 </script>
-
-<footer>
-    <div class="foot-container">
-        <a class="navbar-brand" href="#">H2ST Furniture</a>
-        <div class="nav-container">
-            <div class="sub-nav">
-                <div class="sub-title">
-                    About Us
-                </div>
-                <div class="sub-description">We are delighted to modify your home more perfect</div>
-            </div>
-            <div class="sub-nav">
-                <div class="sub-title">
-                    Contact Information
-                </div>
-                <div class="sub-description">+84 123456789</div>
-                <div class="sub-description">H2STFurniture@gmail.com</div>
-                <div class="sub-description">xxx Cong Hoa street. Ho Chi Minh city</div>
-            </div>
-        </div>
-    </div>
-    </div>
-</footer>
-
-</html>
+@include('layout.customer.footer')

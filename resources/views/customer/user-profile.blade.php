@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <link rel="stylesheet" href="../../customer/personal-account/personal-account.css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/css/bootstrap.min.css">
-    <title>Personal Setting</title>
-</head>
-
+@include('layout.customer.header-profile')
 <body>
     <nav>
     </nav>
@@ -43,7 +23,6 @@
                     type="button" role="tab" aria-controls="v-pills-delete" aria-selected="false">Delete
                     Account</button>
                 <button class="btn text-danger" id="logoutBtn" type="button">Log out</button>
-                <!-- <a class="btn text-primary logoutBtn" href="{{ route('customerLogout') }}" role="button">Log out</a> -->
                 <div class="modal fade" id="LogOutAlertModal" tabindex="-1" aria-labelledby="LogOutAlert"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -57,7 +36,6 @@
                                 Do you want to log out
                             </div>
                             <div class="modal-footer">
-                                <!-- <a class="btn btn-primary" href="#" role="button" data-bs-dismiss="modal">Close</a> -->
                                 <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn"><a class="text-danger"
                                         href="{{ route('customerLogout') }}">Logout</a></button>
@@ -155,7 +133,7 @@
                                         <label for="userPhone">Enter a phone number</label>
                                         <input type="tel" id="userPhone" name="userPhone" class="form-control"
                                             value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
-                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number">
+                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number"  title="Please enter a valid 10 to 12 digit phone number">
                                     </div>
                                     <div class="col">
                                         <label for="userAddress">Enter your birthday</label>
@@ -238,27 +216,27 @@
                     <div class="personal-setting">
 
                         <form action="{{ route('changePassword', ['id' => session()->get('id') ?? Auth::id()]) }}"
-                            id="userForm" method="POST" enctype="multipart/form-data">
+                            id="userFormChangePass" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="container">
                                 <div class="row row-cols-2">
                                     <div class="col">
                                         <label for="oldPassword" class="text-primary">Enter your password</label>
-                                        <input type="password" name="oldPassword" id="userPassDelete"
+                                        <input type="password" name="oldPassword" id="userOldPass"
                                             placeholder="Enter your password" class="form-control">
                                     </div>
                                     <div class="col">
                                         <label for="newPassword" class="text-info">Enter your new password</label>
                                         <input type="password" name="newPassword" id="newPassword"
-                                            placeholder="Enter your password" class="form-control">
+                                            placeholder="Enter your password" class="form-control" pattern="[a-zA-Z0-9_]{3,20}"  title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
                                         <label for="newPassConfirm" class="text-info">Confirm your new
                                             password</label>
                                         <input type="password" name="newPassConfirm" id="newPassConfirm"
-                                            placeholder="Enter your password" class="form-control">
+                                            placeholder="Enter your password" class="form-control" >
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary float-end my-5"
-                                    id="saveChangesBtn">Save
+                                    id="saveChangesPassBtn">Save
                                     changes</button>
                                 {{-- <button type="submit" class="btn btn-primary confirm-change">Save changes</button> --}}
                                 <div class="modal fade" id="nameAlert" data-bs-backdrop="static"
@@ -313,10 +291,10 @@
                                 $i = 1;
                             @endphp
                             @foreach ($order as $o)
-                                <input type="text" value="{{ $o->userid }}" id="userid">
+                                <input type="hidden" value="{{ $o->userid }}" id="userid">
                                 <tr class="order-row">
                                     <th scope="row">{{ $i++ }}</th>
-                                    <td id="orderid_{{ $i }}">{{ $o->orderid }}</td>
+                                    <td id="orderid">{{ $o->orderid }}</td>
                                     <td>{{ $o->orderdate }}</td>
                                     @if ($o->status == 1)
                                         <td>Wait For Confirm</td>
@@ -345,7 +323,7 @@
                                                 @php
                                                     $j = 1;
                                                 @endphp
-                                                @foreach ($orderDetail as $od)
+                                                @foreach ($orderDetails as $od)
                                                     <tr>
                                                         <th scope="row">{{ $j++ }}</th>
                                                         <td>{{ $od->proname }}</td>
@@ -479,7 +457,7 @@
                     const option = document.createElement("option"); // Create a new option element
                     option.value = d.name; // Add value for the option, d.name is to specify each city
                     option.textContent = d
-                    .name; // Set the text content of the option, d.name is city name from api
+                        .name; // Set the text content of the option, d.name is city name from api
                     selectProvince.appendChild(option); // Append the option to the select element
                 });
 
@@ -506,7 +484,7 @@
                         selectedCityData.districts.map((district) => {
                             const option = document.createElement("option");
                             option.value = district
-                            .name; //Set district value as its code for further purposes
+                                .name; //Set district value as its code for further purposes
                             option.textContent = district.name;
                             selectDistrict.appendChild(option);
                         });
@@ -553,7 +531,6 @@
     <script>
         const logOutModal = new bootstrap.Modal(document.getElementById('LogOutAlertModal'))
         const logoutBtn = document.getElementById('logoutBtn');
-        console.log(logoutBtn)
         logoutBtn.addEventListener('click', () => {
             logOutModal.show();
         })
@@ -561,22 +538,21 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.order-row').click(function() {
-                var productDetails = $(this).next('.order-details');
+            $('.order-row').click(function(event) {
+                var productDetails = $(event.target).next('.order-details');
                 $('.order-details').not(productDetails).slideUp('fast');
                 productDetails.slideToggle('fast');
-                var count = 
                 var userid = parseInt(document.getElementById('userid').value);
-                var orderid = parseInt(document.getElementById('orderid').textContent);
+                var orderid = parseInt(event.target.textContent);
                 $.ajax({
-                    url: 'user-profile/' + userid,
+                    url: userid,
                     type: 'get',
                     data: {
                         _token: '{{ csrf_token() }}',
                         orderId: orderid,
                     },
                 });
-            });
-        });
+            }); //
+        }); //
     </script>
 </body>

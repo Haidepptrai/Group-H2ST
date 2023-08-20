@@ -456,49 +456,58 @@ class CustomerController extends Controller
 
     public function addOrder(Request $request)
     {
-        $userId = $request->input('userId');
-        $userEmail = $request->input('userEmail');
-        $userName = $request->input('userName');
-        $nameArray = explode(" ", $userName);
-        $firstName = $nameArray[0];
-        $lastName = end($nameArray);
-        $userPhone = $request->input('userPhone');
-        $userAddress = $request->input('userAddress');
-        $userWard = $request->input('userWard');
-        $userDistrict = $request->input('userDistrict');
-        $userCity = $request->input('userCity');
+        if (Session::get('cart')) {
+            $userId = $request->input('userId');
+            $userEmail = $request->input('userEmail');
+            $userName = $request->input('userName');
+            $nameArray = explode(" ", $userName);
+            $firstName = $nameArray[0];
+            $lastName = end($nameArray);
+            $userPhone = $request->input('userPhone');
+            $userAddress = $request->input('userAddress');
+            $userWard = $request->input('userWard');
+            $userDistrict = $request->input('userDistrict');
+            $userCity = $request->input('userCity');
 
-        $user = User::find($userId);
-        $user->useremail = $userEmail;
-        $user->userfirstname = $firstName;
-        $user->userlastname = $lastName;
-        $user->userphone = $userPhone;
-        $user->useraddress = $userAddress;
-        $user->userward = $userWard;
-        $user->userdistrict = $userDistrict;
-        $user->usercity = $userCity;
-        $user->save();
+            $user = User::find($userId);
+            $user->useremail = $userEmail;
+            $user->userfirstname = $firstName;
+            $user->userlastname = $lastName;
+            $user->userphone = $userPhone;
+            $user->useraddress = $userAddress;
+            $user->userward = $userWard;
+            $user->userdistrict = $userDistrict;
+            $user->usercity = $userCity;
+            $user->save();
 
-        $total = Session::get('total');
-        $order = new Orderproduct;
-        $order->userid = $userId;
-        $order->status = 1;
-        $order->totalcost = $total;
-        $order->save();
+            $total = Session::get('total');
+            $order = new Orderproduct;
+            $order->userid = $userId;
+            $order->status = 1;
+            $order->totalcost = $total;
+            $order->save();
 
-        $orderid = $order->getKey();
-        $cart = Session::get('cart');
-        foreach ($cart as $item) {
-            $orderDetail = new OrderDetail;
+            $orderid = $order->getKey();
+            $cart = Session::get('cart');
+            foreach ($cart as $item) {
+                $orderDetail = new OrderDetail;
 
-            $orderDetail->orderid = $orderid;
-            $orderDetail->proid = $item['proid'];
-            $orderDetail->quantity = $item['quantity'];
-            $orderDetail->save();
+                $orderDetail->orderid = $orderid;
+                $orderDetail->proid = $item['proid'];
+                $orderDetail->quantity = $item['quantity'];
+                $orderDetail->save();
+
+                $proID = $item['proid'];
+                $product = Product::find($proID);
+                $product->proquantity = $product->proquantity - $item['quantity'];
+                $product->save();
+            }
+            Session::forget('cart');
+            Session::forget('total');
+            return redirect('customer/list-products')->with('order_success', 'Your order has been successfully!');
+        } else {
+            return redirect('customer/list-products')->with('order_fail', 'Your order has been failed!');
         }
-        Session::forget('cart');
-        Session::forget('total');
-        return redirect('customer/list-products');
     }
 
     public function detailProducts($id)
@@ -538,23 +547,23 @@ class CustomerController extends Controller
         $order = DB::table('orderproducts')
             ->where('userid', $id)
             ->get();
-        if($order_id){
-            $orderDetail = DB::table('orderproducts')
-            ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
-            ->join('products', 'orderdetails.proid', '=', 'products.proid')
-            ->where('userid', $id)
-            ->where('orderid', $order_id)
-            ->select('orderproducts.*', 'orderdetails.*', 'products.*')
-            ->get();
-        }else{
-            $orderDetail = DB::table('orderproducts')
-            ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
-            ->join('products', 'orderdetails.proid', '=', 'products.proid')
-            ->where('userid', $id)
-            ->select('orderproducts.*', 'orderdetails.*', 'products.*')
-            ->get();
+        if ($order_id) {
+            $orderDetails = DB::table('orderproducts')
+                ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->join('products', 'orderdetails.proid', '=', 'products.proid')
+                ->where('userid', $id)
+                ->where('orderid', $order_id)
+                ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+                ->get();
+        } else {
+            $orderDetails = DB::table('orderproducts')
+                ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->join('products', 'orderdetails.proid', '=', 'products.proid')
+                ->where('userid', $id)
+                ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+                ->get();
         }
-        return view('customer.user-profile', compact('order', 'orderDetail'));
+        return view('customer.user-profile', compact('order', 'orderDetails'));
     }
 
     public function updateUserProfile(Request $request, $id)

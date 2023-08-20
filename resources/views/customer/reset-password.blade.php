@@ -88,7 +88,7 @@
                         <div>
                             <label for="password">New Password</label>
                             <input class="userInput" id="userpassword" type="password" name="userpassword" required
-                                autocomplete="new-password">
+                                autocomplete="new-password" pattern="[a-zA-Z0-9_]{3,20}"  title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
                             @error('userpassword')
                                 <span role="alert">{{ $message }}</span>
                             @enderror

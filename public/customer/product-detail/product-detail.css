@@ -319,6 +319,14 @@ footer {
     gap: 2rem;
 }
 
+img.card-img-top{
+    height: 15rem;
+}
+
+.border-light{
+    width: 100%;
+}
+
 ::-webkit-scrollbar-thumb {
     background-color: #3498db;
     border-radius: 4px;

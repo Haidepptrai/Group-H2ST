@@ -113,17 +113,17 @@
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
-                        <option disabled selected>Select City</option>
+                        <option disabled selected value="">Select City</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict" required>
-                        <option disabled selected>Select Districts</option>
+                        <option disabled selected value="">Select Districts</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-wards" aria-label="Select Wards" name="userWard" required>
-                        <option disabled selected>Select Wards</option>
+                        <option disabled selected value="">Select Wards</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -159,8 +159,8 @@
                 selectDistrict.disabled = false;
 
                 //Reset the district option
-                selectDistrict.innerHTML = '<option selected disabled>Select District</option>';
-                selectWards.innerHTML = '<option selected disabled>Select District</option>';
+                selectDistrict.innerHTML = '<option selected disabled value="">Select District</option>';
+                selectWards.innerHTML = '<option selected disabled value="">Select Ward</option>';
 
                 //Get city details district. Find the specific city by it value set at beginning
                 const selectedCityData = data.find(city => city.name === getSelectProvince);
@@ -181,7 +181,7 @@
                         selectWards.disabled = false;
 
                         //Reset the ward option
-                        selectWards.innerHTML = '<option selected disabled>Select Ward</option>';
+                        selectWards.innerHTML = '<option selected disabled value="">Select Ward</option>';
 
                         //Find specific district data
                         const selectedDistrictData = selectedCityData.districts.find(district => district.name === getSelectDistrict);
@@ -204,3 +204,4 @@
             console.error('Error fetching data - Please reload the page:', error);
         });
 </script>
+@include('layout.admin.footer')
