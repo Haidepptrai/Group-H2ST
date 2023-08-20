@@ -94,7 +94,6 @@
             <div class="confirm-information">
                 <form class="confirm-send" action="{{ url('customer/add-order') }}" method="POST">
                     @csrf
-                    {{-- <div class="overflow-auto border border-2" style="height: 700px;"></div> --}}
                     <table class="table product-confirm">
                         <thead>
                             <tr>
