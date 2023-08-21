@@ -91,6 +91,7 @@ class AdminController extends Controller
         $profile = Admin::get();
         return view('admin.admins-profile', compact('profile'));
     }
+    
     public function adminSaveProfile(Request $request)
     {
         if ($request->hasFile('adminimage')) {
@@ -177,8 +178,8 @@ class AdminController extends Controller
         return view('admin.categories-edit', compact('cate'));
     }
 
-        public function categoriesUpdate(Request $request)
-        {
+    public function categoriesUpdate(Request $request)
+    {
         Category::where('catid', '=', $request->CategoryID)->update([
             'catname' => $request->catname
         ]);

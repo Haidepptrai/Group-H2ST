@@ -1,4 +1,3 @@
-
 <footer>
     <div class="foot-container text-center">
         <a class="navbar-brand" href=" {{ route('home') }}">H2ST Furniture</a>
