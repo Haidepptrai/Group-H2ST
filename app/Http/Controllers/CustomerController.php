@@ -386,9 +386,7 @@ class CustomerController extends Controller
     {
         $new_quantity = $request->input('quantity');
         $total = $request->input('totalCost');
-
         if (auth()->check() || User::get()) {
-
             $product = Product::where('proid', $id)->first();
             if (!$product) {
                 return redirect()->back();
@@ -406,8 +404,7 @@ class CustomerController extends Controller
                     "proprice" => $discount_price,
                     "proimage" => $product->proimage,
                     "inventory" => $product->proquantity,
-                    "quantity" => 1
-                ];
+                    "quantity" => 1 ];
             }
             if ($new_quantity) {
                 $cart[$id]['quantity'] = $new_quantity;
