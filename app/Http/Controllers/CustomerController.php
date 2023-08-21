@@ -540,6 +540,7 @@ class CustomerController extends Controller
 
     public function userProfile($id, Request $request)
     {
+        $user = User::find($id);
         $order_id = $request->input('orderId');
         $order = DB::table('orderproducts')
             ->where('userid', $id)
@@ -560,7 +561,7 @@ class CustomerController extends Controller
                 ->select('orderproducts.*', 'orderdetails.*', 'products.*')
                 ->get();
         }
-        return view('customer.user-profile', compact('order', 'orderDetails'));
+        return view('customer.user-profile', compact('order', 'orderDetails','user'));
     }
 
     public function updateUserProfile(Request $request, $id)

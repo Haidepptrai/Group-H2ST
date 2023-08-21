@@ -61,19 +61,7 @@
                         @endif
                     </div>
                     <div class="user-basic-info">
-                        <div class="user-name">
-                            @if (session('user'))
-                                <p class="fw-bolder">{{ session('user')->getName() }}</p>
-                            @endif
-                            @if (Session()->has('id'))
-                                <p class="fw-bolder">{{ Session::get('userfirstname') }}</p>
-                            @endif
-                        </div>
-                        <div class="date-create">
-                            <p>
-                                Member since 2020
-                            </p>
-                        </div>
+                        <div class="user-name"> {{ $user->userfirstname }} {{ $user->userlastname }}</div>
                     </div>
                     @if (Session()->has('success'))
                         <div class="alert alert-success">{{ Session::get('success') }}</div>
@@ -101,20 +89,20 @@
                                         <label for="userfirstName" class="form-label">First Name</label>
                                         <input type="text" name="userfirstName" id="userfirstName"
                                             class="form-control"
-                                            value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userfirstname') : '' }}"
+                                            value="{{ $user->userfirstname }}"
                                             placeholder="Update your first name">
                                     </div>
                                     <div class="col">
                                         <label for="userlastName">Last Name</label>
                                         <input type="text" name="userlastName" id="userlastName"
                                             class="form-control"
-                                            value="{{ session('user') ? session('user')->getName() : '' }}{{ Session()->has('id') ? Session::get('userlastname') : '' }}"
+                                            value="{{ $user->userlastname }}"
                                             placeholder="Update your last name">
                                     </div>
                                     <div class="col">
                                         <label for="userEmail">Email</label>
                                         <input type="email" name="userEmail" id="userEmail" class="form-control"
-                                            value="{{ session('user') ? session('user')->getEmail() : '' }}{{ Session()->has('id') ? Session::get('useremail') : '' }}"
+                                            value="{{ $user->useremail }}"
                                             placeholder="Update your email" required>
                                     </div>
                                     <div class="col">
@@ -132,19 +120,19 @@
                                     <div class="col">
                                         <label for="userPhone">Enter a phone number</label>
                                         <input type="tel" id="userPhone" name="userPhone" class="form-control"
-                                            value="{{ session('user') ? Session::get('userphone') : '' }}{{ Session()->has('id') ? Session::get('userphone') : '' }}"
+                                            value="{{ $user->userphone }}"
                                             pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number"  title="Please enter a valid 10 to 12 digit phone number">
                                     </div>
                                     <div class="col">
                                         <label for="userAddress">Enter your birthday</label>
                                         <input type="date" name="userAddress" id="userAddress"
                                             class="form-control"
-                                            value="{{ session('user') ? Session::get('userbirthday') : '' }}{{ Session()->has('id') ? Session::get('userbirthday') : '' }}">
+                                            value="{{ $user->userbirthday }}">
                                     </div>
                                     <div class="col">
                                         <label for="userDoB">Enter your Address Number</label>
                                         <input type="text" name="userAddress" id="userDoB" class="form-control"
-                                            value="{{ session('user') ? Session::get('useraddress') : '' }}{{ Session()->has('id') ? Session::get('useraddress') : '' }}"
+                                            value="{{ $user->useraddress }}"
                                             placeholder="Update your address">
                                     </div>
                                     <div class="col">
@@ -203,7 +191,7 @@
             </div>
             @if (session()->has('id'))
                 @if (Session::has('success'))
-                    {{ Session::get('success') }}
+                    {{-- {{ Session::get('success') }} --}}
                 @else
                     {{ Session::get('error') }}
                 @endif
