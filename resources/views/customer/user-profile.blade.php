@@ -139,21 +139,21 @@
                                         <label for="select-province">Select Province</label>
                                         <select class="form-select" id="select-province" aria-label="Select City"
                                             name="userCity" required>
-                                            <option disabled selected>{{ $user->usercity }}</option>
+                                            <option disabled selected>{{ $user->usercity !== NULL ? $user->usercity : 'Select City'}}</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-district">Select District</label>
                                         <select class="form-select" id="select-district"
                                             aria-label="Select Districts" name="userDistrict" required>
-                                            <option disabled selected>{{ $user->userdistrict }}</option>
+                                            <option disabled selected>{{ $user->userdistrict !== NULL ? $user->userdistrict : 'Select District'}}</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-ward">Select Ward</label>
                                         <select class="form-select" id="select-ward" aria-label="Select Wards"
                                             name="userWards" required>
-                                            <option disabled selected>{{ $user->userward }}</option>
+                                            <option disabled selected>{{ $user->userward !== NULL ? $user->userward : 'Select Ward'}}</option>
                                         </select>
                                     </div>
                                 </div>

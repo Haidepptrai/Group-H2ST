@@ -16,7 +16,7 @@
         <header>
             <nav>
                 <div class="logo">
-                    <a href="{{route('home')}}">H2ST Furniture Shop</a>
+                    <a href="{{ route('home') }}">H2ST Furniture Shop</a>
                 </div>
             </nav>
         </header>
@@ -70,13 +70,14 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    @if (Session::has('error'))
-                        {{ Session::get('error') }}
-                        @else{{ Session::get('success') }}
+                    @if (Session()->has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                        @else
+                        <div class="alert alert-danger">{{ Session::get('error') }}</div>
                     @endif
                     @if (Session::has('fail'))
-                                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-                            @endif
+                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    @endif
                     <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
                         enctype="multipart/form-data" id="login">
 

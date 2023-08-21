@@ -11,7 +11,7 @@ const selectProvince = document.getElementById("select-province");
                 // Process the data and update your application's state
                 data.map((d) => {
                     const option = document.createElement("option"); // Create a new option element
-                    option.value = d.code; // Add value for the option, d.code is the code of each city
+                    option.value = d.name; // Add value for the option, d.code is the code of each city
                     option.textContent = d
                         .name; // Set the text content of the option, d.name is city name from api
                     selectProvince.appendChild(option); // Append the option to the select element
@@ -32,7 +32,7 @@ const selectProvince = document.getElementById("select-province");
 
                     //Get city details district. Find the specific city by it value set at beginning
                     const selectedCityData = data.find(
-                        (city) => city.code === parseInt(getSelectProvince)
+                        (city) => city.name === getSelectProvince
                     );
 
                     if (selectedCityData) {
@@ -40,7 +40,7 @@ const selectProvince = document.getElementById("select-province");
                         selectedCityData.districts.map((district) => {
                             const option = document.createElement("option");
                             option.value = district
-                                .code; //Set district value as its code for further purposes
+                                .name; //Set district value as its code for further purposes
                             option.textContent = district.name;
                             selectDistrict.appendChild(option);
                         });
@@ -59,8 +59,8 @@ const selectProvince = document.getElementById("select-province");
                             const selectedDistrictData =
                                 selectedCityData.districts.find(
                                     (district) =>
-                                    district.code ===
-                                    parseInt(getSelectDistrict)
+                                    district.name ===
+                                    getSelectDistrict
                                 );
 
                             //Create ward data of that district
@@ -68,7 +68,7 @@ const selectProvince = document.getElementById("select-province");
                                 selectedDistrictData.wards.map((wards) => {
                                     const option =
                                         document.createElement("option");
-                                    option.value = wards.code;
+                                    option.value = wards.name;
                                     option.textContent = wards.name;
                                     selectWards.appendChild(option);
                                 });
