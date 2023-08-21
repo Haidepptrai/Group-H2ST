@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     {{-- Bootstrap 5 icon --}}
     <link rel="stylesheet" href="../customer/about-us/about-us.css">
-    <title>Home Page H2ST</title>
+    <title>About Us</title>
 </head>
 
 <body>
@@ -37,23 +37,32 @@
                             <a class="nav-link" href="{{ route('aboutUs') }}">About Us</a>
                         </li>
                     </ul>
-                    @if (session('user'))
-                        <div class="dropdown">
+                    @if (session('user') || Session()->has('id'))
+                        <div class="dropdown user-profile">
                             <a type="button" class="btn border-0 dropdown-toggle-no-caret" data-bs-toggle="dropdown">
-                                <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
-                                    width="40" height="40">
+                                @if (session('user'))
+                                    <img src="{{ session('user')->getAvatar() }}" class="rounded-circle " alt="Avatar"
+                                        width="40" height="40">
+                                @endif
+                                @if (Session()->has('id'))
+                                    <img src="../user_img/{{ Session::get('userimage') }}" class="rounded-circle "
+                                        alt="Avatar" width="40" height="40">
+                                @endif
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('userProfile') }}"><i class="bi bi-person-lines-fill "></i> My
-                                        profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('cart') }}"><i class="bi bi-receipt"></i> My order</a>
-                                </li>
+                                @if (Session::has('id'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Session::get('id')) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @elseif (session('user'))
+                                <li><a class="dropdown-item" href="{{ url('customer/user-profile/'.Auth::id()) }}"><i
+                                    class="bi bi-person-lines-fill "></i> My profile</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ route('customerLogout') }}"><i
-                                            class="bi bi-box-arrow-in-left"></i> Log out</a></li>
+                                            class="bi bi-box-arrow-in-left"></i>Log out</a></li>
                             </ul>
                         </div>
                     @else
-                        <div class="user-ava"><a href="{{ route('customerLogin') }}"><box-icon
+                        <div class="user-ava"><a href="{{ route('customerLogin') }}" draggable="false"><box-icon
                                     name='user'></box-icon></a></div>
                     @endif
                     <div class="shopping-cart"><a href="{{ route('cart') }}"><box-icon name='cart'></box-icon></a></div>

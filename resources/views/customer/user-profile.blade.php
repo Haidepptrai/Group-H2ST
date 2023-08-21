@@ -139,21 +139,21 @@
                                         <label for="select-province">Select Province</label>
                                         <select class="form-select" id="select-province" aria-label="Select City"
                                             name="userCity" required>
-                                            <option disabled selected>Select City</option>
+                                            <option disabled selected>{{ $user->usercity }}</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-district">Select District</label>
                                         <select class="form-select" id="select-district"
                                             aria-label="Select Districts" name="userDistrict" required>
-                                            <option disabled selected>Select Districts</option>
+                                            <option disabled selected>{{ $user->userdistrict }}</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-ward">Select Ward</label>
                                         <select class="form-select" id="select-ward" aria-label="Select Wards"
                                             name="userWards" required>
-                                            <option disabled selected>Select Wards</option>
+                                            <option disabled selected>{{ $user->userward }}</option>
                                         </select>
                                     </div>
                                 </div>
