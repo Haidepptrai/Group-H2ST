@@ -96,38 +96,21 @@
                     </div>
                     <h5>Your rating about this product</h5>
                     <div class="rating mb-3">
-                        <input type="radio" id="star5" name="rating" value="5" required />
+                        <input type="radio" id="star5" name="rating" value="5"/>
                         <label for="star5" title="5 stars">5</label>
-                        <input type="radio" id="star4" name="rating" value="4" required />
+                        <input type="radio" id="star4" name="rating" value="4"/>
                         <label for="star4" title="4 stars">4</label>
-                        <input type="radio" id="star3" name="rating" value="3" required />
+                        <input type="radio" id="star3" name="rating" value="3"/>
                         <label for="star3" title="3 stars">3</label>
-                        <input type="radio" id="star2" name="rating" value="2" required />
+                        <input type="radio" id="star2" name="rating" value="2"/>
                         <label for="star2" title="2 stars">2</label>
-                        <input type="radio" id="star1" name="rating" value="1" required />
+                        <input type="radio" id="star1" name="rating" value="1"/>
                         <label for="star1" title="1 stars">1</label>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-                <script>
-                    // Form submission and validation
-                    document.getElementById('feedback-form').addEventListener('submit', function(event) {
-                        event.preventDefault(); // Prevent the default form submission
-
-                        // Perform client-side validation
-                        var rating = document.querySelector('input[name="rating"]:checked');
-
-                        if (!rating) {
-                            // Show the validation error modal
-                            var ratingModal = new bootstrap.Modal(document.getElementById('ratingModal'));
-                            ratingModal.show();
-                        } else {
-                            // Submit the form
-                            this.submit();
-                        }
-                    });
-                </script>
+                <script src="../../customer/product-detail/validateRating.js"></script>
             @endif
             <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
                 tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
@@ -202,6 +185,5 @@
 <script src="../../customer/product-detail/sale-apply.js"></script>
 <script src="../convertToDollar.js"></script>
 <script src="../../customer/product-detail/rating-check.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 @include('../layout.customer.footer')
