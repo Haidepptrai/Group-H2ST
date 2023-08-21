@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-
 <body>
     <div class="cover-page">
         <header>
@@ -70,13 +69,8 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    @if (Session()->has('success'))
-                        <div class="alert alert-success">{{ Session::get('success') }}</div>
-                        @else
-                        <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                    @endif
-                    @if (Session::has('fail'))
-                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                    @if (Session()->has('error'))
+                        <div class="alert" style="color: red">{{ Session::get('error') }}</div>
                     @endif
                     <form class="pt-3" action="{{ route('userLoginProcess') }}" method="POST"
                         enctype="multipart/form-data" id="login">

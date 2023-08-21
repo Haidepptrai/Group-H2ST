@@ -165,6 +165,10 @@ input.search-submit {
     flex-basis: 22%;
 }
 
+.product-item>a:hover{
+    background-color: #d2dce4e6;
+}
+
 .sort-slide {
     width: 25%;
     padding: 1.25rem;
@@ -224,11 +228,11 @@ a.btn.btn-sm.btn-outline-secondary {
 
 .btn-outline-light {
     border: 0;
-    --bs-btn-hover-bg: #a9b3be !important;
+    --bs-btn-hover-bg: #d2dce4e6 !important;
 }
 
 .btn-outline-light:hover {
-    background-color: #e6f7ff;
+    background-color: #d2dce4e6;
 }
 
 #filterPrice {

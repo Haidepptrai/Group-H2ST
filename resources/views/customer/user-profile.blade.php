@@ -284,13 +284,13 @@
                                     <th scope="row">{{ $i++ }}</th>
                                     <td id="orderid">{{ $o->orderid }}</td>
                                     <td>{{ $o->orderdate }}</td>
-                                    @if ($o->status == 1)
+                                    @if ($o->status == 0)
                                         <td>Wait For Confirm</td>
-                                    @elseif ($o->status == 2)
+                                    @elseif ($o->status == 1)
                                         <td>Delivery</td>
-                                    @elseif ($o->status == 3)
+                                    @elseif ($o->status == 2)
                                         <td>Recived</td>
-                                    @elseif ($o->status == 0)
+                                    @elseif ($o->status == 3)
                                         <td>Canceled</td>
                                     @endif
                                     <td>{{ $o->totalcost }}$</td>

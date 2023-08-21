@@ -68,7 +68,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
                                                     <input type="number" id="proprice" name="proprice"
-                                                        class="form-control" min="0" step="0.01" required
+                                                        class="form-control" min="0" step="1" required
                                                         placeholder="Enter price of products">
                                                     <div class="invalid-feedback">
                                                         Please enter a valid price.

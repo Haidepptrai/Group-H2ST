@@ -26,7 +26,7 @@ function decreaseQuantity(productId, id) {
         quantityInput.value = currentValue - 1;
     }
     $.ajax({
-        url: 'add-to-cart/' + productId,
+        url: '../add-to-cart/' + productId,
         type: 'POST',
         data: {
             _token: '{{ csrf_token() }}',

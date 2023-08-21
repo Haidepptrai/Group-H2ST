@@ -165,7 +165,7 @@
                         </div>
                     </div>
                     <div class="float-end mx-5">
-                        <button type="submit" class="btn btn-primary position-relative top-0 start-50 translate-middle"> Payment </button>
+                        <button type="submit" class="btn btn-primary position-relative"> Payment </button>
                         <div class="total">
                             Totals:  <input id="total-price" class="text-success" name="total" value="" readonly>
                         </div>
@@ -175,6 +175,6 @@
         </div>
     </div>
 </body>
-<script src="../../customer/convertToDollar.js"></script>
-<script src="../../customer/confirm-order/countTotal.js"></script>
+<script src="../customer/convertToDollar.js"></script>
+<script src="../customer/confirm-order/countTotal.js"></script>
 @include('layout.customer.footer')

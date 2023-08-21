@@ -8,7 +8,7 @@
                 aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('customerListProducts') }}">Shop</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $products->proname }}</li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{ url('customer/detail-products/' . $products->proid) }}">{{ $products->proname }}</a></li>
                 </ol>
             </nav>
         </div>

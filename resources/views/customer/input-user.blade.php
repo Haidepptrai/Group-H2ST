@@ -104,7 +104,7 @@
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
                     <input type="text" class="form-control" id="userPhone" name="userPhone"
-                    value="@if(session('user'))@if (method_exists(session('user'), 'getPhone')){{ session('user')->getPhone() }}@endif @else{{ Session::get('userphone') }}@endif" required>
+                    value="@if(session('user'))@if (method_exists(session('user'), 'getPhone')){{ session('user')->getPhone() }}@endif @else{{ Session::get('userphone') }}@endif" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Input your phone number"  title="Please enter a valid 10 to 12 digit phone number" required>
                 </div>
                 <div class="mb-3">
                     <label for="userAddress" class="form-label">Your Address</label>
@@ -132,5 +132,5 @@
     </div>
 </body>
 
-<script src="../../customer/input-user-info/getVietNamAPI.js"></script>
+<script src="../customer/input-user-info/getVietNamAPI.js"></script>
 @include('layout.admin.footer')

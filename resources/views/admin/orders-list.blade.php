@@ -34,19 +34,19 @@
                                                         <td>{{ $o->userfirstname }}{{ $o->userlastname }}</td>
                                                         <td>{{ $o->orderdate }}</td>
                                                         <td>
-                                                            @if ($o->status == 0)
+                                                            @if ($o->status == 1)
                                                                 <a
                                                                     href="{{ URL::to('/confirm_order/' . $o->orderid) }}">
                                                                     <span class="bi bi-check-circle"
                                                                         style="color: yellow; font-size: 30px"></span>
                                                                 </a>
-                                                            @elseif ($o->status == 1)
+                                                            @elseif ($o->status == 2)
                                                                 <a
                                                                     href="{{ URL::to('/delivery_order/' . $o->orderid) }}">
                                                                     <span class="bi bi-truck"
                                                                         style="color: blue; font-size: 30px"></span>
                                                                 </a>
-                                                            @elseif ($o->status == 2)
+                                                            @elseif ($o->status == 0)
                                                                 <a
                                                                     href="{{ URL::to('/received_order/' . $o->orderid) }}">
                                                                     <span class="bi bi-bag-check-fill"

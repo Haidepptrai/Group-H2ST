@@ -127,13 +127,13 @@
                             <li>
                                 <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
                                     class="btn btn-outline-light text-dark"
-                                    draggable="false">{{ $category->catname }}</a>
+                                    draggable="false">{{ $category->catname }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
                 </div>
             </div>
-
             <div class="pagination">
                 <nav aria-label="Product list panigation">
                     <ul class="pagination">
@@ -181,6 +181,30 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/nouislider@X.X.X/dist/nouislider.min.js"></script>
-<script src="../../customer/products-list/displaySort.js"></script>
+<script>
+                        const dropdownToggle = document.querySelector(".dropdown-toggle");
+                        const dropdownItems = document.querySelectorAll(".dropdown-item");
 
+                        // Check if the sort option is stored in localStorage
+                        const selectedSort = localStorage.getItem("selectedSort");
+                        if (selectedSort) {
+                            dropdownToggle.textContent = "Sort by " + selectedSort;
+                        }
+
+                        dropdownItems.forEach((item) => {
+                            item.addEventListener("click", () => {
+                                const selectedOption = item.textContent;
+                                dropdownToggle.textContent = "Sort by " + selectedOption;
+
+                                // Store the selected option in localStorage
+                                localStorage.setItem("selectedSort", selectedOption);
+                            });
+                        });
+
+                        function changeSortOrder(order) {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const currentSort = urlParams.get("sort");
+                            window.location.href = `{{ route('customerListProducts') }}?sort=${currentSort}&order=${order}`;
+                        }
+                    </script>
 @include('layout.customer.footer')

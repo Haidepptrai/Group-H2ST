@@ -66,8 +66,6 @@
             }
         });
     </script>
-
-
     <hr><br><br>
 
     <!-- Inventory Management -->
@@ -234,13 +232,13 @@
                             <td>{{ $order->orderdate }}</td>
                             <td>
                                 <!-- Display order status -->
-                                @if ($order->status == 0)
+                                @if ($order->status == 3)
                                     <span class="badge bg-danger">Canceled</span>
-                                @elseif($order->status == 3)
+                                @elseif($order->status == 1)
                                     <span class="badge bg-success">Recieved</span>
                                 @elseif($order->status == 2)
                                     <span class="badge bg-info">Delivered</span>
-                                @elseif($order->status == 1)
+                                @elseif($order->status == 0)
                                     <span class="badge bg-warning">Wait for confirm</span>
                                 @endif
                             </td>

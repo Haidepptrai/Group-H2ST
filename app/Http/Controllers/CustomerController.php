@@ -230,7 +230,6 @@ class CustomerController extends Controller
         ]);
     }
 
-
     public function resetPassword(Request $request, $token)
     {
         $password_reset = PasswordResetToken::where('token', $token)->first();
@@ -302,9 +301,9 @@ class CustomerController extends Controller
 
             $user = new User();
             $user->username = $data->name;
-            $randomBytes = random_bytes(16);
-            $randomString = bin2hex($randomBytes);
-            $user->userpassword = hash('sha256', $randomString);
+            $randomBytes = random_bytes(16);// random 16 characters
+            $randomString = bin2hex($randomBytes);// string to hexa by bin2hex
+            $user->userpassword = hash('sha256', $randomString);//encrupt randomString by hash()
             $user->userimage = $data->avatar;
             $user->useremail = $data->email;
             $user->userfirstname = $firstname;
@@ -321,6 +320,7 @@ class CustomerController extends Controller
     {
         // Get category ID from the request
         $categoryId = $request->input('catid');
+
         $query = Product::with('category')
             ->when($categoryId, function ($query, $categoryId) {
                 return $query->where('catid', $categoryId);
@@ -328,8 +328,10 @@ class CustomerController extends Controller
             ->whereHas('category', function ($query) {
                 return $query->where('status', 1);
             });
+
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
+
         if (!empty($minPrice) && is_numeric($minPrice)) {
             $query->where('proprice', '>=', $minPrice);
         }

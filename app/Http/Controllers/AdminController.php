@@ -91,7 +91,7 @@ class AdminController extends Controller
         $profile = Admin::get();
         return view('admin.admins-profile', compact('profile'));
     }
-    
+
     public function adminSaveProfile(Request $request)
     {
         if ($request->hasFile('adminimage')) {
@@ -188,7 +188,14 @@ class AdminController extends Controller
 
     public function categoriesDelete($id)
     {
-        $cate = Category::where('catid', '=', $id)->delete();
+        $category = Category::where('catid', $id)->first();
+        $hasProducts = Product::where('catid', $category->catid)->exists();
+
+        if ($hasProducts) {
+            return redirect()->back()->with('error', 'Cannot delete category. There are products associated with it.');
+        }
+        $category->delete();
+
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
 
@@ -204,7 +211,7 @@ class AdminController extends Controller
         return Redirect::to('admin/categories-list')->with('success', 'The product category has been activated successfully!');
     }
     //suppliers
-    public function suppliersList( )
+    public function suppliersList()
     {
         $supp = Supplier::get();
         return view('admin.suppliers-list', compact('supp'));
@@ -235,17 +242,25 @@ class AdminController extends Controller
 
     public function suppliersDelete($id)
     {
-        $supp = Supplier::where('id', '=', $id)->delete();
-        return redirect()->back()->with('success', 'Supplier deleted successfully!');
+        $supp = Supplier::where('id', $id)->first();
+        $hasProducts = Product::where('supid', $supp->id)->exists();
+
+        if ($hasProducts) {
+            return redirect()->back()->with('error', 'Cannot delete category. There are products associated with it.');
+        }
+        $supp->delete();
+
+        return redirect()->back()->with('success', 'Category deleted successfully!');
     }
     // Products
     public function productsList(Request $request)
     {
-        $categoryId = $request->input('category_id');
+        //Get categories by id
+        $categoryId = $request->input('catid');
 
         $pro = Product::with('category')
             ->when($categoryId, function ($query, $categoryId) {
-                return $query->where('category_id', $categoryId);
+                return $query->where('catid', $categoryId);
             })
             ->whereHas('category', function ($query) {
                 return $query->where('status', 1);
@@ -471,7 +486,7 @@ class AdminController extends Controller
     {
         $order = DB::table('orderproducts')
             ->join('users', 'orderproducts.userid', '=', 'users.id')
-            ->select('orderproducts.*','users.*')
+            ->select('orderproducts.*', 'users.*')
             ->get();
         return view('admin.orders-list', compact('order'));
     }
@@ -516,10 +531,11 @@ class AdminController extends Controller
         return Redirect::to('admin/orders-list')->with('success', 'The order has been canceled successfully!');
     }
 
-    public function ordersDetail($id){
+    public function ordersDetail($id)
+    {
         $orderDetail = DB::table('orderdetails')
             ->join('products', 'products.proid', '=', 'orderdetails.proid')
-            ->select('products.*','orderdetails.*')
+            ->select('products.*', 'orderdetails.*')
             ->where('orderid', $id)
             ->get();
         return view('admin.orders-detail', compact('orderDetail'));
