@@ -10,7 +10,6 @@ html {
 }
 
 .navbar-nav {
-    gap: 2.88rem;
     --bs-nav-link-color: black;
 }
 

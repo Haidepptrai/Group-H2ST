@@ -376,14 +376,6 @@ p.state {
 
 }
 
-
-@media (max-width: 991px) {
-  .mb-2 {
-    margin-top: 1rem;
-  }
-
-}
-
 @media (max-width: 964px) {
   .product-list-image {
     height: 15rem;

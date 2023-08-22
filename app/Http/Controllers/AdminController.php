@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Productfeedback;
 use App\Models\Orderproduct;
 use App\Models\Orderdetail;
+use App\Models\Orderstorage;
+use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -22,9 +24,12 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+
         // Overview
         $totalUsers = DB::table('users')->count();
-        $totalSales = DB::table('orderproducts')->sum('totalcost');
+        $totalCostSum = Session::get('totalCostSum');
+        $totalSale = DB::table('orderproducts')->sum('totalcost');
+        $totalSales = $totalCostSum + $totalSale;
         $totalOrders = DB::table('orderproducts')->count();
 
         // Sales report - last 7 days
@@ -71,7 +76,6 @@ class AdminController extends Controller
             ->select('orderproducts.*', 'users.username')
             ->orderBy('orderdate', 'desc')
             ->get();
-
 
         return view('admin.index', compact(
             'totalUsers',
@@ -243,8 +247,7 @@ class AdminController extends Controller
     public function suppliersDelete($id)
     {
         $supp = Supplier::where('id', $id)->first();
-        $hasProducts = Product::where('supid', $supp->id)->exists();
-
+        $hasProducts = Product::where('supid',$supp->id)->exists();
         if ($hasProducts) {
             return redirect()->back()->with('error', 'Cannot delete category. There are products associated with it.');
         }
@@ -393,8 +396,45 @@ class AdminController extends Controller
         $user = User::get();
         return view('admin.users-list', compact('user'));
     }
+
     public function usersDelete($id)
     {
+        $orderIds = DB::table('orderproducts')
+            ->join('orderdetails', 'orderproducts.orderid', '=', 'orderdetails.orderid')
+            ->where('orderproducts.userid', $id)
+            ->pluck('orderproducts.orderid');
+        $orderStorageData = [];
+
+        $totalCostSum = 0;
+        foreach ($orderIds as $orderId) {
+            $totalCost = DB::table('orderstorages')
+                ->join('orderproducts', 'orderstorages.orderid', '=', 'orderproducts.orderid')
+                ->sum(DB::raw('orderproducts.totalcost'));
+
+            $totalCostSum += $totalCost;
+
+            $orderDetails = DB::table('orderdetails')
+                ->join('orderproducts', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->where('orderproducts.userid', $id)
+                ->where('orderdetails.orderid', $orderId)
+                ->select('orderdetails.orderid', 'orderdetails.proid', 'orderdetails.quantity', 'orderproducts.totalcost')
+                ->get();
+
+            foreach ($orderDetails as $orderDetail) {
+                $orderStorageData[] = [
+                    'orderid' => $orderDetail->orderid,
+                    'proid' => $orderDetail->proid,
+                    'quantity' => $orderDetail->quantity,
+                ];
+            }
+        }
+
+        Session::put('totalCostSum', $totalCostSum);
+        DB::table('orderstorages')->insert($orderStorageData);
+        Orderdetail::whereIn('orderid', $orderIds)->delete();
+        Orderproduct::where('userid', $id)->delete();
+        Productfeedback::where('id', $id)->delete();
+        PasswordResetToken::where('id', $id)->delete();
         User::where('id', '=', $id)->delete();
         return redirect()->back()->with('success', 'Users deleted successfully!');
     }

@@ -19,6 +19,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Total Sales</h5>
                             <p class="card-text">${{ number_format($totalSales, 2) }}</p>
+                            <p> {{Session::get('totalCostSum')}} </p>
                         </div>
                     </div>
                 </div>

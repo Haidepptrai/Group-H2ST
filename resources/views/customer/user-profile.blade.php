@@ -108,11 +108,9 @@
                                         <select class="form-select" aria-label="Select gender" name="userGender"
                                             id="userGender">
                                             <option value="0"
-                                                {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 0 ? 'selected' : '' }}>
-                                                Male</option>
+                                                {{ Session::get('usergender') == 0 ? 'selected' : '' }}>Male</option>
                                             <option value="1"
-                                                {{ session('user') ? '' : '' }}{{ Session()->has('id') && Session::get('usergender') == 1 ? 'selected' : '' }}>
-                                                Female</option>
+                                                {{ Session::get('usergender') == 1 ? 'selected' : '' }}>Female</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -213,23 +211,17 @@
                                 <div class="row row-cols-2">
                                     <div class="col">
                                         <label for="oldPassword" class="text-primary">Enter your password</label>
-                                        <i id="eye-icon" class="fas fa-eye eye-icon"
-                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="oldPassword" id="userOldPass"
                                             placeholder="Enter your password" class="form-control">
                                     </div>
                                     <div class="col">
                                         <label for="newPassword" class="text-info">Enter your new password</label>
-                                        <i id="eye-icon" class="fas fa-eye eye-icon"
-                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="newPassword" id="newPassword"
                                             placeholder="Enter your password" class="form-control"
                                             pattern="[a-zA-Z0-9_]{3,20}"
                                             title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
                                         <label for="newPassConfirm" class="text-info">Confirm your new
                                             password</label>
-                                        <i id="eye-icon" class="fas fa-eye eye-icon"
-                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="newPassConfirm" id="newPassConfirm"
                                             placeholder="Enter your password" class="form-control">
                                     </div>

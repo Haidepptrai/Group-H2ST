@@ -104,7 +104,7 @@
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
                     <input type="text" class="form-control" id="userPhone" name="userPhone"
-                    value="{{ $user->userphone }}" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Input your phone number"  title="Please enter a valid 10 to 12 digit phone number" required>
+                    value="{{ $user->userphone }}" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" placeholder="Input your phone number"  title="Please enter a valid 9 to 12 digit phone number" required>
                 </div>
                 <div class="mb-3">
                     <label for="userAddress" class="form-label">Your Address</label>

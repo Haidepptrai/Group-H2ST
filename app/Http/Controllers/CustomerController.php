@@ -488,7 +488,7 @@ class CustomerController extends Controller
             $total = Session::get('total');
             $order = new Orderproduct;
             $order->userid = $userId;
-            $order->status = 1;
+            $order->status = 0;
             $order->totalcost = $total;
             $order->save();
 
@@ -616,10 +616,12 @@ class CustomerController extends Controller
         $user->save();
         return redirect()->route('userProfile', $id)->with('success', 'Avatar updated successfully. Login again to update your avatar');
     }
+
     public function confirmDeleteAccount()
     {
         return view('customer.confirm-delete-account');
     }
+
     public function deleteAccount(Request $request, $id)
     {
         $user = User::find($id);

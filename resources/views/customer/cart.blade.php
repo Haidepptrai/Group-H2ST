@@ -1,4 +1,18 @@
-@include('layout.customer.header-cart')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('layout.customer.header-tag')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ URL::asset('customer/shopping-cart/shopping-cart.css') }}">
+    <script src="{{ asset('js/custom.js') }}"></script>
+    <title>Shopping Cart</title>
+</head>
+
+<body>
+    <div class="page-container">
+        @include('layout.customer.top-navigate')
         <div class="cart-info">
             <a class="icon-link" href="{{ route('customerListProducts') }}">
                 <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
@@ -90,5 +104,5 @@
 <script src="../customer/convertToDollar.js"></script>
 {{-- <script src="../customer/shopping-cart/product-quantity.js"></script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../customer/shopping-cart/adjustQuantity.js"></script>
+<script src="{{URL::asset('customer/shopping-cart/adjustQuantity.js')}}"></script>
 @include('layout.customer.footer')

@@ -10,7 +10,7 @@ function increaseQuantity(productId, id) {
         url: 'add-to-cart/' + productId,
         type: 'POST',
         data: {
-            _token: '{{ csrf_token() }}',
+            _token: $('meta[name="csrf-token"]').attr('content') ,
             quantity: quantityInput.value,
             totalCost: findTotal(),
         },
@@ -26,10 +26,10 @@ function decreaseQuantity(productId, id) {
         quantityInput.value = currentValue - 1;
     }
     $.ajax({
-        url: '../add-to-cart/' + productId,
+        url: 'add-to-cart/' + productId,
         type: 'POST',
         data: {
-            _token: '{{ csrf_token() }}',
+            _token: $('meta[name="csrf-token"]').attr('content') ,
             quantity: quantityInput.value,
             totalCost: findTotal(),
         },

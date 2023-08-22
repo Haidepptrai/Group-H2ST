@@ -23,10 +23,7 @@
                 </div>
                 <div class="position-absolute top-50 start-50 translate-middle home-title">
                     <h1 class="head-title">All for your home</h1>
-                    <p class="head-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat
-                        dolor
-                        odio odio malesuada at
-                        condimentum adipiscing iaculis semper.</p>
+                    <p class="head-description">Where Comfort Meets Style. Discover curated furnishings and decor that transform your space into a haven of elegance and relaxation.</p>
                     <a class="addition-link" href="{{ route('customerListProducts') }}">View More<box-icon
                             name='chevron-right' color="#fff"></box-icon></a>
                 </div>
