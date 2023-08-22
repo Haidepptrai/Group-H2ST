@@ -123,8 +123,8 @@ Route::middleware(['customAuth'])->group(function () {
     Route::get('customer/cart', [CustomerController::class, 'cart'])->name('cart');
     Route::post('customer/add-to-cart/{id}', [CustomerController::class, 'addToCart']);
     Route::get('customer/remove-from-cart/{id}', [CustomerController::class, 'removeFromCart']);
-    Route::post('customer/confirm-order-page', [CustomerController::class, 'comfirmOrderPage']);
-    Route::GET('customer/input-user', [CustomerController::class, 'inputUser'])->name('inputUser');
+    Route::post('customer/confirm-order-page/{id}', [CustomerController::class, 'comfirmOrderPage']);
+    Route::get('customer/input-user/{id}', [CustomerController::class, 'inputUser'])->name('inputUser');
     Route::post('customer/add-order',[CustomerController::class, 'addOrder']);
 });
 

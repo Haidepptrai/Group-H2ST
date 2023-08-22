@@ -7,7 +7,12 @@
             <div class="title">
                 <h5>Shopping cart</h5>
             </div>
-            <form action="{{ route('inputUser') }}" method="GET">
+            <form action="@if (Session::has('id'))
+            {{ url('customer/input-user/'.Session::get('id')) }}
+            @elseif(Session::has('user'))
+            {{ url('customer/input-user/'.Auth::id()) }}
+            @endif
+            " method="GET">
                 @csrf
                 <div class="overflow-auto border border-2 mb-2" style="height: 700px;">
                     <table class="table">

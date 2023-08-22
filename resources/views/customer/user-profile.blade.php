@@ -1,4 +1,5 @@
 @include('layout.customer.header-profile')
+
 <body>
     <nav>
     </nav>
@@ -88,22 +89,19 @@
                                     <div class="col">
                                         <label for="userfirstName" class="form-label">First Name</label>
                                         <input type="text" name="userfirstName" id="userfirstName"
-                                            class="form-control"
-                                            value="{{ $user->userfirstname }}"
+                                            class="form-control" value="{{ $user->userfirstname }}"
                                             placeholder="Update your first name">
                                     </div>
                                     <div class="col">
                                         <label for="userlastName">Last Name</label>
                                         <input type="text" name="userlastName" id="userlastName"
-                                            class="form-control"
-                                            value="{{ $user->userlastname }}"
+                                            class="form-control" value="{{ $user->userlastname }}"
                                             placeholder="Update your last name">
                                     </div>
                                     <div class="col">
                                         <label for="userEmail">Email</label>
                                         <input type="email" name="userEmail" id="userEmail" class="form-control"
-                                            value="{{ $user->useremail }}"
-                                            placeholder="Update your email" required>
+                                            value="{{ $user->useremail }}" placeholder="Update your email" required>
                                     </div>
                                     <div class="col">
                                         <label for="userGender">Gender</label>
@@ -120,40 +118,45 @@
                                     <div class="col">
                                         <label for="userPhone">Enter a phone number</label>
                                         <input type="tel" id="userPhone" name="userPhone" class="form-control"
-                                            value="{{ $user->userphone }}"
-                                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Update your phone number"  title="Please enter a valid 10 to 12 digit phone number">
+                                            value="{{ $user->userphone }}" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                                            placeholder="Update your phone number"
+                                            title="Please enter a valid 10 to 12 digit phone number">
                                     </div>
                                     <div class="col">
                                         <label for="userAddress">Enter your birthday</label>
                                         <input type="date" name="userAddress" id="userAddress"
-                                            class="form-control"
-                                            value="{{ $user->userbirthday }}">
+                                            class="form-control" value="{{ $user->userbirthday }}">
                                     </div>
                                     <div class="col">
                                         <label for="userDoB">Enter your Address Number</label>
                                         <input type="text" name="userAddress" id="userDoB" class="form-control"
-                                            value="{{ $user->useraddress }}"
-                                            placeholder="Update your address">
+                                            value="{{ $user->useraddress }}" placeholder="Update your address">
                                     </div>
                                     <div class="col">
                                         <label for="select-province">Select Province</label>
                                         <select class="form-select" id="select-province" aria-label="Select City"
                                             name="userCity" required>
-                                            <option disabled selected>{{ $user->usercity !== NULL ? $user->usercity : 'Select City'}}</option>
+                                            <option disabled selected>
+                                                {{ $user->usercity !== null ? $user->usercity : 'Select City' }}
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-district">Select District</label>
                                         <select class="form-select" id="select-district"
                                             aria-label="Select Districts" name="userDistrict" required>
-                                            <option disabled selected>{{ $user->userdistrict !== NULL ? $user->userdistrict : 'Select District'}}</option>
+                                            <option disabled selected>
+                                                {{ $user->userdistrict !== null ? $user->userdistrict : 'Select District' }}
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="select-ward">Select Ward</label>
                                         <select class="form-select" id="select-ward" aria-label="Select Wards"
                                             name="userWards" required>
-                                            <option disabled selected>{{ $user->userward !== NULL ? $user->userward : 'Select Ward'}}</option>
+                                            <option disabled selected>
+                                                {{ $user->userward !== null ? $user->userward : 'Select Ward' }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -210,17 +213,25 @@
                                 <div class="row row-cols-2">
                                     <div class="col">
                                         <label for="oldPassword" class="text-primary">Enter your password</label>
+                                        <i id="eye-icon" class="fas fa-eye eye-icon"
+                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="oldPassword" id="userOldPass"
                                             placeholder="Enter your password" class="form-control">
                                     </div>
                                     <div class="col">
                                         <label for="newPassword" class="text-info">Enter your new password</label>
+                                        <i id="eye-icon" class="fas fa-eye eye-icon"
+                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="newPassword" id="newPassword"
-                                            placeholder="Enter your password" class="form-control" pattern="[a-zA-Z0-9_]{3,20}"  title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
+                                            placeholder="Enter your password" class="form-control"
+                                            pattern="[a-zA-Z0-9_]{3,20}"
+                                            title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
                                         <label for="newPassConfirm" class="text-info">Confirm your new
                                             password</label>
+                                        <i id="eye-icon" class="fas fa-eye eye-icon"
+                                            onclick="togglePasswordVisibility()"></i>
                                         <input type="password" name="newPassConfirm" id="newPassConfirm"
-                                            placeholder="Enter your password" class="form-control" >
+                                            placeholder="Enter your password" class="form-control">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary float-end my-5"
@@ -285,18 +296,18 @@
                                     <td id="orderid">{{ $o->orderid }}</td>
                                     <td>{{ $o->orderdate }}</td>
                                     @if ($o->status == 0)
-                                        <td>Wait For Confirm</td>
+                                        <td class="text-warning">Wait For Confirm</td>
                                     @elseif ($o->status == 1)
-                                        <td>Delivery</td>
+                                        <td class="text-primary">Delivery</td>
                                     @elseif ($o->status == 2)
-                                        <td>Recived</td>
+                                        <td class="text-success">Recived</td>
                                     @elseif ($o->status == 3)
-                                        <td>Canceled</td>
+                                        <td class="text-danger">Canceled</td>
                                     @endif
                                     <td>{{ $o->totalcost }}$</td>
                                 </tr>
                                 <tr class="order-details" style="display: none;">
-                                    <td colspan="6">
+                                    <td colspan="5">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -310,13 +321,30 @@
                                             <tbody>
                                                 @php
                                                     $j = 1;
+                                                    $orderDetails = \App\Models\OrderDetail::where('orderid', $o->orderid)->get();
                                                 @endphp
                                                 @foreach ($orderDetails as $od)
                                                     <tr>
                                                         <th scope="row">{{ $j++ }}</th>
-                                                        <td>{{ $od->proname }}</td>
-                                                        <td><img src="" alt=""></td>
-                                                        <td>{{ $od->proprice }}</td>
+                                                        <td>
+                                                            <a
+                                                                href="{{ url('customer/detail-products/' . $od->product->proid) }}">
+                                                                @if ($od->product)
+                                                                    {{ $od->product->proname }}
+                                                                @endif
+                                                            </a>
+                                                        </td>
+                                                        @if ($od->product)
+                                                            <td><img src="{{ asset('pro_img/' . $od->product->proimage) }}"
+                                                                    alt="{{ $od->product->proname }}">
+                                                            </td>
+                                                            <td class="product-price">
+                                                                {{ ($od->product->proprice - ($od->product->proprice * $od->product->discount) / 100) * $od->quantity }}$
+                                                            </td>
+                                                        @else
+                                                            <td>N/A</td>
+                                                            <td>N/A</td>
+                                                        @endif
                                                         <td>{{ $od->quantity }}</td>
                                                     </tr>
                                                 @endforeach
@@ -431,7 +459,16 @@
     </script>
     <script src="../../customer/personal-account/getVietNamAPI.js"></script>
     <script src="../../customer/personal-account/logOutAlert.js"></script>
-
+    <script>
+        $(document).ready(function() {
+            $('.order-row').click(function() {
+                var orderid = $(this).data("orderid");
+                var productDetails = $(this).next('.order-details');
+                $('.order-details').not(productDetails).slideUp('fast');
+                productDetails.slideToggle('fast');
+            });
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../../customer/personal-account/displayOrder.js"></script>
+    <script src="../../public/customer/personal-account/displayOrder.js"></script>
 </body>

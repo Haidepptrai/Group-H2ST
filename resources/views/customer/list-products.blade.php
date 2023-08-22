@@ -1,4 +1,15 @@
-@include('layout.customer.header-product')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @include('layout.customer.header-tag')
+    <link rel="stylesheet" href="../customer/products-list/product-list.css">
+    <title>Product List</title>
+</head>
+
+<body>
+    <div class="page-container">
+        @include('layout.customer.top-navigate')
         @if (session()->has('order_success'))
             <div class="alert alert-success">{{ session()->get('order_success') }}</div>
         @endif
@@ -173,10 +184,7 @@
                     </ul>
                 </nav>
             </div>
-    </div>
-    </div>
-
-    </main>
+        </main>
     </div>
 </body>
 

@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +9,8 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script src="../../public/customer/login/showPassword.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../../customer/personal-account/personal-account.css">
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/css/bootstrap.min.css"> -->
-    <title>Personal Setting</title>
-</head>
+    <link rel="stylesheet" href="{{ URL::asset('customer/top-nav.css') }}"></link>
+    <link rel="stylesheet" href="{{ URL::asset('customer/footer.css') }}"></link>
+    {{-- Bootstrap 5 icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">

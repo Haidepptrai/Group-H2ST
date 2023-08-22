@@ -12,7 +12,7 @@ html {
 }
 
 .logo{
-  padding: 1.94rem 0rem 0rem 2.62rem !important;
+  padding: 1.94rem 0rem 0rem 2.62rem;
 }
 
 .logo a {
@@ -176,6 +176,19 @@ input#userPassword::placeholder {
   height: 3.375rem;
 }
 
+.eye-icon {
+  position: absolute;
+  bottom: 31%;
+  transform: translateX(-2rem);
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #333;
+}
+
 @media (max-width: 1024px) {
   .login-container {
     position: static;
@@ -184,8 +197,12 @@ input#userPassword::placeholder {
   }
 
   .logo{
-    padding: 2rem;
+    padding: 2rem 0rem;
     text-align: center;
+  }
+
+  .eye-icon{
+    bottom: 46.7%;
   }
 }
 
@@ -216,6 +233,10 @@ input#userPassword::placeholder {
   .submitButton {
     width: 11rem;
   }
+
+  .eye-icon {
+    bottom: 39.15%;
+}
 }
 
 @media (max-width: 500px) {
@@ -227,6 +248,10 @@ input#userPassword::placeholder {
   .submitButton {
     left: 5.75rem;
   }
+
+  .eye-icon {
+    bottom: 33.15%;
+}
 }
 
 @media (max-width: 330px) {

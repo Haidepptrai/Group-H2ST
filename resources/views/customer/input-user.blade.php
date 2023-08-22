@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../customer/input-user-info/input-user-info.css">
+    <link rel="stylesheet" href="../../customer/input-user-info/input-user-info.css">
     <script src="{{ asset('js/custom.js') }}"></script>
     <title>Your information</title>
 </head>
@@ -86,12 +86,12 @@
         <div class="information">
             <h1>Fill your information for shipment</h1>
             <br>
-            <form action="{{ url('customer/confirm-order-page') }}" method="POST">
+            <form action="{{ url('customer/confirm-order-page/'.$user->id) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="userEmail" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="userEmail" name="userEmail"
-                    value="@if(session('user')){{ session('user')->getEmail() }}@else{{ Session::get('useremail') }}@endif"
+                    value="{{ $user->useremail }}"
                         aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text text-danger user-select-none">We'll never share your email with
                         anyone else.</div>
@@ -99,31 +99,31 @@
                 <div class="mb-3">
                     <label for="userName" class="form-label">Your Name</label>
                     <input type="text" class="form-control" id="userName" name="userName"
-                    value="@if(session('user')){{ session('user')->getName() }}@else{{ Session::get('userfirstname') }} {{ Session::get('userlastname') }}@endif" required>
+                    value="{{ $user->userfirstname }} {{ $user->userlastname }}" required>
                 </div>
                 <div class="mb-3">
                     <label for="userPhone" class="form-label">Your Phone Number</label>
                     <input type="text" class="form-control" id="userPhone" name="userPhone"
-                    value="@if(session('user'))@if (method_exists(session('user'), 'getPhone')){{ session('user')->getPhone() }}@endif @else{{ Session::get('userphone') }}@endif" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Input your phone number"  title="Please enter a valid 10 to 12 digit phone number" required>
+                    value="{{ $user->userphone }}" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Input your phone number"  title="Please enter a valid 10 to 12 digit phone number" required>
                 </div>
                 <div class="mb-3">
                     <label for="userAddress" class="form-label">Your Address</label>
                     <input type="text" class="form-control" id="userAddress" name="userAddress"
-                    value="@if(session('user'))@if (method_exists(session('user'), 'getAddress')){{ session('user')->getAddress() }}@endif @else{{ Session::get('useraddress') }}@endif" required>
+                    value="{{ $user->useraddress }}" required>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-province" aria-label="Select City" name="userCity" required>
-                        <option disabled selected value="">Select City</option>
+                        <option disabled selected value="{{ $user->usercity !== NULL ? $user->usercity : ''}}">{{ $user->usercity !== NULL ? $user->usercity : 'Select Province'}}</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-district" aria-label="Select Districts" name="userDistrict" required>
-                        <option disabled selected value="">Select Districts</option>
+                        <option disabled selected value="{{ $user->userdistrict !== NULL ? $user->userdistrict : ''}}">{{ $user->userdistrict !== NULL ? $user->userdistrict : 'Select District'}}</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" id="select-wards" aria-label="Select Wards" name="userWard" required>
-                        <option disabled selected value="">Select Wards</option>
+                        <option disabled selected value="{{ $user->userward !== NULL ? $user->userward : ''}}">{{ $user->userward !== NULL ? $user->userward : 'Select Ward'}}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -132,5 +132,5 @@
     </div>
 </body>
 
-<script src="../customer/input-user-info/getVietNamAPI.js"></script>
+<script src="../../customer/input-user-info/getVietNamAPI.js"></script>
 @include('layout.admin.footer')

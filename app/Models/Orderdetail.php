@@ -9,4 +9,8 @@ class Orderdetail extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    public function product() {
+        return $this->belongsTo(Product::class, 'proid');
+    }
+
 }

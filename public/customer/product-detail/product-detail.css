@@ -1,49 +1,5 @@
-* {
-    font-family: "Poppins", Arial;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
-}
-
-#topNav {
-    --bs-navbar-padding-x: 1.5rem;
-    --bs-navbar-padding-y: 2rem;
-    --bs-navbar-brand-margin-end: 5.31rem;
-    width: 100%;
-}
-
 .navbar-nav {
-    gap: 2.88rem;
     --bs-nav-link-color: black;
-}
-
-.navbar-expand-lg .navbar-collapse {
-    gap: 2rem;
-}
-
-.navbar-expand-lg .navbar-nav .nav-link {
-    padding: 0;
-}
-
-.search-field {
-    background-color: transparent;
-    background-image: url(https://wp-themes.com/wp-content/themes/twentythirteen/images/search-icon.png);
-    background-position: 5px center;
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    border: none;
-    cursor: pointer;
-    height: 40px;
-    padding: 0 0 0 34px;
-    position: relative;
-    -webkit-transition: width 400ms ease, background 400ms ease;
-    transition: width 400ms ease, background 400ms ease;
-    width: 0px;
-    cursor: pointer;
 }
 
 .search-field::placeholder {
@@ -51,21 +7,7 @@ html {
 }
 
 .search-field:focus {
-    background-color: transparent;
-    /* border: 2px solid #c3c0ab; */
-    cursor: text;
-    outline: 0;
-    width: 250px;
     color: #6c757d;
-}
-
-input.search-submit {
-    display: none !important;
-}
-
-.user-ava,
-.shopping-cart {
-    transform: translateY(2.75px);
 }
 
 main {

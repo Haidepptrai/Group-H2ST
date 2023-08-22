@@ -511,18 +511,18 @@ class AdminController extends Controller
 
     public function confirm_order($id)
     {
-        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 0]);
+        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 1]);
         return Redirect::to('admin/orders-list')->with('success', 'The orders has been confirm successfully!');
     }
 
     public function delivery_order($id)
     {
-        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 1]);
+        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 2]);
         return Redirect::to('admin/orders-list')->with('success', 'The orders has been delivery successfully!');
     }
     public function received_order($id)
     {
-        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 2]);
+        DB::table('orderproducts')->where('orderid', $id)->update(['status' => 0]);
         return Redirect::to('admin/orders-list')->with('success', 'The orders has been receive successfully!');
     }
     public function cancel_order($id)

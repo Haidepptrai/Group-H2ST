@@ -12,7 +12,7 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-    <link rel="stylesheet" href="../customer/confirm-order/confirm-order.css">
+    <link rel="stylesheet" href="../../customer/confirm-order/confirm-order.css">
 
     <!-- Bootstrap 5 css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -65,7 +65,7 @@
                         </div>
                     @endif
 
-                    <div class="shopping-cart"><a href="#" draggable="false"><box-icon
+                    <div class="shopping-cart"><a href="{{ route('cart') }}" draggable="false"><box-icon
                                 name='cart'></box-icon></a></div>
                     <form class="d-flex" role="search" action="{{ route('customerListProducts') }}" method="GET">
                         <label>
@@ -110,7 +110,7 @@
                                     <input type="text" name='productID' value="c" hidden>
                                     <td>{{ $details['proname'] }}</td>
                                     <td ><img
-                                            src="../pro_img/{{ $details['proimage'] }}"
+                                            src="../../pro_img/{{ $details['proimage'] }}"
                                             class="rounded" width="100" height="100">
                                     </td>
                                     <td class="product-price text-success">{{ $details['proprice'] }}$</td>
@@ -151,23 +151,23 @@
                         <div class="mb-3 ms-3">
                             <label for="userWard" class="form-label fw-bold">Your Ward</label>
                             <input type="text" readonly class="form-control-plaintext" id="userWard"
-                                value="{{ $ward }}" name="userWard">
+                                value="{{ $ward == Null ? $user->userward : $ward}}" name="userWard">
                         </div>
                         <div class="mb-3 ms-3">
                             <label for="userDistrict" class="form-label fw-bold">Your District</label>
                             <input type="text" readonly class="form-control-plaintext" id="userDistrict"
-                                value="{{ $district }}" name="userDistrict">
+                                value="{{ $district == Null ? $user->userdistrict : $district}}" name="userDistrict">
                         </div>
                         <div class="mb-3 ms-3">
                             <label for="userCity" class="form-label fw-bold">Your City</label>
                             <input type="text" readonly class="form-control-plaintext" id="userCity"
-                                value="{{ $city }}" name="userCity">
+                                value="{{ $city == Null ? $user->usercity : $city}}" name="userCity">
                         </div>
                     </div>
                     <div class="float-end mx-5">
                         <button type="submit" class="btn btn-primary position-relative"> Payment </button>
                         <div class="total">
-                            Totals:  <input id="total-price" class="text-success" name="total" value="" readonly>
+                            Totals:  <input id="total-price" class="text-success" name="total" value="${{ Session::get('total') }}" readonly>
                         </div>
                     </div>
                 </form>
@@ -175,6 +175,5 @@
         </div>
     </div>
 </body>
-<script src="../customer/convertToDollar.js"></script>
-<script src="../customer/confirm-order/countTotal.js"></script>
+<script src="../../customer/convertToDollar.js"></script>
 @include('layout.customer.footer')

@@ -79,7 +79,7 @@
             // Show the SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You will not be able to recover this product!',
+                text: 'You will not be able to recover this category!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',

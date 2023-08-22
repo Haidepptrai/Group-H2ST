@@ -9,7 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="../../public/customer/login/showPassword.js"></script>
 <body>
     <div class="cover-page">
         <header>
@@ -82,6 +84,7 @@
                         <label for="userPassword">Password</label><br>
                         <input type="password" class="userInput" id="userPassword" name="userPassword"
                             placeholder="Password" required>
+                        <i id="eye-icon" class="fas fa-eye eye-icon" onclick="togglePasswordVisibility()"></i>
                         <a href="{{ route('getForgotPassword') }}" class="forgot-link">Forgot Password</a>
                         <input type="submit" class="submitButton" value="Sign in">
                     </form>
@@ -90,5 +93,4 @@
         </main>
     </div>
 </body>
-
 </html>

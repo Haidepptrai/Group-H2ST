@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Add the SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <!-- Add the SweetAlert2 JS -->
@@ -64,6 +65,7 @@
                         <label for="userPassword">Enter your password</label><br>
                         <input type="password" class="userInput" id="userPassword" name="userPassword"
                             placeholder="Password" pattern="[a-zA-Z0-9_]{3,20}"  title="Username must be between 6 and 20 characters and can contain letters, numbers, and underscores">
+                        <i id="eye-icon" class="fas fa-eye eye-icon" onclick="togglePasswordVisibility()"></i>
                         <label for="userAddress">Address</label><br>
                         <input type="text" class="userInput" id="useraddress" name="userAddress"
                             placeholder="Your address"><br>
@@ -72,7 +74,8 @@
                 </div>
             </div>
         </main>
-        <script src="../../customer/login/handleDialog.js"></script>
+        <script src="../../public/customer/login/handleDialog.js"></script>
+        <script src="../../public/customer/login/showPassword.js"></script>
     </div>
 </body>
 

@@ -301,9 +301,9 @@ class CustomerController extends Controller
 
             $user = new User();
             $user->username = $data->name;
-            $randomBytes = random_bytes(16);// random 16 characters
-            $randomString = bin2hex($randomBytes);// string to hexa by bin2hex
-            $user->userpassword = hash('sha256', $randomString);//encrupt randomString by hash()
+            $randomBytes = random_bytes(16); // random 16 characters
+            $randomString = bin2hex($randomBytes); // string to hexa by bin2hex
+            $user->userpassword = hash('sha256', $randomString); //encrupt randomString by hash()
             $user->userimage = $data->avatar;
             $user->useremail = $data->email;
             $user->userfirstname = $firstname;
@@ -406,7 +406,8 @@ class CustomerController extends Controller
                     "proprice" => $discount_price,
                     "proimage" => $product->proimage,
                     "inventory" => $product->proquantity,
-                    "quantity" => 1 ];
+                    "quantity" => 1
+                ];
             }
             if ($new_quantity) {
                 $cart[$id]['quantity'] = $new_quantity;
@@ -415,12 +416,10 @@ class CustomerController extends Controller
                 session()->put('total', $total);
             } else {
                 $firsttotal = $discount_price;
-                if (session()->get('firsttotal')) {
-                    $firsttotal = $firsttotal + $discount_price;
+                if (session()->get('total')) {
+                    $firsttotal = Session::get('total') + $discount_price;
                 }
-                session()->put('firsttotal', $firsttotal);
-                $newtotal = session()->get('firsttotal');
-                session()->put('total', $newtotal);
+                session()->put('total', $firsttotal);
             }
             session()->put('cart', $cart);
             return redirect()->back()->with('AddToCart', 'This Product is added to cart successfully!');
@@ -435,12 +434,15 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function inputUser()
+    public function inputUser($id)
     {
-        return view('customer.input-user');
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+        return view('customer.input-user', compact('user'));
     }
 
-    public function comfirmOrderPage(Request $request)
+    public function comfirmOrderPage(Request $request, $id)
     {
         $email = $request->input('userEmail');
         $name = $request->input('userName');
@@ -450,7 +452,11 @@ class CustomerController extends Controller
         $district = $request->input('userDistrict');
         $ward = $request->input('userWard');
 
-        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward'));
+        $user = DB::table('users')
+            ->where('id', $id)
+            ->first();
+
+        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward','user'));
     }
 
     public function addOrder(Request $request)
@@ -548,22 +554,22 @@ class CustomerController extends Controller
             ->where('userid', $id)
             ->get();
         if ($order_id) {
-            $orderDetails = DB::table('orderproducts')
-                ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+            $orderDetails = DB::table('orderdetails')
                 ->join('products', 'orderdetails.proid', '=', 'products.proid')
-                ->where('userid', $id)
-                ->where('orderid', $order_id)
-                ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+                ->join('orderproducts', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->where('orderproducts.userid', $id)
+                ->where('orderdetails.orderid', $order_id)
+                ->select('orderdetails.proid', 'orderdetails.quantity', 'products.proname', 'products.proimage', 'orderproducts.totalcost')
                 ->get();
         } else {
-            $orderDetails = DB::table('orderproducts')
-                ->join('orderdetails', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+            $orderDetails = DB::table('orderdetails')
                 ->join('products', 'orderdetails.proid', '=', 'products.proid')
-                ->where('userid', $id)
-                ->select('orderproducts.*', 'orderdetails.*', 'products.*')
+                ->join('orderproducts', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->where('orderproducts.userid', $id)
+                ->select('orderdetails.proid', 'orderdetails.quantity', 'products.proname', 'products.proimage', 'orderproducts.totalcost')
                 ->get();
         }
-        return view('customer.user-profile', compact('order', 'orderDetails','user'));
+        return view('customer.user-profile', compact('order', 'orderDetails', 'user'));
     }
 
     public function updateUserProfile(Request $request, $id)

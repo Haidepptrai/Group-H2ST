@@ -135,6 +135,19 @@ input#userPassword::placeholder {
   height: 3.375rem;
 }
 
+.eye-icon {
+  position: absolute;
+  right: 12%;
+  bottom: 28%;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #333;
+}
+
 @media (max-width: 1024px) {
   .login-container {
     position: static;
@@ -145,6 +158,12 @@ input#userPassword::placeholder {
   .logo{
     padding: 2rem;
     text-align: center;
+  }
+
+  .eye-icon{
+    bottom: 17.5%;
+    transform: translateX(25.5rem);
+    right: unset;
   }
 }
 
@@ -176,6 +195,12 @@ input#userPassword::placeholder {
   .submitButton {
     width: 11rem;
   }
+
+  .eye-icon {
+    bottom: 14.5%;
+    transform: translateX(22.5rem);
+    right: unset;
+}
 }
 
 @media (min-width: 501px) {
@@ -193,6 +218,12 @@ input#userPassword::placeholder {
   .submitButton {
     left: 5.75rem;
   }
+
+  .eye-icon{
+    bottom: 2.25%;
+    transform: translateX(14.5rem);
+    right: unset;
+  }
 }
 
 @media (max-width: 330px) {
@@ -202,4 +233,10 @@ input#userPassword::placeholder {
   .submitButton {
     left: 3.75rem;
   }
+
+  .eye-icon {
+    bottom: 2.25%;
+    transform: translateX(12.5rem);
+    right: unset;
+}
 }

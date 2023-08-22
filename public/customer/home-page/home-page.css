@@ -9,6 +9,11 @@ html {
   font-size: 16px;
 }
 
+.navbar{
+  position: absolute !important;
+  z-index: 1 !important;
+}
+
 .carousel-inner {
   height: 0;
   padding-bottom: 100vh;
@@ -36,64 +41,6 @@ html {
 .carousel-control-prev {
   width: 5%;
   color: aliceblue;
-}
-
-.navbar {
-  --bs-navbar-padding-x: 1.5rem;
-  --bs-navbar-padding-y: 2rem;
-  --bs-navbar-brand-margin-end: 5.31rem;
-  width: 100%;
-}
-
-.navbar-nav {
-  gap: 2.88rem;
-  --bs-nav-link-color: #fff;
-}
-
-.navbar-expand-lg .navbar-collapse {
-  gap: 2rem;
-}
-
-.navbar-expand-lg .navbar-nav .nav-link {
-  padding: 0;
-}
-
-.btn {
-  display: flex;
-}
-
-.search-field {
-  background-color: transparent;
-  background-image: url(https://wp-themes.com/wp-content/themes/twentythirteen/images/search-icon.png);
-  background-position: 5px center;
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-  border: none;
-  cursor: pointer;
-  height: 40px;
-  padding: 0 0 0 34px;
-  position: relative;
-  -webkit-transition: width 400ms ease, background 400ms ease;
-  transition: width 400ms ease, background 400ms ease;
-  width: 0px;
-  cursor: pointer;
-}
-
-.search-field::placeholder {
-  color: #fff;
-}
-
-.search-field:focus {
-  background-color: transparent;
-  /* border: 2px solid #c3c0ab; */
-  cursor: text;
-  outline: 0;
-  width: 250px;
-  color: #fff;
-}
-
-input.search-submit {
-  display: none !important;
 }
 
 .home-title {
@@ -373,47 +320,6 @@ p.state {
   margin-top: 2rem;
 }
 
-footer {
-  margin-top: 10rem;
-}
-
-.foot-container {
-  background-color: #353535;
-  padding: 3rem;
-}
-
-.foot-container a {
-  color: #E9E9E9;
-  text-align: center;
-  font-size: 1.9375rem;
-  font-weight: 700;
-}
-
-.nav-container {
-  display: flex;
-  gap: 2rem;
-}
-
-.sub-nav {
-  flex-basis: 50%;
-  padding: 1rem;
-  display: flex;
-  gap: 0.25rem;
-  flex-direction: column;
-}
-
-.sub-title {
-  color: #E9E9E9;
-  font-size: 1.625rem;
-  font-weight: 700;
-}
-
-.sub-description {
-  color: #ABABAB;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
 ::-webkit-scrollbar-thumb {
   background-color: #3498db;
   border-radius: 4px;
@@ -472,20 +378,6 @@ footer {
 
 
 @media (max-width: 991px) {
-  .navbar-nav{
-    gap: 1.25rem;
-  }
-
-  .navbar-brand{
-    margin-right: 1%;
-  }
-
-  .user-profile{
-    transform: translateX(-1rem);
-    width: 7.5%;
-    z-index: 2;
-  }
-
   .mb-2 {
     margin-top: 1rem;
   }

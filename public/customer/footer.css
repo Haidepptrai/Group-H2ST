@@ -1,0 +1,31 @@
+footer {
+    margin-top: 10rem;
+  }
+
+  .foot-container {
+    background-color: #353535;
+    padding: 3rem;
+  }
+
+  .foot-container a {
+    color: #E9E9E9;
+    text-align: center;
+    font-size: 1.9375rem;
+    font-weight: 700;
+  }
+
+  .sub-nav {
+    padding: 1rem 0rem;
+  }
+
+  .sub-title {
+    color: #E9E9E9;
+    font-size: 1.625rem;
+    font-weight: 700;
+  }
+
+  .sub-description {
+    color: #ABABAB;
+    font-size: 1rem;
+    font-weight: 400;
+  }
