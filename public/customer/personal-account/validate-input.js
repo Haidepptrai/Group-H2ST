@@ -7,18 +7,12 @@ form.addEventListener("submit", function (event) {
     event.preventDefault();
 
     // Get the values of first name and last name input fields
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-
+    const firstName = document.getElementById("userfirstName").value;
+    const lastName = document.getElementById("userlastName").value;
     // Define regular expression to check for numbers and special characters
-    const regex = /^[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\s]+$/;
-
+    const pattern = /^[a-zA-ZÀ-ÿ\s]+$/;
     // Validate first name and last name
-    if (
-        (firstName.trim() === "" && lastName.trim() === "") ||
-        !firstName.match(regex) ||
-        !lastName.match(regex)
-    ) {
+    if ((firstName.trim() === "") || (lastName.trim() === "") || (!pattern.test(firstName))) {
         ratingModal.show();
         return;
     }

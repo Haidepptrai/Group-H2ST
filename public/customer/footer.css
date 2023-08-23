@@ -29,3 +29,9 @@ footer {
     font-size: 1rem;
     font-weight: 400;
   }
+
+  @media (max-width: 425px){
+    .foot-container {
+      padding: 2rem;
+    }
+  }

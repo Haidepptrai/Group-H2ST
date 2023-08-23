@@ -41,7 +41,7 @@ function findTotal() {
     var check = parseInt(document.getElementById('lenght').value) + 1;
 
     while (id <= check) {
-        var price = parseFloat(document.getElementById('price_' + id).innerText.replace('$', ''));
+        var price = parseFloat(document.getElementById('price_' + id).innerText.replace('$', '').replace(',', ''));
         var quantity = parseInt(document.getElementById('quantity_' + id).value);
         proPrice = price * quantity
         total += proPrice;

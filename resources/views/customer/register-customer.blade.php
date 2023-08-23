@@ -58,8 +58,8 @@
                             <div class="input-item">
                                 <label for="contactNum">Contact number</label><br>
                                 <input type="tel" class="userInput" id="contactNum" name="contactNum"
-                                    placeholder="Your phone number" required pattern="[0-9]{10,12}"
-                                    title="Please enter a valid 10 to 12 digit phone number"><br>
+                                    placeholder="Your phone number" required pattern="[0-9]{9,12}"
+                                    title="Please enter a valid 9 to 12 digit phone number"><br>
                             </div>
                         </div>
                         <label for="userPassword">Enter your password</label><br>

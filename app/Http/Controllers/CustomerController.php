@@ -26,7 +26,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use Exception;
 
 use Illuminate\Support\Carbon;
-
 class CustomerController extends Controller
 {
 
@@ -361,15 +360,11 @@ class CustomerController extends Controller
             $categories = Category::where('status', 1)->get();
             $products->appends($request->all());
             $message = $products->isEmpty() ? "Products not found!" : null;
-            $provote = Productfeedback::where('proid')->avg('vote');
-            $roundedAverageVote = round($provote, 1);
-            return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery', 'roundedAverageVote'));
+            return view('customer.list-products', compact('message', 'products', 'categories', 'searchQuery'));
         } else {
             $products = $query->paginate($perPage)->appends($request->except('page'));
             $categories = Category::where('status', 1)->get();
-            $provote = Productfeedback::where('proid')->avg('vote');
-            $roundedAverageVote = round($provote, 1);
-            return view('customer.list-products', compact('products', 'categories', 'roundedAverageVote'));
+            return view('customer.list-products', compact('products', 'categories'));
         }
     }
 
@@ -456,7 +451,7 @@ class CustomerController extends Controller
             ->where('id', $id)
             ->first();
 
-        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward','user'));
+        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward', 'user'));
     }
 
     public function addOrder(Request $request)
@@ -629,9 +624,42 @@ class CustomerController extends Controller
         if (!$user) {
             return 'User not found';
         }
+        $orderIds = DB::table('orderproducts')
+            ->join('orderdetails', 'orderproducts.orderid', '=', 'orderdetails.orderid')
+            ->where('orderproducts.userid', $id)
+            ->pluck('orderproducts.orderid');
+        $orderStorageData = [];
+
+        $totalCostSum = 0;
+        foreach ($orderIds as $orderId) {
+            $totalCost = DB::table('orderstorages')
+                ->join('orderproducts', 'orderstorages.orderid', '=', 'orderproducts.orderid')
+                ->sum(DB::raw('orderproducts.totalcost'));
+
+            $totalCostSum += $totalCost;
+
+            $orderDetails = DB::table('orderdetails')
+                ->join('orderproducts', 'orderdetails.orderid', '=', 'orderproducts.orderid')
+                ->where('orderproducts.userid', $id)
+                ->where('orderdetails.orderid', $orderId)
+                ->select('orderdetails.orderid', 'orderdetails.proid', 'orderdetails.quantity', 'orderproducts.totalcost')
+                ->get();
+
+            foreach ($orderDetails as $orderDetail) {
+                $orderStorageData[] = [
+                    'orderid' => $orderDetail->orderid,
+                    'proid' => $orderDetail->proid,
+                    'quantity' => $orderDetail->quantity,
+                ];
+            }
+        }
         $isGoogleUser = $user->id;
         if (Hash::check($request->userPassDelete, $user->userpassword) || $isGoogleUser) {
-            ProductFeedback::where('id', $id)->delete();
+            DB::table('orderstorages')->insert($orderStorageData);
+            Orderdetail::whereIn('orderid', $orderIds)->delete();
+            Orderproduct::where('userid', $id)->delete();
+            Productfeedback::where('id', $id)->delete();
+            PasswordResetToken::where('id', $id)->delete();
             $user->delete();
             Auth::logout();
 

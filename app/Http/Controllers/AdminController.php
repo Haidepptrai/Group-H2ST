@@ -454,7 +454,6 @@ class AdminController extends Controller
 
     public function adminsSave(Request $request)
     {
-        $admin = new Admin();
         if ($request->hasFile('adminimage')) {
             $file = $request->file('adminimage');
             $adminimage = $file->getClientOriginalName();
@@ -532,6 +531,13 @@ class AdminController extends Controller
     }
     public function ordersDelete($id)
     {
+        $orderstorage = new OrderStorage();
+        $proid = Orderdetail::where('orderid',$id)->get();
+        foreach($proid as $item){
+            $orderstorage->orderid = $id;
+            $orderstorage->proid = $item->proid;
+            $orderstorage->quantity = $item->quantity;
+        }
         Orderdetail::where('orderid', '=', $id)->delete();
         Orderproduct::where('orderid', '=', $id)->delete();
         return redirect()->back()->with('success', 'Order deleted successfully!');

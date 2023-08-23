@@ -100,7 +100,7 @@
                                 value="{{ $city == Null ? $user->usercity : $city}}" name="userCity">
                         </div>
                     </div>
-                    <div class="float-end mx-5 confirm-button">
+                    <div class="float-end confirm-button">
                         <button type="submit" class="btn btn-primary position-relative"> Payment </button>
                         <div class="total">
                             Totals:  <input id="total-price" class="text-success" name="total" value="${{ Session::get('total') }}" readonly>

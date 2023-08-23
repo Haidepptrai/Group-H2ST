@@ -102,11 +102,11 @@ td.view-quantity {
 }
 
 .customer-infor {
-    width: 50%;
+    width: 30%;
 }
 
 .product-confirm {
-    width: 70%;
+    width: 30%;
 }
 
 .line {
@@ -118,4 +118,24 @@ td.view-quantity {
 
 .confirm-button{
     width: 10%;
+}
+
+@media (max-width: 992px){
+    .confirm-send{
+        flex-direction: column;
+    }
+
+    .line{
+        display: none;
+    }
+
+    .product-confirm, .customer-infor {
+        width: 100%;
+    }
+}
+
+@media (max-width: 426px){
+    .confirm-send{
+        overflow-x: scroll;
+    }
 }

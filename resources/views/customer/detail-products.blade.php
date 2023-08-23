@@ -126,7 +126,7 @@
                     </form>
                     <script src="../../customer/product-detail/validateRating.js"></script>
                 @endif
-                <div class="modal fade" id="ratingModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                <div class="modal fade" id="ratingModalAlert" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -195,9 +195,7 @@
         </main>
     </div>
 </body>
-<script src="../../customer/product-detail/quantity-check.js"></script>
-<script src="../../customer/product-detail/sale-apply.js"></script>
-<script src="../convertToDollar.js"></script>
-<script src="../../customer/product-detail/rating-check.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-@include('../layout.customer.footer')
+<script src="{{ URL::asset('customer/product-detail/sale-apply.js') }}"></script>
+<script src="{{ URL::asset('customer/convertToDollar.js') }}"></script>
+<script src="{{ URL::asset('customer/product-detail/rating-check.js') }}"></script>
+@include('layout.customer.footer')

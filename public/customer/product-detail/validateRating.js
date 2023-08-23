@@ -10,7 +10,7 @@ document
         if (!rating) {
             // Show the validation error modal
             var ratingModal = new bootstrap.Modal(
-                document.getElementById("ratingModal")
+                document.getElementById("ratingModalAlert")
             );
             ratingModal.show();
         } else {

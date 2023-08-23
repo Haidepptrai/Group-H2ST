@@ -320,7 +320,7 @@
                                                         <th scope="row">{{ $j++ }}</th>
                                                         <td>
                                                             <a
-                                                                href="{{ url('customer/detail-products/' . $od->product->proid) }}">
+                                                                href="{{ url('customer/detail-products/' . $od->product->proid) }}" style="text-decoration: none">
                                                                 @if ($od->product)
                                                                     {{ $od->product->proname }}
                                                                 @endif
@@ -406,61 +406,16 @@
             </div>
         </div>
     </div>
-    <script src="validate-input.js" charset="utf-8"></script>
-    <script src="enable-change.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById("userFormDelete");
-            const deleteAccountBtn = document.getElementById("deleteAccountBtn");
-            const userPassDelete = document.getElementById("userPassDelete");
-            const userPassConfirm = document.getElementById("userPassConfirm");
-            const myModal = new bootstrap.Modal(document.getElementById('notMatchPassAlert'));
-            deleteAccountBtn.addEventListener("click", function(event) {
-                event.preventDefault();
-                // Get the values of the password fields
-                const passwordDelete = userPassDelete.value;
-                const passwordConfirm = userPassConfirm.value;
-                // Perform the validation
-                if (passwordDelete !== passwordConfirm) {
-                    myModal.show();
-                    return;
-                }
-
-                // If validation passes, proceed with the form submission (delete account)
-                form.submit();
-            });
-        });
-    </script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
+    <!-- Custom JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const avatarInput = document.getElementById("avatarInput");
-            const changeAvatarBtn = document.getElementById("change-avatar-btn");
-
-            changeAvatarBtn.addEventListener("click", function() {
-                avatarInput.click();
-            });
-
-            avatarInput.addEventListener("change", function() {
-                this.closest("form").submit();
-            });
-        });
-    </script>
-    <script src="../../customer/personal-account/getVietNamAPI.js"></script>
-    <script src="../../customer/personal-account/logOutAlert.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.order-row').click(function() {
-                var orderid = $(this).data("orderid");
-                var productDetails = $(this).next('.order-details');
-                $('.order-details').not(productDetails).slideUp('fast');
-                productDetails.slideToggle('fast');
-            });
-        });
-    </script>
+    <script src=" {{URL::asset('customer/personal-account/getVietNamAPI.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/getNewAvatar.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/displayOrder.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/displayDetailProduct.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/logOutAlert.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/isPasswordDuplicate.js') }}"></script>
+    <script src=" {{URL::asset('customer/personal-account/validate-input.js') }}" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../../public/customer/personal-account/displayOrder.js"></script>
 </body>

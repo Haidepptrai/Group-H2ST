@@ -47,13 +47,11 @@
                     <form id='filterPrice' action="{{ route('customerListProducts') }}" method="get">
                         <div class="form-item">
                             <label for="min_price">Min Price:</label>
-                            <input type="number" name="min_price" id="min_price"
-                                value="{{ request('min_price') }}">
+                            <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
                         </div>
                         <div class="form-item">
                             <label for="max_price">Max Price:</label>
-                            <input type="number" name="max_price" id="max_price"
-                                value="{{ request('max_price') }}">
+                            <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
                         </div>
                         <button type="submit">Apply Filters</button>
                     </form>
@@ -78,29 +76,6 @@
                                         </div>
                                         <div class="product-info">
                                             <p class="product-name">{{ $product->proname }}</p>
-                                            <p class="stars">
-                                            <!-- <div class="star-rating">
-                                                @php
-                                                    $fullStars = floor($roundedAverageVote);
-                                                    $decimalPart = $roundedAverageVote - $fullStars;
-                                                    $remainingStars = 5 - $fullStars - $decimalPart;
-                                                @endphp
-
-                                                @for ($i = 1; $i <= $fullStars; $i++)
-                                                    <span class="bi bi-star" style="color: gold;"></span>
-                                                @endfor
-
-                                                @if ($decimalPart >= 0.1 && $decimalPart <= 0.5)
-                                                    <span class="bi bi-star-half" style="color: gold;"></span>
-                                                @elseif ($decimalPart >= 0.6 && $decimalPart <= 0.9)
-                                                    <span class="bi bi-star" style="color: gold;"></span>
-                                                @endif
-
-                                                @for ($i = 1; $i <= $remainingStars; $i++)
-                                                    <span class="bi bi-star" style="color: gray;"></span>
-                                                @endfor
-                                            </div> -->
-                                            </p>
                                             @php
                                                 $salePrice = $product->proprice - ($product->proprice * $product->discount) / 100;
                                             @endphp
@@ -124,9 +99,9 @@
                                         d="M8 1a7 7 0 0 0-7 7c0 3.198 2.209 5.935 5.188 6.628a1 1 0 0 0 .624 0C13.791 13.935 16 11.198 16 8a7 7 0 0 0-7-7zm-.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm2-1.5a.5.5 0 0 0-1 0V10a1 1 0 0 0-1-1 1 1 0 0 0-1 1v.5a2 2 0 0 0 2 2 2 2 0 0 0 2-2z" />
                                 </svg>
                                 <p class="h5">Oops! No products match your search criteria.</p>
-                                <p class="mb-4">Feel free to explore other categories or refine your search.</p>
-                                <a href="{{ route('customerListProducts') }}" class="btn btn-primary btn-lg">Explore
-                                    Categories</a>
+                                <p class="mb-4">Feel free to explore other products or refine your search.</p>
+                                <a href="{{ route('customerListProducts') }}" class="btn btn-primary btn-lg">Shop
+                                    products</a>
                             </div>
                         </div>
                     @endif
@@ -137,8 +112,7 @@
                         @foreach ($categories as $category)
                             <li>
                                 <a href="{{ route('customerListProducts', ['catid' => $category->catid]) }}"
-                                    class="btn btn-outline-light text-dark"
-                                    draggable="false">{{ $category->catname }}
+                                    class="btn btn-outline-light text-dark" draggable="false">{{ $category->catname }}
                                 </a>
                             </li>
                         @endforeach
@@ -190,29 +164,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/nouislider@X.X.X/dist/nouislider.min.js"></script>
 <script>
-                        const dropdownToggle = document.querySelector(".dropdown-toggle");
-                        const dropdownItems = document.querySelectorAll(".dropdown-item");
+    const dropdownToggle = document.querySelector(".dropdown-toggle");
+    const dropdownItems = document.querySelectorAll(".dropdown-item");
 
-                        // Check if the sort option is stored in localStorage
-                        const selectedSort = localStorage.getItem("selectedSort");
-                        if (selectedSort) {
-                            dropdownToggle.textContent = "Sort by " + selectedSort;
-                        }
+    // Check if the sort option is stored in localStorage
+    const selectedSort = localStorage.getItem("selectedSort");
+    if (selectedSort) {
+        dropdownToggle.textContent = "Sort by " + selectedSort;
+    }
 
-                        dropdownItems.forEach((item) => {
-                            item.addEventListener("click", () => {
-                                const selectedOption = item.textContent;
-                                dropdownToggle.textContent = "Sort by " + selectedOption;
+    dropdownItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            const selectedOption = item.textContent;
+            dropdownToggle.textContent = "Sort by " + selectedOption;
 
-                                // Store the selected option in localStorage
-                                localStorage.setItem("selectedSort", selectedOption);
-                            });
-                        });
+            // Store the selected option in localStorage
+            localStorage.setItem("selectedSort", selectedOption);
+        });
+    });
 
-                        function changeSortOrder(order) {
-                            const urlParams = new URLSearchParams(window.location.search);
-                            const currentSort = urlParams.get("sort");
-                            window.location.href = `{{ route('customerListProducts') }}?sort=${currentSort}&order=${order}`;
-                        }
-                    </script>
+    function changeSortOrder(order) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentSort = urlParams.get("sort");
+        window.location.href = `{{ route('customerListProducts') }}?sort=${currentSort}&order=${order}`;
+    }
+</script>
 @include('layout.customer.footer')
