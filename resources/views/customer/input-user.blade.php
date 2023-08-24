@@ -61,6 +61,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div id='map' style="width: 30rem; height: 30rem;"></div>
         </div>
     </div>
 </body>

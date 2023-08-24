@@ -446,7 +446,7 @@ class CustomerController extends Controller
         $city = $request->input('userCity');
         $district = $request->input('userDistrict');
         $ward = $request->input('userWard');
-
+        
         $user = DB::table('users')
             ->where('id', $id)
             ->first();
