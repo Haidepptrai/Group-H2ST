@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -169,6 +172,9 @@ class AdminController extends Controller
     public function categoriesSave(Request $request)
     {
         $cate = new Category();
+        if ($request->catname != $cate->catname && Category::where('catname', $request->catname)->exists()) {
+            return redirect()->back()->with('error', 'Category already exists');
+        }
         $cate->catname = $request->catname;
         $cate->status  = $request->status;
         $cate->save();
@@ -227,6 +233,9 @@ class AdminController extends Controller
     public function suppliersSave(Request $request)
     {
         $supp = new Supplier();
+        if ($request->suppliername != $supp->suppliername && Supplier::where('suppliername', $request->suppliername)->exists()) {
+            return redirect()->back()->with('error', 'Category already exists');
+        }
         $supp->suppliername = $request->suppliername;
         $supp->save();
         return redirect()->back()->with('success', 'Supplier added successfully!');
@@ -249,6 +258,7 @@ class AdminController extends Controller
         $supp = Supplier::where('id', $id)->first();
         $hasProducts = Product::where('supid',$supp->id)->exists();
         if ($hasProducts) {
+
             return redirect()->back()->with('error', 'Cannot delete category. There are products associated with it.');
         }
         $supp->delete();
@@ -298,8 +308,25 @@ class AdminController extends Controller
     public function productsSave(Request $request)
     {
         $pro = new Product();
-
+        if ($request->proname != $pro->proname && Product::where('proname', $request->proname)->exists()) {
+            return redirect()->back()->with('error', 'Product already exists');
+        }
+        $validator = Validator::make($request->all(), [
+            'proprice' => 'required|numeric|between:0,999999.99'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Price of products must be between 0 and 999999');
+        }
         $pro->proname = $request->proname;
+
+        $validator = Validator::make($request->all(), [
+            'prodescription' => 'required',
+            'prodetails' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'prodescription and prodetails are required fields');
+        }
         $pro->prodescription = $request->prodescription;
         $pro->prodetails = $request->prodetails;
         if ($request->hasFile('proimage')) {
@@ -350,13 +377,20 @@ class AdminController extends Controller
             $img = $file->getClientOriginalName();
             $file->move('pro_img', $img);
         }
-
+        try {
+            $validatedData = $request->validate([
+                'proprice' => 'required|numeric|between:0,999999.99'
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->errors();
+            return redirect()->back()->with('error', 'proprice must be between 0 and 999999');
+        }
         Product::where('proid', '=', $request->productid)->update([
             'proname' => $request->proname,
             'prodescription' => $request->prodescription,
             'prodetails' => $request->prodetails,
             'proimage' => $img,
-            'proprice' => $request->proprice,
+            'proprice' => $validatedData['proprice'],
             'discount' => $request->discount,
             'proquantity' => $request->quantity,
             'catid' => $request->catid,

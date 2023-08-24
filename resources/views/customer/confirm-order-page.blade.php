@@ -99,6 +99,11 @@
                             <input type="text" readonly class="form-control-plaintext" id="userCity"
                                 value="{{ $city == Null ? $user->usercity : $city}}" name="userCity">
                         </div>
+                        <div class="mb-3 ms-3">
+                            <label for="shipCost" class="form-label fw-bold">Shipping Cost</label>
+                            <input type="text" class="form-control-plaintext text-success" id="totalShipment"
+                                name="totalShipment" value="$20" readonly>
+                        </div>
                     </div>
                     <div class="float-end confirm-button">
                         <button type="submit" class="btn btn-primary position-relative"> Payment </button>

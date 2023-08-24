@@ -13,6 +13,10 @@
                                                 <div class="alert alert-success" role="alert">
                                                     {{ Session::get('success') }}</div>
                                             @endif
+                                            @if (Session::has('error'))
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ Session::get('error') }}</div>
+                                            @endif
                                             <form class="forms-sample" method="POST"
                                                 action="{{ url('admin/categories-save') }}">
                                                 @csrf

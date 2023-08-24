@@ -68,3 +68,74 @@ fetch('https://provinces.open-api.vn/api/?depth=3')
     .catch(error => {
         console.error('Error fetching data - Please reload the page:', error);
     });
+
+    selectWards.addEventListener('change', function(){
+            const provinceName = selectProvince.value;
+            const district = selectDistrict.value;
+            const ward = selectWards.value;
+            const street = document.getElementById("userAddress").value;
+
+            const fullAddress = `${district}, ${provinceName}, Vietnam`;
+
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+              { address: fullAddress + ", Vietnam" },
+              (results, status) => {
+                if (status === "OK" && results[0]) {
+                  const provinceCenter = results[0].geometry.location;
+
+                  const destinationAddress = `${street}, ${ward}, ${district}, ${provinceName}, Vietnam`;
+                  geocoder.geocode(
+                    { address: destinationAddress },
+                    (destinationResults, destinationStatus) => {
+                      if (destinationStatus === "OK" && destinationResults[0]) {
+                        const destination = destinationResults[0].geometry.location;
+
+                        const distance =
+                          google.maps.geometry.spherical.computeDistanceBetween(
+                            provinceCenter,
+                            destination
+                          ) / 1000; // Distance in kilometers
+
+                        const shippingCost = calculateCostBasedOnDistance(distance);
+                        console.log(shippingCost)
+                        const formattedShippingCost = shippingCost.toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          });
+
+                        document.getElementById(
+                          "shippingCost"
+                        ).value = `${formattedShippingCost}`;
+                      }
+                    }
+                  );
+                }
+              }
+            );
+
+
+            function calculateCostBasedOnDistance(distance) {
+                switch (true) {
+                  case distance === 0:
+                    return 5; // Approximate conversion of 20,000 VND to USD
+                  case distance < 0.5:
+                    return distance * 20;
+                  case distance <= 1:
+                    return distance * 10;
+                  case distance <= 2:
+                    return distance * 5;
+                  case distance <= 4:
+                    return distance * 5;
+                  case distance <= 6:
+                    return distance * 2.3;
+                  case distance >= 10:
+                    return distance * 1.5;
+                  default:
+                    return distance * 2;
+                }
+              }
+
+    })

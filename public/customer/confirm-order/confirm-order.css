@@ -120,6 +120,10 @@ td.view-quantity {
     width: 10%;
 }
 
+input{
+    cursor: default;
+}
+
 @media (max-width: 992px){
     .confirm-send{
         flex-direction: column;

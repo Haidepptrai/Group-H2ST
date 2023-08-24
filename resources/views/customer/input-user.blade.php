@@ -5,6 +5,7 @@
     @include('layout.customer.header-tag')
     <link rel="stylesheet" href="{{ URL::asset('customer/input-user-info/input-user-info.css') }}">
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&libraries=places,geometry"></script>
     <title>Your information</title>
 </head>
 
@@ -54,11 +55,17 @@
                         <option disabled selected value="{{ $user->userward !== NULL ? $user->userward : ''}}">{{ $user->userward !== NULL ? $user->userward : 'Select Ward'}}</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                <label for="shippingCost" class="form-label">Shipping cost</label>
+                    <input type="text" class="form-control text-success" id="shippingCost" name="shippingCost" readonly>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </body>
 
-<script src="{{ URL::asset('customer/input-user-info/getVietNamAPI.js') }}"></script>
+<script src=" {{URL::asset('customer/input-user-info/getVietNamAPI.js') }}"></script>
+
+</script>
 @include('layout.customer.footer')
