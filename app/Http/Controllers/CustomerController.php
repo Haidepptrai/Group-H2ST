@@ -446,12 +446,14 @@ class CustomerController extends Controller
         $city = $request->input('userCity');
         $district = $request->input('userDistrict');
         $ward = $request->input('userWard');
-        
+        $shippingCost = $request->input('shippingCost');
+        session()->put('Ship',$shippingCost);
+
         $user = DB::table('users')
             ->where('id', $id)
             ->first();
 
-        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward', 'user'));
+        return view('customer.confirm-order-page', compact('email', 'name', 'phone', 'address', 'city', 'district', 'ward', 'user','shippingCost'));
     }
 
     public function addOrder(Request $request)
@@ -485,6 +487,7 @@ class CustomerController extends Controller
             $order->userid = $userId;
             $order->status = 0;
             $order->totalcost = $total;
+            $order->shipment = Session::get('Ship');
             $order->save();
 
             $orderid = $order->getKey();

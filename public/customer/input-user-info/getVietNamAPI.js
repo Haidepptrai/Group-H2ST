@@ -2,7 +2,6 @@ const selectProvince = document.getElementById("select-province");
 const selectDistrict = document.getElementById("select-district");
 const selectWards = document.getElementById("select-wards");
 const selectStreet = document.getElementById("userAddress");
-
 selectDistrict.disabled = true;
 selectWards.disabled = true;
 
@@ -77,13 +76,112 @@ fetch("https://provinces.open-api.vn/api/?depth=3")
         console.error("Error fetching data - Please reload the page:", error);
     });
 
+
+if (selectWards.value !== ""){
+    const provinceName = selectProvince.value;
+    const district = selectDistrict.value;
+    const ward = selectWards.value;
+    const street = selectStreet.value;
+
+    const fullAddress = `post office near ${ward}, ${district}, ${provinceName}, Vietnam`;
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+        { address: fullAddress + ", Vietnam" },
+        (results, status) => {
+            if (status === "OK" && results[0]) {
+                const postalAddress = results[0].geometry.location;
+
+                const destinationAddress = `${street}, ${ward}, ${district}, ${provinceName}, Vietnam`;
+                geocoder.geocode(
+                    { address: destinationAddress },
+                    (destinationResults, destinationStatus) => {
+                        if (
+                            destinationStatus === "OK" &&
+                            destinationResults[0]
+                        ) {
+                            const destination =
+                                destinationResults[0].geometry.location;
+
+                            const distance =
+                                google.maps.geometry.spherical.computeDistanceBetween(
+                                    postalAddress,
+                                    destination
+                                ) / 1000; // Distance in kilometers
+
+                            const shippingCost =
+                                calculateCostBasedOnDistance(distance);
+
+                            document.getElementById(
+                                "shippingCost"
+                            ).value = `${shippingCost}`;
+
+                            initMap(postalAddress, destination);
+                        }
+                    }
+                );
+            }
+        }
+    );
+
+    function initMap(postalAddress, destination) {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: postalAddress,
+            zoom: 12,
+        });
+
+        const provinceMarker = new google.maps.Marker({
+            position: postalAddress,
+            map,
+            title: "Viettel Postal",
+        });
+
+        const destinationMarker = new google.maps.Marker({
+            position: destination,
+            map,
+            title: "Destination",
+        });
+
+        const distance =
+            google.maps.geometry.spherical.computeDistanceBetween(
+                postalAddress,
+                destination
+            ) / 1000;
+
+        const distanceInfoWindow = new google.maps.InfoWindow({
+            content: `Distance: ${distance.toFixed(2)} km`,
+        });
+
+        distanceInfoWindow.open(map, destinationMarker);
+    }
+
+    function calculateCostBasedOnDistance(distance) {
+        switch (true) {
+            case distance === 0:
+                return 5; // Approximate conversion of 20,000 VND to USD
+            case distance < 0.5:
+                return distance * 20;
+            case distance <= 1:
+                return distance * 10;
+            case distance <= 2:
+                return distance * 5;
+            case distance <= 4:
+                return distance * 5;
+            case distance <= 6:
+                return distance * 2.3;
+            case distance >= 10:
+                return distance * 1.5;
+            default:
+                return distance * 2;
+        }
+    }
+}
 selectWards.addEventListener("change", function () {
     const provinceName = selectProvince.value;
     const district = selectDistrict.value;
     const ward = selectWards.value;
     const street = selectStreet.value;
 
-    const fullAddress = `nearest Viettel POST in ${ward}, ${district}, ${provinceName}, Vietnam`;
+    const fullAddress = `Viettel POST near ${ward}, ${district}, ${provinceName}, Vietnam`;
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
         { address: fullAddress + ", Vietnam" },
@@ -162,12 +260,6 @@ selectWards.addEventListener("change", function () {
         distanceInfoWindow.open(map, destinationMarker);
     }
 
-    selectStreet.addEventListener("input", function () {
-        // Reset the district and wards options
-        selectDistrict.value = "";
-        selectWards.value = "";
-    });
-
     function calculateCostBasedOnDistance(distance) {
         switch (true) {
             case distance === 0:
@@ -188,4 +280,10 @@ selectWards.addEventListener("change", function () {
                 return distance * 2;
         }
     }
+});
+
+selectStreet.addEventListener("input", function () {
+    // Reset the district and wards options
+    selectDistrict.value = "";
+    selectWards.value = "";
 });

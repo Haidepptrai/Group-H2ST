@@ -68,5 +68,4 @@
 
 <script src=" {{URL::asset('customer/input-user-info/getVietNamAPI.js') }}"></script>
 
-</script>
 @include('layout.customer.footer')

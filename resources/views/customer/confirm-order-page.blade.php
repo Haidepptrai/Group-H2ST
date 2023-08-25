@@ -20,7 +20,7 @@
         <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
         <div class="cart-info">
-            <a class="icon-link" href="#">
+            <a class="icon-link" href="{{ url('customer/input-user/'.$user->id) }}">
                 <box-icon class="backLink" name='chevrons-left' color="#0d6efd"></box-icon>
                 Back to order
             </a>
@@ -102,7 +102,7 @@
                         <div class="mb-3 ms-3">
                             <label for="shipCost" class="form-label fw-bold">Shipping Cost</label>
                             <input type="text" class="form-control-plaintext text-success" id="totalShipment"
-                                name="totalShipment" value="$20" readonly>
+                                name="totalShipment" value="${{ Session::get('Ship') }}" readonly>
                         </div>
                     </div>
                     <div class="float-end confirm-button">

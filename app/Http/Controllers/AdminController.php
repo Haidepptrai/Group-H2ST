@@ -367,7 +367,9 @@ class AdminController extends Controller
         $product = Product::where('proid', $request->productid)->first();
 
         $img = $product->proimage;
-
+        if ($request->proname != $product->proname && Product::where('proname', $request->proname)->exists()) {
+            return redirect()->back()->with('error', 'Product already exists');
+        }
         if ($request->hasFile('proimage') && $request->file('proimage')->isValid()) {
             if ($product->proimage) {
                 Storage::delete('pro_img/' . $product->proimage);

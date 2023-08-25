@@ -21,6 +21,7 @@
                                                     <th> Order date</th>
                                                     <th> Status </th>
                                                     <th> Total cost</th>
+                                                    <th> Ship cost</th>
                                                     <th> Action </th>
                                                     <th> View order</th>
                                                     <th> Cancel</th>
@@ -58,6 +59,7 @@
                                                             @endif
                                                         </td>
                                                         <td>${{ $o->totalcost }}</td>
+                                                        <td>${{ $o->shipment }}</td>
                                                         <td>
                                                             <a href="{{ url('admin/orders-edit/' . $o->orderid) }}"><i
                                                                     class="bi bi-pencil-square"></i></a>
